@@ -1,7 +1,7 @@
 using AspNetCore.Identity.MongoDbCore.Models;
 using MongoDbGenericRepository.Attributes;
  
-namespace Domain.Models
+namespace Infrastructure.Models
 {
     [CollectionName("Roles")]
     public class ApplicationRole : MongoIdentityRole<Guid>

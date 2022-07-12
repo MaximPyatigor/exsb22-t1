@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using API.Models;
-using Domain.Models;
+using Infrastructure.Models;
 
 namespace API.Mapping
 {
@@ -8,7 +8,7 @@ namespace API.Mapping
     {
         public MappingProfile()
         {
-            CreateMap<UserDto, ApplicationUser>().ReverseMap();
+            CreateMap<UserDto, ApplicationUser>().ForMember("UserName", opt => opt.MapFrom(c => c.Email));
         }
     }
 }

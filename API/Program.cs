@@ -1,6 +1,6 @@
 using API.Mapping;
 using API.Settings;
-using Domain.Models;
+using Infrastructure.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -37,6 +37,7 @@ app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
