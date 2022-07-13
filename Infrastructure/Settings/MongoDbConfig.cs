@@ -1,4 +1,4 @@
-﻿namespace API.Settings
+﻿namespace Infrastructure.Settings
 {
     public class MongoDbConfig
     {

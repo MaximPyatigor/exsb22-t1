@@ -1,19 +1,22 @@
 using API.Mapping;
-using API.Settings;
+using Application.Common.Interfaces;
+using Infrastructure.DbContext;
 using Infrastructure.Models;
+using Infrastructure.Settings;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
+builder.Services.AddScoped<IMongoDbContext, MongoDbContext>();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 // Add Identity
-var mongoDbSettings = builder.Configuration.GetSection(nameof(MongoDbConfig)).Get<MongoDbConfig>();
-
+var config = builder.Configuration.GetSection(nameof(MongoDbConfig));
+var mongoDbSettings = config.Get<MongoDbConfig>();
+builder.Services.Configure<MongoDbConfig>(config);
 builder.Services.AddIdentity<ApplicationUser, ApplicationRole>(opt =>
     {
         opt.Password.RequireNonAlphanumeric = false;

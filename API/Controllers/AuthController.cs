@@ -13,7 +13,8 @@ namespace API.Controllers
         private SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IMapper _mapper;
-        public AuthController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IMapper mapper) {
+        public AuthController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IMapper mapper) 
+        {
             _userManager = userManager;
             _mapper = mapper;
         }
