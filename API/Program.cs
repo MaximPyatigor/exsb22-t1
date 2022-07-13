@@ -1,10 +1,17 @@
 using API.Mapping;
+using API.Services.Repositories;
 using API.Settings;
+using Domain.Models;
 using Infrastructure.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.Configure<MongoDbConfig>(
+    builder.Configuration.GetSection("MongoDbConfig"));
+builder.Services.AddSingleton<MongoDbConfig>();
+builder.Services.AddScoped<IRepository<Transaction>, TransactionRepository>();
+
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -23,7 +30,7 @@ builder.Services.AddIdentity<ApplicationUser, ApplicationRole>(opt =>
         opt.User.RequireUniqueEmail = true;
     })
     .AddMongoDbStores<ApplicationUser, ApplicationRole, Guid>(
-        mongoDbSettings.ConnectionString, mongoDbSettings.Name
+        mongoDbSettings.ConnectionString, mongoDbSettings.DatabaseName
     );
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 

@@ -2,7 +2,8 @@
 {
     public class MongoDbConfig
     {
-        public string Name { get; init; }
+        public string DatabaseName { get; init; }
         public string ConnectionString { get; init; }
+        public string TransactionsCollectionName { get; set; }
     }
 }
