@@ -1,0 +1,15 @@
+D:\Programming\Exadel\NET_Sandbox\test\BudgetManager.Shared\BudgetManager.Shared.DataAccess.MongoDB\bin\Debug\net6.0\BudgetManager.Shared.DataAccess.MongoDB.deps.json
+D:\Programming\Exadel\NET_Sandbox\test\BudgetManager.Shared\BudgetManager.Shared.DataAccess.MongoDB\bin\Debug\net6.0\BudgetManager.Shared.DataAccess.MongoDB.dll
+D:\Programming\Exadel\NET_Sandbox\test\BudgetManager.Shared\BudgetManager.Shared.DataAccess.MongoDB\bin\Debug\net6.0\BudgetManager.Shared.DataAccess.MongoDB.pdb
+D:\Programming\Exadel\NET_Sandbox\test\BudgetManager.Shared\BudgetManager.Shared.DataAccess.MongoDB\obj\Debug\net6.0\BudgetManager.Shared.DataAccess.MongoDB.csproj.AssemblyReference.cache
+D:\Programming\Exadel\NET_Sandbox\test\BudgetManager.Shared\BudgetManager.Shared.DataAccess.MongoDB\obj\Debug\net6.0\BudgetManager.Shared.DataAccess.MongoDB.GeneratedMSBuildEditorConfig.editorconfig
+D:\Programming\Exadel\NET_Sandbox\test\BudgetManager.Shared\BudgetManager.Shared.DataAccess.MongoDB\obj\Debug\net6.0\BudgetManager.Shared.DataAccess.MongoDB.AssemblyInfoInputs.cache
+D:\Programming\Exadel\NET_Sandbox\test\BudgetManager.Shared\BudgetManager.Shared.DataAccess.MongoDB\obj\Debug\net6.0\BudgetManager.Shared.DataAccess.MongoDB.AssemblyInfo.cs
+D:\Programming\Exadel\NET_Sandbox\test\BudgetManager.Shared\BudgetManager.Shared.DataAccess.MongoDB\obj\Debug\net6.0\BudgetManager.Shared.DataAccess.MongoDB.csproj.CoreCompileInputs.cache
+D:\Programming\Exadel\NET_Sandbox\test\BudgetManager.Shared\BudgetManager.Shared.DataAccess.MongoDB\obj\Debug\net6.0\BudgetManager.Shared.DataAccess.MongoDB.dll
+D:\Programming\Exadel\NET_Sandbox\test\BudgetManager.Shared\BudgetManager.Shared.DataAccess.MongoDB\obj\Debug\net6.0\refint\BudgetManager.Shared.DataAccess.MongoDB.dll
+D:\Programming\Exadel\NET_Sandbox\test\BudgetManager.Shared\BudgetManager.Shared.DataAccess.MongoDB\obj\Debug\net6.0\BudgetManager.Shared.DataAccess.MongoDB.pdb
+D:\Programming\Exadel\NET_Sandbox\test\BudgetManager.Shared\BudgetManager.Shared.DataAccess.MongoDB\obj\Debug\net6.0\ref\BudgetManager.Shared.DataAccess.MongoDB.dll
+D:\Programming\Exadel\NET_Sandbox\test\BudgetManager.Shared\BudgetManager.Shared.DataAccess.MongoDB\bin\Debug\net6.0\BudgetManager.Shared.Abstractions.dll
+D:\Programming\Exadel\NET_Sandbox\test\BudgetManager.Shared\BudgetManager.Shared.DataAccess.MongoDB\bin\Debug\net6.0\BudgetManager.Shared.Abstractions.pdb
+D:\Programming\Exadel\NET_Sandbox\test\BudgetManager.Shared\BudgetManager.Shared.DataAccess.MongoDB\obj\Debug\net6.0\BudgetManager.Shared.DataAccess.MongoDB.csproj.CopyComplete

@@ -1,0 +1,47 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v6.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v6.0": {
+      "BudgetManager.Shared.Abstractions/1.0.2": {
+        "dependencies": {
+          "BudgetManager.Shared.Models.MongoDB": "1.0.0",
+          "BudgetManager.Shared.Utils": "1.0.0"
+        },
+        "runtime": {
+          "BudgetManager.Shared.Abstractions.dll": {}
+        }
+      },
+      "BudgetManager.Shared.Models.MongoDB/1.0.0": {
+        "runtime": {
+          "BudgetManager.Shared.Models.MongoDB.dll": {}
+        }
+      },
+      "BudgetManager.Shared.Utils/1.0.0": {
+        "runtime": {
+          "BudgetManager.Shared.Utils.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "BudgetManager.Shared.Abstractions/1.0.2": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "BudgetManager.Shared.Models.MongoDB/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "BudgetManager.Shared.Utils/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

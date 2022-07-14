@@ -1,0 +1,12 @@
+D:\Programming\Exadel\NET_Sandbox\test\BudgetManager.Shared\BudgetManager.Shared.Utils\bin\Debug\net6.0\BudgetManager.Shared.Utils.deps.json
+D:\Programming\Exadel\NET_Sandbox\test\BudgetManager.Shared\BudgetManager.Shared.Utils\bin\Debug\net6.0\BudgetManager.Shared.Utils.dll
+D:\Programming\Exadel\NET_Sandbox\test\BudgetManager.Shared\BudgetManager.Shared.Utils\bin\Debug\net6.0\BudgetManager.Shared.Utils.pdb
+D:\Programming\Exadel\NET_Sandbox\test\BudgetManager.Shared\BudgetManager.Shared.Utils\obj\Debug\net6.0\BudgetManager.Shared.Utils.csproj.AssemblyReference.cache
+D:\Programming\Exadel\NET_Sandbox\test\BudgetManager.Shared\BudgetManager.Shared.Utils\obj\Debug\net6.0\BudgetManager.Shared.Utils.GeneratedMSBuildEditorConfig.editorconfig
+D:\Programming\Exadel\NET_Sandbox\test\BudgetManager.Shared\BudgetManager.Shared.Utils\obj\Debug\net6.0\BudgetManager.Shared.Utils.AssemblyInfoInputs.cache
+D:\Programming\Exadel\NET_Sandbox\test\BudgetManager.Shared\BudgetManager.Shared.Utils\obj\Debug\net6.0\BudgetManager.Shared.Utils.AssemblyInfo.cs
+D:\Programming\Exadel\NET_Sandbox\test\BudgetManager.Shared\BudgetManager.Shared.Utils\obj\Debug\net6.0\BudgetManager.Shared.Utils.csproj.CoreCompileInputs.cache
+D:\Programming\Exadel\NET_Sandbox\test\BudgetManager.Shared\BudgetManager.Shared.Utils\obj\Debug\net6.0\BudgetManager.Shared.Utils.dll
+D:\Programming\Exadel\NET_Sandbox\test\BudgetManager.Shared\BudgetManager.Shared.Utils\obj\Debug\net6.0\refint\BudgetManager.Shared.Utils.dll
+D:\Programming\Exadel\NET_Sandbox\test\BudgetManager.Shared\BudgetManager.Shared.Utils\obj\Debug\net6.0\BudgetManager.Shared.Utils.pdb
+D:\Programming\Exadel\NET_Sandbox\test\BudgetManager.Shared\BudgetManager.Shared.Utils\obj\Debug\net6.0\ref\BudgetManager.Shared.Utils.dll

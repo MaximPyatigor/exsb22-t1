@@ -1,0 +1,125 @@
+{
+  "version": 3,
+  "targets": {
+    "net6.0": {
+      "BudgetManager.Shared/1.0.3": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "dependencies": {
+          "BudgetManager.Shared.Models.MongoDB": "1.0.0",
+          "BudgetManager.Shared.Utils": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/_._": {}
+        },
+        "runtime": {
+          "bin/placeholder/_._": {}
+        }
+      },
+      "BudgetManager.Shared.Models.MongoDB/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "compile": {
+          "bin/placeholder/_._": {}
+        },
+        "runtime": {
+          "bin/placeholder/_._": {}
+        }
+      },
+      "BudgetManager.Shared.Utils/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "compile": {
+          "bin/placeholder/_._": {}
+        },
+        "runtime": {
+          "bin/placeholder/_._": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "BudgetManager.Shared/1.0.3": {
+      "type": "project",
+      "path": "../BudgetManager.Shared.Abstractions/BudgetManager.Shared.Abstractions.csproj",
+      "msbuildProject": "../BudgetManager.Shared.Abstractions/BudgetManager.Shared.Abstractions.csproj"
+    },
+    "BudgetManager.Shared.Models.MongoDB/1.0.0": {
+      "type": "project",
+      "path": "../BudgetManager.Shared.Models.MongoDB/BudgetManager.Shared.Models.MongoDB.csproj",
+      "msbuildProject": "../BudgetManager.Shared.Models.MongoDB/BudgetManager.Shared.Models.MongoDB.csproj"
+    },
+    "BudgetManager.Shared.Utils/1.0.0": {
+      "type": "project",
+      "path": "../BudgetManager.Shared.Utils/BudgetManager.Shared.Utils.csproj",
+      "msbuildProject": "../BudgetManager.Shared.Utils/BudgetManager.Shared.Utils.csproj"
+    }
+  },
+  "projectFileDependencyGroups": {
+    "net6.0": [
+      "BudgetManager.Shared >= 1.0.3"
+    ]
+  },
+  "packageFolders": {
+    "C:\\Users\\Beecrouse\\.nuget\\packages\\": {}
+  },
+  "project": {
+    "version": "1.0.0",
+    "restore": {
+      "projectUniqueName": "D:\\Programming\\Exadel\\NET_Sandbox\\test\\BudgetManager.Shared\\BudgetManager.Shared.DataAccess.MongoDB\\BudgetManager.Shared.DataAccess.MongoDB.csproj",
+      "projectName": "BudgetManager.Shared.DataAccess.MongoDB",
+      "projectPath": "D:\\Programming\\Exadel\\NET_Sandbox\\test\\BudgetManager.Shared\\BudgetManager.Shared.DataAccess.MongoDB\\BudgetManager.Shared.DataAccess.MongoDB.csproj",
+      "packagesPath": "C:\\Users\\Beecrouse\\.nuget\\packages\\",
+      "outputPath": "D:\\Programming\\Exadel\\NET_Sandbox\\test\\BudgetManager.Shared\\BudgetManager.Shared.DataAccess.MongoDB\\obj\\",
+      "projectStyle": "PackageReference",
+      "configFilePaths": [
+        "D:\\Programming\\Exadel\\NET_Sandbox\\test\\BudgetManager.Shared\\NuGet.Config",
+        "C:\\Users\\Beecrouse\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+      ],
+      "originalTargetFrameworks": [
+        "net6.0"
+      ],
+      "sources": {
+        "https://pkgs.dev.azure.com/otashbaxadirov/_packaging/otashbaxadirov/nuget/v3/index.json": {}
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "projectReferences": {
+            "D:\\Programming\\Exadel\\NET_Sandbox\\test\\BudgetManager.Shared\\BudgetManager.Shared.Abstractions\\BudgetManager.Shared.Abstractions.csproj": {
+              "projectPath": "D:\\Programming\\Exadel\\NET_Sandbox\\test\\BudgetManager.Shared\\BudgetManager.Shared.Abstractions\\BudgetManager.Shared.Abstractions.csproj",
+              "includeAssets": "none"
+            }
+          }
+        }
+      },
+      "warningProperties": {
+        "warnAsError": [
+          "NU1605"
+        ]
+      }
+    },
+    "frameworks": {
+      "net6.0": {
+        "targetAlias": "net6.0",
+        "imports": [
+          "net461",
+          "net462",
+          "net47",
+          "net471",
+          "net472",
+          "net48"
+        ],
+        "assetTargetFallback": true,
+        "warn": true,
+        "frameworkReferences": {
+          "Microsoft.NETCore.App": {
+            "privateAssets": "all"
+          }
+        },
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.201\\RuntimeIdentifierGraph.json"
+      }
+    }
+  }
+}

@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <PackageId>BudgetManager.Shared</PackageId>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Version>1.0.2</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BudgetManager.Shared.Models.MongoDB\BudgetManager.Shared.Models.MongoDB.csproj">
+      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+      <IncludeAssets>BudgetManager.Shared.Models.MongoDB.dll</IncludeAssets>
+    </ProjectReference>
+    <ProjectReference Include="..\BudgetManager.Shared.Utils\BudgetManager.Shared.Utils.csproj">
+      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+      <IncludeAssets>BudgetManager.Shared.Utils.dll</IncludeAssets>
+    </ProjectReference>
+  </ItemGroup>
+
+</Project>

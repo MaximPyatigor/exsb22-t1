@@ -1,0 +1,12 @@
+D:\Programming\Exadel\NET_Sandbox\test\BudgetManager.Shared\BudgetManager.Shared.Models.MongoDB\bin\Debug\net6.0\BudgetManager.Shared.Models.MongoDB.deps.json
+D:\Programming\Exadel\NET_Sandbox\test\BudgetManager.Shared\BudgetManager.Shared.Models.MongoDB\bin\Debug\net6.0\BudgetManager.Shared.Models.MongoDB.dll
+D:\Programming\Exadel\NET_Sandbox\test\BudgetManager.Shared\BudgetManager.Shared.Models.MongoDB\bin\Debug\net6.0\BudgetManager.Shared.Models.MongoDB.pdb
+D:\Programming\Exadel\NET_Sandbox\test\BudgetManager.Shared\BudgetManager.Shared.Models.MongoDB\obj\Debug\net6.0\BudgetManager.Shared.Models.MongoDB.csproj.AssemblyReference.cache
+D:\Programming\Exadel\NET_Sandbox\test\BudgetManager.Shared\BudgetManager.Shared.Models.MongoDB\obj\Debug\net6.0\BudgetManager.Shared.Models.MongoDB.GeneratedMSBuildEditorConfig.editorconfig
+D:\Programming\Exadel\NET_Sandbox\test\BudgetManager.Shared\BudgetManager.Shared.Models.MongoDB\obj\Debug\net6.0\BudgetManager.Shared.Models.MongoDB.AssemblyInfoInputs.cache
+D:\Programming\Exadel\NET_Sandbox\test\BudgetManager.Shared\BudgetManager.Shared.Models.MongoDB\obj\Debug\net6.0\BudgetManager.Shared.Models.MongoDB.AssemblyInfo.cs
+D:\Programming\Exadel\NET_Sandbox\test\BudgetManager.Shared\BudgetManager.Shared.Models.MongoDB\obj\Debug\net6.0\BudgetManager.Shared.Models.MongoDB.csproj.CoreCompileInputs.cache
+D:\Programming\Exadel\NET_Sandbox\test\BudgetManager.Shared\BudgetManager.Shared.Models.MongoDB\obj\Debug\net6.0\BudgetManager.Shared.Models.MongoDB.dll
+D:\Programming\Exadel\NET_Sandbox\test\BudgetManager.Shared\BudgetManager.Shared.Models.MongoDB\obj\Debug\net6.0\refint\BudgetManager.Shared.Models.MongoDB.dll
+D:\Programming\Exadel\NET_Sandbox\test\BudgetManager.Shared\BudgetManager.Shared.Models.MongoDB\obj\Debug\net6.0\BudgetManager.Shared.Models.MongoDB.pdb
+D:\Programming\Exadel\NET_Sandbox\test\BudgetManager.Shared\BudgetManager.Shared.Models.MongoDB\obj\Debug\net6.0\ref\BudgetManager.Shared.Models.MongoDB.dll

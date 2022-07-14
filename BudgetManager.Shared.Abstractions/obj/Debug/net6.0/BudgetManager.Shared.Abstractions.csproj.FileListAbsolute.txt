@@ -1,0 +1,17 @@
+D:\Programming\Exadel\NET_Sandbox\test\BudgetManager.Shared\BudgetManager.Shared.Abstractions\bin\Debug\net6.0\BudgetManager.Shared.Abstractions.deps.json
+D:\Programming\Exadel\NET_Sandbox\test\BudgetManager.Shared\BudgetManager.Shared.Abstractions\bin\Debug\net6.0\BudgetManager.Shared.Abstractions.dll
+D:\Programming\Exadel\NET_Sandbox\test\BudgetManager.Shared\BudgetManager.Shared.Abstractions\bin\Debug\net6.0\BudgetManager.Shared.Abstractions.pdb
+D:\Programming\Exadel\NET_Sandbox\test\BudgetManager.Shared\BudgetManager.Shared.Abstractions\bin\Debug\net6.0\BudgetManager.Shared.Models.MongoDB.dll
+D:\Programming\Exadel\NET_Sandbox\test\BudgetManager.Shared\BudgetManager.Shared.Abstractions\bin\Debug\net6.0\BudgetManager.Shared.Utils.dll
+D:\Programming\Exadel\NET_Sandbox\test\BudgetManager.Shared\BudgetManager.Shared.Abstractions\bin\Debug\net6.0\BudgetManager.Shared.Models.MongoDB.pdb
+D:\Programming\Exadel\NET_Sandbox\test\BudgetManager.Shared\BudgetManager.Shared.Abstractions\bin\Debug\net6.0\BudgetManager.Shared.Utils.pdb
+D:\Programming\Exadel\NET_Sandbox\test\BudgetManager.Shared\BudgetManager.Shared.Abstractions\obj\Debug\net6.0\BudgetManager.Shared.Abstractions.csproj.AssemblyReference.cache
+D:\Programming\Exadel\NET_Sandbox\test\BudgetManager.Shared\BudgetManager.Shared.Abstractions\obj\Debug\net6.0\BudgetManager.Shared.Abstractions.GeneratedMSBuildEditorConfig.editorconfig
+D:\Programming\Exadel\NET_Sandbox\test\BudgetManager.Shared\BudgetManager.Shared.Abstractions\obj\Debug\net6.0\BudgetManager.Shared.Abstractions.AssemblyInfoInputs.cache
+D:\Programming\Exadel\NET_Sandbox\test\BudgetManager.Shared\BudgetManager.Shared.Abstractions\obj\Debug\net6.0\BudgetManager.Shared.Abstractions.AssemblyInfo.cs
+D:\Programming\Exadel\NET_Sandbox\test\BudgetManager.Shared\BudgetManager.Shared.Abstractions\obj\Debug\net6.0\BudgetManager.Shared.Abstractions.csproj.CoreCompileInputs.cache
+D:\Programming\Exadel\NET_Sandbox\test\BudgetManager.Shared\BudgetManager.Shared.Abstractions\obj\Debug\net6.0\BudgetManager.Shared.Abstractions.csproj.CopyComplete
+D:\Programming\Exadel\NET_Sandbox\test\BudgetManager.Shared\BudgetManager.Shared.Abstractions\obj\Debug\net6.0\BudgetManager.Shared.Abstractions.dll
+D:\Programming\Exadel\NET_Sandbox\test\BudgetManager.Shared\BudgetManager.Shared.Abstractions\obj\Debug\net6.0\refint\BudgetManager.Shared.Abstractions.dll
+D:\Programming\Exadel\NET_Sandbox\test\BudgetManager.Shared\BudgetManager.Shared.Abstractions\obj\Debug\net6.0\BudgetManager.Shared.Abstractions.pdb
+D:\Programming\Exadel\NET_Sandbox\test\BudgetManager.Shared\BudgetManager.Shared.Abstractions\obj\Debug\net6.0\ref\BudgetManager.Shared.Abstractions.dll

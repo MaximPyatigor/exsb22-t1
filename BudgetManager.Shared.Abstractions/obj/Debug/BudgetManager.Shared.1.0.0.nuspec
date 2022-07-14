@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>BudgetManager.Shared</id>
+    <version>1.0.0</version>
+    <authors>BudgetManager.Shared.Abstractions</authors>
+    <description>Package Description</description>
+    <dependencies>
+      <group targetFramework="net6.0" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="D:\Programming\Exadel\NET_Sandbox\test\BudgetManager.Shared\BudgetManager.Shared.Abstractions\bin\Debug\net6.0\BudgetManager.Shared.Abstractions.dll" target="lib\net6.0\BudgetManager.Shared.Abstractions.dll" />
+  </files>
+</package>

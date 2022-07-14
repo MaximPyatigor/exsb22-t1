@@ -1,0 +1,62 @@
+{
+  "format": 1,
+  "restore": {
+    "D:\\Programming\\Exadel\\NET_Sandbox\\test\\BudgetManager.Shared\\BudgetManager.Shared.Utils\\BudgetManager.Shared.Utils.csproj": {}
+  },
+  "projects": {
+    "D:\\Programming\\Exadel\\NET_Sandbox\\test\\BudgetManager.Shared\\BudgetManager.Shared.Utils\\BudgetManager.Shared.Utils.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\Programming\\Exadel\\NET_Sandbox\\test\\BudgetManager.Shared\\BudgetManager.Shared.Utils\\BudgetManager.Shared.Utils.csproj",
+        "projectName": "BudgetManager.Shared.Utils",
+        "projectPath": "D:\\Programming\\Exadel\\NET_Sandbox\\test\\BudgetManager.Shared\\BudgetManager.Shared.Utils\\BudgetManager.Shared.Utils.csproj",
+        "packagesPath": "C:\\Users\\Beecrouse\\.nuget\\packages\\",
+        "outputPath": "D:\\Programming\\Exadel\\NET_Sandbox\\test\\BudgetManager.Shared\\BudgetManager.Shared.Utils\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "D:\\Programming\\Exadel\\NET_Sandbox\\test\\BudgetManager.Shared\\NuGet.Config",
+          "C:\\Users\\Beecrouse\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "https://pkgs.dev.azure.com/otashbaxadirov/_packaging/otashbaxadirov/nuget/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.201\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
