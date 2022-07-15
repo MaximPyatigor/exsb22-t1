@@ -8,7 +8,7 @@ namespace BudgetManager.Shared.Models.MongoDB.Entities
     {
         [BsonId]
         public Guid Id { get; set; }
-        [BsonId, Required]
+        [Required]
         public Guid CategoryId { get; set; }
         [Required]
         public DateTime DateOfTransaction { get; set; }

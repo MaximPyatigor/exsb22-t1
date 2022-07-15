@@ -14,7 +14,6 @@ namespace BudgetManager.Shared.Models.MongoDB.Entities
         public decimal Limit { get; set; }
         [Required]
         public LimitPeriods LimitPeriod { get; set; }
-        [BsonId]
         public List<Guid>? SubCategories { get; set; }
         [Required]
         public CategoryTypes CategoryType { get; set; }
