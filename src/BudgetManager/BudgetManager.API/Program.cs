@@ -1,6 +1,12 @@
+using BudgetManager.Shared.DataAccess.MongoDB;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.Configure<ExadelBudgetDatabaseSettings>(
+    builder.Configuration.GetSection("ExadelBudgetDatabase"));
+builder.Services.AddSingleton<MongoDbContext>();
+
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
