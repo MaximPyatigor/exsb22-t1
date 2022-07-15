@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\BudgetManager.Shared\BudgetManager.Shared.DataAccess.MongoDB\BudgetManager.Shared.DataAccess.MongoDB.csproj" />
+  </ItemGroup>
+
 </Project>

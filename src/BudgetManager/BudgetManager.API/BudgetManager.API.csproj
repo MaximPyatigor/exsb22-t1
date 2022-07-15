@@ -10,4 +10,9 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\BudgetManager.CQRS\BudgetManager.CQRS.csproj" />
+    <ProjectReference Include="..\BudgetManager.SDK\BudgetManager.SDK.csproj" />
+  </ItemGroup>
+
 </Project>
