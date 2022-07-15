@@ -6,6 +6,7 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+<<<<<<< 33-add-stylecop
   <PropertyGroup>
 	<CodeAnalysisRuleSet>..\StyleCop.ruleset</CodeAnalysisRuleSet>
 	<GenerateDocumentationFile>true</GenerateDocumentationFile>
@@ -16,6 +17,11 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+=======
+  <ItemGroup>
+    <PackageReference Include="MongoDB.Bson" Version="2.16.1" />
+    <PackageReference Include="MongoDbGenericRepository" Version="1.4.8" />
+>>>>>>> dev
   </ItemGroup>
 
 </Project>
