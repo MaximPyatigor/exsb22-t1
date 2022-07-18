@@ -1,11 +1,12 @@
 using BudgetManager.Shared.DataAccess.MongoDB;
+using BudgetManager.Shared.DataAccess.MongoDB.DbContexts;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.Configure<ExadelBudgetDatabaseSettings>(
     builder.Configuration.GetSection("ExadelBudgetDatabase"));
-builder.Services.AddSingleton<MongoDbContext>();
+builder.Services.AddSingleton<IMongoDbContext, MongoDbContext>();
 
 
 builder.Services.AddControllers();
