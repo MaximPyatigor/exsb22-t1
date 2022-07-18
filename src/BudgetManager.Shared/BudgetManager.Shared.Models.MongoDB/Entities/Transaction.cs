@@ -1,9 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using BudgetManager.Shared.Models.MongoDB.Enums;
 using MongoDB.Bson.Serialization.Attributes;
+using MongoDbGenericRepository.Attributes;
 
 namespace BudgetManager.Shared.Models.MongoDB.Entities
 {
+    [CollectionName("Transactions")]
     public class Transaction
     {
         [BsonId]
