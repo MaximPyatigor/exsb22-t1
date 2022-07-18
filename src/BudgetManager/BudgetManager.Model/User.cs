@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using BudgetManager.Shared.Models.MongoDB.Entities;
+using BudgetManager.Shared.Models.MongoDB;
 using MongoDbGenericRepository.Attributes;
 
 namespace BudgetManager.Model

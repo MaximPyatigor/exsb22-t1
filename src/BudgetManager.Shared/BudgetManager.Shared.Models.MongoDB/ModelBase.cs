@@ -1,7 +1,7 @@
 ﻿using BudgetManager.Shared.Models.MongoDB.Models.Interfaces;
 using MongoDB.Bson.Serialization.Attributes;
 
-namespace BudgetManager.Shared.Models.MongoDB.Entities
+namespace BudgetManager.Shared.Models.MongoDB
 {
     public class ModelBase : IModelBase
     {
