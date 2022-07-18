@@ -1,13 +1,22 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
-
+	
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <PropertyGroup>
+	<CodeAnalysisRuleSet>..\StyleCop.ruleset</CodeAnalysisRuleSet>
+	<GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+	
   <ItemGroup>
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="10.0.1" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup>
 
@@ -15,5 +24,5 @@
     <ProjectReference Include="..\BudgetManager.CQRS\BudgetManager.CQRS.csproj" />
     <ProjectReference Include="..\BudgetManager.SDK\BudgetManager.SDK.csproj" />
   </ItemGroup>
-
+	
 </Project>
