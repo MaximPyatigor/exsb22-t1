@@ -3,6 +3,6 @@
     public enum CategoryTypes
     {
         Credit,
-        Debit
+        Debit,
     }
 }

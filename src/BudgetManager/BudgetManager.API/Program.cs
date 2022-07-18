@@ -1,4 +1,3 @@
-using BudgetManager.CQRS;
 using MediatR;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,8 +9,9 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-//This loads an entire assembly and looks for everything we do with mediatR
-builder.Services.AddMediatR(typeof(MediatREntryPoint).Assembly);
+// This loads an entire assembly and looks for everything we do with mediatR
+// While we don't have anything in CQRS, line below is commented out
+// builder.Services.AddMediatR(typeof({replace this with any class from BudgetManager.CQRS}).Assembly);
 
 var app = builder.Build();
 

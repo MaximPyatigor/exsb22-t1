@@ -1,6 +1,6 @@
+using System.ComponentModel.DataAnnotations;
 using BudgetManager.Shared.Models.MongoDB.Enums;
 using MongoDB.Bson.Serialization.Attributes;
-using System.ComponentModel.DataAnnotations;
 
 namespace BudgetManager.Shared.Models.MongoDB.Entities
 {

@@ -5,6 +5,6 @@
         LimitExceeded,
         MonthlyExpense,
         Encouraging,
-        Other
+        Other,
     }
 }
