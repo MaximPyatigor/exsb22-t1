@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using MongoDB.Bson.Serialization.Attributes;
 
-namespace BudgetManager.Shared.Models.MongoDB.Entities
+namespace BudgetManager.Model
 {
     public class Wallet
     {

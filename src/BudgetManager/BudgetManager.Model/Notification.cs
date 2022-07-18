@@ -1,13 +1,14 @@
 using System.ComponentModel.DataAnnotations;
-using BudgetManager.Shared.Models.MongoDB.Enums;
+using BudgetManager.Model.Enums;
+using BudgetManager.Shared.Models.MongoDB.Entities;
 using MongoDB.Bson.Serialization.Attributes;
+using MongoDbGenericRepository.Attributes;
 
-namespace BudgetManager.Shared.Models.MongoDB.Entities
+namespace BudgetManager.Model
 {
-    public class Notification
+    [CollectionName("Notifications")]
+    public class Notification : ModelBase
     {
-        [BsonId]
-        public Guid Id { get; set; }
         [Required]
         public NotificationTypes NotificationType { get; set; }
         [Required]
