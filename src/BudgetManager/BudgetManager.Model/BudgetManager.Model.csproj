@@ -12,10 +12,15 @@
   </PropertyGroup>
 	
   <ItemGroup>
+    <PackageReference Include="MongoDB.Bson" Version="2.16.1" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+  </ItemGroup>
+	
+  <ItemGroup>
+    <ProjectReference Include="..\..\BudgetManager.Shared\BudgetManager.Shared.Models.MongoDB\BudgetManager.Shared.Models.MongoDB.csproj" />
   </ItemGroup>
 
 </Project>

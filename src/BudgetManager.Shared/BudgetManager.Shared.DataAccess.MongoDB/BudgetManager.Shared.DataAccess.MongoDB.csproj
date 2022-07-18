@@ -18,8 +18,4 @@
     </PackageReference>
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\BudgetManager.Shared.Abstractions\BudgetManager.Shared.Abstractions.csproj" />
-  </ItemGroup>
-
 </Project>
