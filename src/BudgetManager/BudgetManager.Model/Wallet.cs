@@ -1,9 +1,13 @@
 using System.ComponentModel.DataAnnotations;
+using BudgetManager.Shared.Models.MongoDB;
+using BudgetManager.Shared.Models.MongoDB.Models.Interfaces;
 using MongoDB.Bson.Serialization.Attributes;
+using MongoDbGenericRepository.Attributes;
 
-namespace BudgetManager.Shared.Models.MongoDB.Entities
+namespace BudgetManager.Model
 {
-    public class Wallet
+    [CollectionName("Wallets")]
+    public class Wallet : IModelBase
     {
         [BsonId]
         public Guid Id { get; set; }
