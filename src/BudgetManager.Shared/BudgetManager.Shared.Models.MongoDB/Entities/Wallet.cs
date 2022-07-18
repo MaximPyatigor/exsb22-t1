@@ -1,5 +1,5 @@
-using MongoDB.Bson.Serialization.Attributes;
 using System.ComponentModel.DataAnnotations;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace BudgetManager.Shared.Models.MongoDB.Entities
 {
