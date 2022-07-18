@@ -1,6 +1,4 @@
 using BudgetManager.CQRS;
-using BudgetManager.DataAccess.Interfaces;
-using BudgetManager.DataAccess.Services;
 using MediatR;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,7 +10,6 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddScoped<IEmployeeService, EmployeeService>();
 //This loads an entire assembly and looks for everything we do with mediatR
 builder.Services.AddMediatR(typeof(MediatREntryPoint).Assembly);
 
