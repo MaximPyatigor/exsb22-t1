@@ -2,20 +2,18 @@
 using BudgetManager.Shared.DataAccess.MongoDB.DatabaseSettings;
 using BudgetManager.Shared.Models.MongoDB.Models.Interfaces;
 using MongoDB.Bson;
-using MongoDB.Bson.Serialization;
-using MongoDB.Bson.Serialization.Serializers;
 using MongoDB.Driver;
 using MongoDbGenericRepository.Attributes;
 
 namespace BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation
 {
-    public class BaseRepository<TDocument> : IBaseRepository<TDocument>
+    public abstract class BaseRepository<TDocument>
         where TDocument : IModelBase
     {
         private readonly IMongoCollection<TDocument> _collection;
         public BaseRepository(IMongoDbSettings settings)
         {
-            BsonSerializer.RegisterSerializer(new GuidSerializer(GuidRepresentation.Standard));
+            BsonDefaults.GuidRepresentation = GuidRepresentation.Standard;
             var database = new MongoClient(settings.ConnectionString).GetDatabase(settings.DatabaseName);
             _collection = database.GetCollection<TDocument>(GetCollectionName(typeof(TDocument)));
         }

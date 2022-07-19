@@ -7,6 +7,7 @@ using MongoDbGenericRepository.Attributes;
 
 namespace BudgetManager.Model
 {
+    [CollectionName("Transactions")]
     public class Transaction : IModelBase
     {
         [BsonId]
