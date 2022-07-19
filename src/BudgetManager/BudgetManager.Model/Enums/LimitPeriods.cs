@@ -1,4 +1,4 @@
-﻿namespace BudgetManager.Shared.Models.MongoDB.Enums
+﻿namespace BudgetManager.Model.Enums
 {
     public enum LimitPeriods
     {

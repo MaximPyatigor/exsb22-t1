@@ -13,8 +13,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BudgetManager.Model", "Budg
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BudgetManager.SDK", "BudgetManager\BudgetManager.SDK\BudgetManager.SDK.csproj", "{2C2C3696-050D-49F9-A7DE-A0D5850BCCD6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BudgetManager.Shared.Abstractions", "BudgetManager.Shared\BudgetManager.Shared.Abstractions\BudgetManager.Shared.Abstractions.csproj", "{542884B6-309E-4496-89A1-AB9298D30F32}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BudgetManager.Shared.DataAccess.MongoDB", "BudgetManager.Shared\BudgetManager.Shared.DataAccess.MongoDB\BudgetManager.Shared.DataAccess.MongoDB.csproj", "{017CA899-9BC4-4BAA-9A1C-E826A9E6CB80}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BudgetManager.Shared.Models.MongoDB", "BudgetManager.Shared\BudgetManager.Shared.Models.MongoDB\BudgetManager.Shared.Models.MongoDB.csproj", "{21CCA097-8CE6-40AD-8113-D6B391F2CEB0}"
@@ -45,10 +43,6 @@ Global
 		{2C2C3696-050D-49F9-A7DE-A0D5850BCCD6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2C2C3696-050D-49F9-A7DE-A0D5850BCCD6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2C2C3696-050D-49F9-A7DE-A0D5850BCCD6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{542884B6-309E-4496-89A1-AB9298D30F32}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{542884B6-309E-4496-89A1-AB9298D30F32}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{542884B6-309E-4496-89A1-AB9298D30F32}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{542884B6-309E-4496-89A1-AB9298D30F32}.Release|Any CPU.Build.0 = Release|Any CPU
 		{017CA899-9BC4-4BAA-9A1C-E826A9E6CB80}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{017CA899-9BC4-4BAA-9A1C-E826A9E6CB80}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{017CA899-9BC4-4BAA-9A1C-E826A9E6CB80}.Release|Any CPU.ActiveCfg = Release|Any CPU

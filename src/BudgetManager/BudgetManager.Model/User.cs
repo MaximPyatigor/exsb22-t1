@@ -1,11 +1,16 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using BudgetManager.Shared.Models.MongoDB;
+using BudgetManager.Shared.Models.MongoDB.Models.Interfaces;
+using MongoDB.Bson.Serialization.Attributes;
 using MongoDbGenericRepository.Attributes;
 
-namespace BudgetManager.Shared.Models.MongoDB.Entities
+namespace BudgetManager.Model
 {
     [CollectionName("Users")]
-    public class User
+    public class User : IModelBase
     {
+        [BsonId]
+        public Guid Id { get; set; }
         [Required]
         public string FullName { get; set; }
         [Required]
