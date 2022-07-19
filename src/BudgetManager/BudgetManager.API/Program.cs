@@ -1,8 +1,14 @@
-using MediatR;
+using BudgetManager.Shared.DataAccess.MongoDB.DatabaseSettings;
+using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.Configure<MongoDbSettings>(
+    builder.Configuration.GetSection(nameof(MongoDbSettings)));
+builder.Services.AddSingleton<IMongoDbSettings>(sp =>
+    sp.GetRequiredService<IOptions<MongoDbSettings>>().Value);
+
 builder.Services.AddControllers();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
