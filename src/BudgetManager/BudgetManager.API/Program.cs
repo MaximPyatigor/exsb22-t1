@@ -1,5 +1,4 @@
-using BudgetManager.DataAccess.DatabaseSettings;
-using MediatR;
+using BudgetManager.Shared.DataAccess.MongoDB.DatabaseSettings;
 using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);

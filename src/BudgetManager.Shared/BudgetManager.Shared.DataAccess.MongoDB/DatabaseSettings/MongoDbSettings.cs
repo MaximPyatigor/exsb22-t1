@@ -1,4 +1,4 @@
-﻿namespace BudgetManager.DataAccess.DatabaseSettings
+﻿namespace BudgetManager.Shared.DataAccess.MongoDB.DatabaseSettings
 {
     public class MongoDbSettings : IMongoDbSettings
     {
