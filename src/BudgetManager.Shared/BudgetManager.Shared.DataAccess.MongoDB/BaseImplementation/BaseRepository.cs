@@ -12,6 +12,7 @@ namespace BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation
         private readonly IMongoCollection<TDocument> _collection;
         public BaseRepository(IMongoDbSettings settings)
         {
+            BsonSerializer.RegisterSerializer(new GuidSerializer(GuidRepresentation.Standard));
             var database = new MongoClient(settings.ConnectionString).GetDatabase(settings.DatabaseName);
             _collection = database.GetCollection<TDocument>(GetCollectionName(typeof(TDocument)));
         }
