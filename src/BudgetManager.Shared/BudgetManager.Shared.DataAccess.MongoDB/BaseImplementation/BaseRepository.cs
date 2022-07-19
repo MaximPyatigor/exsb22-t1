@@ -1,6 +1,9 @@
 ﻿using System.Linq.Expressions;
 using BudgetManager.Shared.DataAccess.MongoDB.DatabaseSettings;
 using BudgetManager.Shared.Models.MongoDB.Models.Interfaces;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization;
+using MongoDB.Bson.Serialization.Serializers;
 using MongoDB.Driver;
 using MongoDbGenericRepository.Attributes;
 
