@@ -1,4 +1,5 @@
 ﻿using System.Linq.Expressions;
+using BudgetManager.Shared.DataAccess.MongoDB.DatabaseSettings;
 using BudgetManager.Shared.Models.MongoDB.Models.Interfaces;
 using MongoDB.Driver;
 using MongoDbGenericRepository.Attributes;
@@ -11,7 +12,7 @@ namespace BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation
         private readonly IMongoCollection<TDocument> _collection;
         public BaseRepository(IMongoDbSettings settings)
         {
-            var database = new MongoClient(settings.Value.ConnectionString).GetDatabase(settings.Value.Name);
+            var database = new MongoClient(settings.ConnectionString).GetDatabase(settings.DatabaseName);
             _collection = database.GetCollection<TDocument>(GetCollectionName(typeof(TDocument)));
         }
 
