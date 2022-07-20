@@ -7,7 +7,7 @@ using MongoDbGenericRepository.Attributes;
 
 namespace BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation
 {
-    public abstract class BaseRepository<TDocument>
+    public class BaseRepository<TDocument> : IBaseRepository<TDocument>
         where TDocument : IModelBase
     {
         private readonly IMongoCollection<TDocument> _collection;
