@@ -1,4 +1,9 @@
+using BudgetManager.CQRS.Handlers.NotificationHandler;
+using BudgetManager.DataAccess.MongoDbAccess.Repositories;
+using BudgetManager.Model;
+using BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation;
 using BudgetManager.Shared.DataAccess.MongoDB.DatabaseSettings;
+using MediatR;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 
@@ -12,6 +17,8 @@ builder.Services.AddSingleton<IMongoDbSettings>(sp =>
     sp.GetRequiredService<IOptions<MongoDbSettings>>().Value);
 builder.Services.AddSingleton<IMongoClient, MongoClient>(sp => new MongoClient(mongoDbConfig.ConnectionString));
 
+builder.Services.AddScoped<IBaseRepository<Notification>, NotificationRepository>();
+
 builder.Services.AddControllers();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -19,8 +26,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 // This loads an entire assembly and looks for everything we do with mediatR
-// While we don't have anything in CQRS, line below is commented out
-// builder.Services.AddMediatR(typeof({replace this with any class from BudgetManager.CQRS}).Assembly);
+builder.Services.AddMediatR(typeof(AddNotificationHandler).Assembly);
 
 var app = builder.Build();
 
