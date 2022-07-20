@@ -1,4 +1,4 @@
-﻿using System.Linq.Expressions;
+using System.Linq.Expressions;
 using BudgetManager.Shared.DataAccess.MongoDB.DatabaseSettings;
 using BudgetManager.Shared.Models.MongoDB.Models.Interfaces;
 using MongoDB.Bson;
@@ -7,7 +7,8 @@ using MongoDbGenericRepository.Attributes;
 
 namespace BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation
 {
-    public abstract class BaseRepository<TDocument> : IBaseRepository<TDocument>
+
+    public class BaseRepository<TDocument> : IBaseRepository<TDocument>
         where TDocument : IModelBase
     {
         private readonly IMongoCollection<TDocument> _collection;
