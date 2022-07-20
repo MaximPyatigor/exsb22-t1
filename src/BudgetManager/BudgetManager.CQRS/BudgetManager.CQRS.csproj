@@ -16,12 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BudgetManager.DataAccess\BudgetManager.DataAccess.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Commands\" />
-    <Folder Include="Handlers\" />
-    <Folder Include="Queries\" />
+    <ProjectReference Include="..\BudgetManager.Model\BudgetManager.Model.csproj" />
   </ItemGroup>
 
 </Project>
