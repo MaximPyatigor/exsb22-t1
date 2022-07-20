@@ -7,14 +7,17 @@ using MongoDbGenericRepository.Attributes;
 
 namespace BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation
 {
-    public abstract class BaseRepository<TDocument>
+    public abstract class BaseRepository<TDocument> : IBaseRepository<TDocument>
         where TDocument : IModelBase
     {
         private readonly IMongoCollection<TDocument> _collection;
-        public BaseRepository(IMongoDbSettings settings)
+        private readonly IMongoClient _client;
+
+        public BaseRepository(IMongoDbSettings settings, IMongoClient client)
         {
+            _client = client;
             BsonDefaults.GuidRepresentation = GuidRepresentation.Standard;
-            var database = new MongoClient(settings.ConnectionString).GetDatabase(settings.DatabaseName);
+            var database = _client.GetDatabase(settings.DatabaseName);
             _collection = database.GetCollection<TDocument>(GetCollectionName(typeof(TDocument)));
         }
 

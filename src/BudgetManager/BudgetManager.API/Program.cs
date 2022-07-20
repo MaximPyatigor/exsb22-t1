@@ -1,13 +1,16 @@
 using BudgetManager.Shared.DataAccess.MongoDB.DatabaseSettings;
 using Microsoft.Extensions.Options;
+using MongoDB.Driver;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.Configure<MongoDbSettings>(
-    builder.Configuration.GetSection(nameof(MongoDbSettings)));
+var mongoDbSettings = builder.Configuration.GetSection(nameof(MongoDbSettings));
+var mongoDbConfig = mongoDbSettings.Get<MongoDbSettings>();
+builder.Services.Configure<MongoDbSettings>(mongoDbSettings);
 builder.Services.AddSingleton<IMongoDbSettings>(sp =>
     sp.GetRequiredService<IOptions<MongoDbSettings>>().Value);
+builder.Services.AddSingleton<IMongoClient, MongoClient>(sp => new MongoClient(mongoDbConfig.ConnectionString));
 
 builder.Services.AddControllers();
 
