@@ -1,5 +1,6 @@
 using BudgetManager.Shared.DataAccess.MongoDB.DatabaseSettings;
 using Microsoft.Extensions.Options;
+using MongoDB.Bson;
 using MongoDB.Driver;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,7 +11,11 @@ var mongoDbConfig = mongoDbSettings.Get<MongoDbSettings>();
 builder.Services.Configure<MongoDbSettings>(mongoDbSettings);
 builder.Services.AddSingleton<IMongoDbSettings>(sp =>
     sp.GetRequiredService<IOptions<MongoDbSettings>>().Value);
-builder.Services.AddSingleton<IMongoClient, MongoClient>(sp => new MongoClient(mongoDbConfig.ConnectionString));
+builder.Services.AddSingleton<IMongoClient, MongoClient>(sp =>
+{
+    BsonDefaults.GuidRepresentation = GuidRepresentation.Standard;
+    return new MongoClient(mongoDbConfig.ConnectionString);
+});
 
 builder.Services.AddControllers();
 

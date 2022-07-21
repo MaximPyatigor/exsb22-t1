@@ -17,7 +17,6 @@ namespace BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation
         public BaseRepository(IMongoDbSettings settings, IMongoClient client)
         {
             _client = client;
-            BsonDefaults.GuidRepresentation = GuidRepresentation.Standard;
             var database = _client.GetDatabase(settings.DatabaseName);
             _collection = database.GetCollection<TDocument>(GetCollectionName(typeof(TDocument)));
         }
