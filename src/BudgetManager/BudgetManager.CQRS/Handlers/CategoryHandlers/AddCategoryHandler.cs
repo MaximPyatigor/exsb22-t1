@@ -14,6 +14,7 @@ namespace BudgetManager.CQRS.Handlers.CategoryHandlers
         {
             this._categoryRepository = categoryRepository;
         }
+
         public async Task<Unit> Handle(AddCategoryCommand request, CancellationToken cancellationToken)
         {
             Category requestCategory = request.category;

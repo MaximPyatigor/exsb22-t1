@@ -1,4 +1,5 @@
 ﻿using BudgetManager.CQRS.Commands.CategoryCommands;
+using BudgetManager.CQRS.Queries.CategoryQueries;
 using BudgetManager.Model;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -19,6 +20,13 @@ namespace BudgetManager.API.Controllers
         public async Task<ActionResult> InsertOne(Category category)
         {
             var response = await _mediator.Send(new AddCategoryCommand(category));
+            return Ok(response);
+        }
+
+        [HttpGet("[action]")]
+        public async Task<ActionResult> GetAll()
+        {
+            var response = await _mediator.Send(new GetCategoriesQuery());
             return Ok(response);
         }
     }
