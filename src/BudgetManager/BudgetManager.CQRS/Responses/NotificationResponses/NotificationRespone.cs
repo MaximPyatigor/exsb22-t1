@@ -7,5 +7,5 @@ using System.Threading.Tasks;
 
 namespace BudgetManager.CQRS.Responses.NotificationResponses
 {
-    public record NotificationResponse(string Id, NotificationTypes NotificationType, string Description, bool IsRead);
+    public record NotificationResponse(Guid Id, NotificationTypes NotificationType, string Description, bool IsRead);
 }

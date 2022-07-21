@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BudgetManager.CQRS.Handlers.NotificationHandler
+namespace BudgetManager.CQRS.Handlers.NotificationHandlers
 {
     public class GetNotificationListHandler : IRequestHandler<GetNotificationListQuery, IQueryable<Notification>>
     {
@@ -19,7 +19,7 @@ namespace BudgetManager.CQRS.Handlers.NotificationHandler
             _dataAccess = dataAccess;
         }
 
-        public Task<IQueryable<Notification>> Handle(GetNotificationListQuery request,CancellationToken cancellationToken)
+        public Task<IQueryable<Notification>> Handle(GetNotificationListQuery request, CancellationToken cancellationToken)
         {
             return Task.FromResult(_dataAccess.AsQueryable());
         }

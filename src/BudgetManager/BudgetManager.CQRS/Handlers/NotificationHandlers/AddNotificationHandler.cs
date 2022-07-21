@@ -5,9 +5,9 @@ using BudgetManager.Model.Enums;
 using BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation;
 using MediatR;
 
-namespace BudgetManager.CQRS.Handlers.NotificationHandler
+namespace BudgetManager.CQRS.Handlers.NotificationHandlers
 {
-    public class AddNotificationHandler : IRequestHandler<AddNotificationCommand, NotificationResponse>
+    public class AddNotificationHandler : IRequestHandler<AddNotificationCommand, string>
     {
         private readonly IBaseRepository<Notification> _dataAccess;
 
@@ -15,18 +15,17 @@ namespace BudgetManager.CQRS.Handlers.NotificationHandler
         {
             _dataAccess = dataAccess;
         }
-        public async Task<NotificationResponse> Handle(AddNotificationCommand request, CancellationToken cancellationToken)
+        public async Task<string> Handle(AddNotificationCommand request, CancellationToken cancellationToken)
         {
             if (request == null) { return null; }
             Notification notification = new Notification()
             {
-                NotificationType = (NotificationTypes)request.Type,
-                Description = request.Description, 
-                IsRead = request.IsRead,
+                NotificationType = (NotificationTypes)request.notificationDto.NotificationType,
+                Description = request.notificationDto.Description,
             };
 
             await _dataAccess.InsertOneAsync(notification);
-            return new NotificationResponse(notification.Id.ToString(), notification.NotificationType, notification.Description, notification.IsRead);
+            return notification.Id.ToString();
         }
     }
 }

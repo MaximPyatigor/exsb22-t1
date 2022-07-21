@@ -1,4 +1,4 @@
-using BudgetManager.CQRS.Handlers.NotificationHandler;
+using BudgetManager.CQRS.Handlers.NotificationHandlers;
 using BudgetManager.DataAccess.MongoDbAccess.Repositories;
 using BudgetManager.Model;
 using BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation;
