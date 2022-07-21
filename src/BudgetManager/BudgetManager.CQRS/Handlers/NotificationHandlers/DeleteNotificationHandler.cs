@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace BudgetManager.CQRS.Handlers.NotificationHandlers
 {
-    public class DeleteNotificationHandler : IRequestHandler<DeleteNotificationCommand>
+    public class DeleteNotificationHandler : IRequestHandler<DeleteNotificationCommand, bool>
     {
         private readonly IBaseRepository<Notification> _dataAccess;
 
@@ -18,11 +18,13 @@ namespace BudgetManager.CQRS.Handlers.NotificationHandlers
         {
             _dataAccess = dataAccess;
         }
-        public async Task<Unit> Handle(DeleteNotificationCommand request, CancellationToken cancellationToken)
+        public async Task<bool> Handle(DeleteNotificationCommand request, CancellationToken cancellationToken)
         {
+            var notification = await _dataAccess.FindByIdAsync(request.Id);
+            if (notification == null) return false;
+
             await _dataAccess.DeleteByIdAsync(request.Id);
-            //This returns nothing
-            return Unit.Value;
+            return true;
         }
     }
 }

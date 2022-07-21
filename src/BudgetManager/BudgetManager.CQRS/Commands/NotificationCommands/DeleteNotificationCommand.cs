@@ -7,5 +7,5 @@ using System.Threading.Tasks;
 
 namespace BudgetManager.CQRS.Commands.NotificationCommands
 {
-    public record DeleteNotificationCommand(Guid Id) : IRequest;
+    public record DeleteNotificationCommand(Guid Id) : IRequest<bool>;
 }

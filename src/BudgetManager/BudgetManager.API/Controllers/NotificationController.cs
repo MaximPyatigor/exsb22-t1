@@ -39,14 +39,14 @@ namespace BudgetManager.API.Controllers
         public async Task<IActionResult> UpdateNotificationReadStatus(Guid id, bool isRead)
         {
             var response = await _mediator.Send(new UpdateNotificationReadStatusCommand(id, isRead));
-            return response == null ? BadRequest() : Ok(response);
+            return response == null ? NotFound() : Ok(response);
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteNotification(Guid id)
         {
             var response = await _mediator.Send(new DeleteNotificationCommand(id));
-            return new NoContentResult();
+            return response == false ? NotFound() : Ok();
         }
     }
 }
