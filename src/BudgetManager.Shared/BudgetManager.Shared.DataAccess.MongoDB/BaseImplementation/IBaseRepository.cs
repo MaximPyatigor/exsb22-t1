@@ -14,9 +14,9 @@ namespace BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation
 
         IEnumerable<TDocument> FilterBy(Expression<Func<TDocument, bool>> filterExpression);
 
-        Task InsertOneAsync(TDocument document);
+        Task InsertOneAsync(TDocument document, CancellationToken cancellationToken);
 
-        Task<TDocument> FindByIdAsync(Guid id);
+        Task<TDocument> FindByIdAsync(Guid id, CancellationToken cancellationToken);
 
         Task ReplaceOneAsync(TDocument document);
 

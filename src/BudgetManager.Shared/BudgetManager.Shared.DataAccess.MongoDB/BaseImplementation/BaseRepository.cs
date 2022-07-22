@@ -37,38 +37,38 @@ namespace BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation
             return _collection.Find(filterExpression).ToEnumerable();
         }
 
-        public virtual Task InsertOneAsync(TDocument document)
+        public virtual Task InsertOneAsync(TDocument document, CancellationToken cancellationToken)
         {
-            return Task.Run(() => _collection.InsertOneAsync(document));
+            return Task.Run(() => _collection.InsertOneAsync(document, null, cancellationToken));
         }
 
-        public virtual Task<TDocument> FindByIdAsync(Guid id)
+        public virtual Task<TDocument> FindByIdAsync(Guid id, CancellationToken cancellationToken)
         {
             return Task.Run(() =>
             {
                 var filter = Builders<TDocument>.Filter.Eq(doc => doc.Id, id);
-                return _collection.Find(filter).SingleOrDefaultAsync();
+                return _collection.Find(filter).SingleOrDefaultAsync(cancellationToken);
             });
         }
 
-        public virtual async Task ReplaceOneAsync(TDocument document)
+        public virtual async Task ReplaceOneAsync(TDocument document, CancellationToken cancellationToken)
         {
             var filter = Builders<TDocument>.Filter.Eq(doc => doc.Id, document.Id);
-            await _collection.FindOneAndReplaceAsync(filter, document);
+            await _collection.FindOneAndReplaceAsync(filter, document, null, cancellationToken);
         }
 
-        public virtual Task DeleteByIdAsync(Guid id)
+        public virtual Task DeleteByIdAsync(Guid id, CancellationToken cancellationToken)
         {
             return Task.Run(() =>
             {
                 var filter = Builders<TDocument>.Filter.Eq(doc => doc.Id, id);
-                _collection.FindOneAndDeleteAsync(filter);
+                _collection.FindOneAndDeleteAsync(filter, null, cancellationToken);
             });
         }
 
-        public virtual Task DeleteOneAsync(Expression<Func<TDocument, bool>> filterExpression)
+        public virtual Task DeleteOneAsync(Expression<Func<TDocument, bool>> filterExpression, CancellationToken cancellationToken)
         {
-            return Task.Run(() => _collection.FindOneAndDeleteAsync(filterExpression));
+            return Task.Run(() => _collection.FindOneAndDeleteAsync(filterExpression, null, cancellationToken));
         }
 
         private protected string GetCollectionName(Type documentType)
