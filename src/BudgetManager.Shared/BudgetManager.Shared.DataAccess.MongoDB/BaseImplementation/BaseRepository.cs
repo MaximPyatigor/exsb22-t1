@@ -19,60 +19,62 @@ namespace BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation
             _collection = database.GetCollection<TDocument>(GetCollectionName(typeof(TDocument)));
         }
 
-        public virtual Task<List<TDocument>> GetAllAsync()
+        public virtual Task<List<TDocument>> GetAllAsync(CancellationToken cancellationToken)
         {
-            return Task.Run(() => _collection.Find(_ => true).ToListAsync());
+            return Task.Run(() => _collection.Find(_ => true).ToListAsync(cancellationToken));
         }
 
         public virtual IEnumerable<TProjected> FilterBy<TProjected>(
         Expression<Func<TDocument, bool>> filterExpression,
-        Expression<Func<TDocument, TProjected>> projectionExpression)
+        Expression<Func<TDocument, TProjected>> projectionExpression,
+        CancellationToken cancellationToken)
         {
-            return _collection.Find(filterExpression).Project(projectionExpression).ToEnumerable();
+            return _collection.Find(filterExpression).Project(projectionExpression).ToEnumerable(cancellationToken);
         }
 
-        public virtual IEnumerable<TDocument> FilterBy(Expression<Func<TDocument, bool>> filterExpression)
+        public virtual IEnumerable<TDocument> FilterBy(Expression<Func<TDocument, bool>> filterExpression,
+            CancellationToken cancellationToken)
         {
-            return _collection.Find(filterExpression).ToEnumerable();
+            return _collection.Find(filterExpression).ToEnumerable(cancellationToken);
         }
 
-        public virtual Task InsertOneAsync(TDocument document)
+        public virtual Task InsertOneAsync(TDocument document, CancellationToken cancellationToken)
         {
-            return Task.Run(() => _collection.InsertOneAsync(document));
+            return Task.Run(() => _collection.InsertOneAsync(document, null, cancellationToken));
         }
 
-        public virtual Task InsertManyAsync(List<TDocument> documents)
+        public virtual Task InsertManyAsync(List<TDocument> documents, CancellationToken cancellationToken)
         {
-            return Task.Run(() => _collection.InsertManyAsync(documents));
+            return Task.Run(() => _collection.InsertManyAsync(documents, null, cancellationToken));
         }
 
-        public virtual Task<TDocument> FindByIdAsync(Guid id)
+        public virtual Task<TDocument> FindByIdAsync(Guid id, CancellationToken cancellationToken)
         {
             return Task.Run(() =>
             {
                 var filter = Builders<TDocument>.Filter.Eq(doc => doc.Id, id);
-                return _collection.Find(filter).SingleOrDefaultAsync();
+                return _collection.Find(filter).SingleOrDefaultAsync(cancellationToken);
             });
         }
 
-        public virtual async Task ReplaceOneAsync(TDocument document)
+        public virtual async Task ReplaceOneAsync(TDocument document, CancellationToken cancellationToken)
         {
             var filter = Builders<TDocument>.Filter.Eq(doc => doc.Id, document.Id);
-            await _collection.FindOneAndReplaceAsync(filter, document);
+            await _collection.FindOneAndReplaceAsync(filter, document, null, cancellationToken);
         }
 
-        public virtual Task DeleteByIdAsync(Guid id)
+        public virtual Task DeleteByIdAsync(Guid id, CancellationToken cancellationToken)
         {
             return Task.Run(() =>
             {
                 var filter = Builders<TDocument>.Filter.Eq(doc => doc.Id, id);
-                _collection.FindOneAndDeleteAsync(filter);
+                _collection.FindOneAndDeleteAsync(filter, null, cancellationToken);
             });
         }
 
-        public virtual Task DeleteOneAsync(Expression<Func<TDocument, bool>> filterExpression)
+        public virtual Task DeleteOneAsync(Expression<Func<TDocument, bool>> filterExpression, CancellationToken cancellationToken)
         {
-            return Task.Run(() => _collection.FindOneAndDeleteAsync(filterExpression));
+            return Task.Run(() => _collection.FindOneAndDeleteAsync(filterExpression, null, cancellationToken));
         }
 
         private protected string GetCollectionName(Type documentType)

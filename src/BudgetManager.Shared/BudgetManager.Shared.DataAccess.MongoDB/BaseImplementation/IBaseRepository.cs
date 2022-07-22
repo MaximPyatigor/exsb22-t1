@@ -6,23 +6,23 @@ namespace BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation
     public interface IBaseRepository<TDocument>
         where TDocument : IModelBase
     {
-        Task<List<TDocument>> GetAllAsync();
+        Task<List<TDocument>> GetAllAsync(CancellationToken cancellationToken);
 
         IEnumerable<TProjected> FilterBy<TProjected>(
         Expression<Func<TDocument, bool>> filterExpression,
-        Expression<Func<TDocument, TProjected>> projectionExpression);
+        Expression<Func<TDocument, TProjected>> projectionExpression, CancellationToken cancellationToken);
 
-        IEnumerable<TDocument> FilterBy(Expression<Func<TDocument, bool>> filterExpression);
+        IEnumerable<TDocument> FilterBy(Expression<Func<TDocument, bool>> filterExpression, CancellationToken cancellationToken);
 
-        Task InsertOneAsync(TDocument document);
-        Task InsertManyAsync(List<TDocument> documents);
+        Task InsertOneAsync(TDocument document, CancellationToken cancellationToken);
+        Task InsertManyAsync(List<TDocument> documents, CancellationToken cancellationToken);
 
-        Task<TDocument> FindByIdAsync(Guid id);
+        Task<TDocument> FindByIdAsync(Guid id, CancellationToken cancellationToken);
 
-        Task ReplaceOneAsync(TDocument document);
+        Task ReplaceOneAsync(TDocument document, CancellationToken cancellationToken);
 
-        Task DeleteByIdAsync(Guid id);
+        Task DeleteByIdAsync(Guid id, CancellationToken cancellationToken);
 
-        Task DeleteOneAsync(Expression<Func<TDocument, bool>> filterExpression);
+        Task DeleteOneAsync(Expression<Func<TDocument, bool>> filterExpression, CancellationToken cancellationToken);
     }
 }
