@@ -1,3 +1,4 @@
+using BudgetManager.CQRS.Mapping;
 using BudgetManager.Shared.DataAccess.MongoDB.DatabaseSettings;
 using Microsoft.Extensions.Options;
 using MongoDB.Bson;
@@ -26,6 +27,8 @@ builder.Services.AddSwaggerGen();
 // This loads an entire assembly and looks for everything we do with mediatR
 // While we don't have anything in CQRS, line below is commented out
 // builder.Services.AddMediatR(typeof({replace this with any class from BudgetManager.CQRS}).Assembly);
+
+builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 var app = builder.Build();
 
