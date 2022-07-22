@@ -1,13 +1,12 @@
 using System.Linq.Expressions;
 using BudgetManager.Shared.DataAccess.MongoDB.DatabaseSettings;
 using BudgetManager.Shared.Models.MongoDB.Models.Interfaces;
-using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDbGenericRepository.Attributes;
 
 namespace BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation
 {
-    public class BaseRepository<TDocument> : IBaseRepository<TDocument>
+    public abstract class BaseRepository<TDocument> : IBaseRepository<TDocument>
         where TDocument : IModelBase
     {
         private readonly IMongoCollection<TDocument> _collection;
@@ -20,9 +19,9 @@ namespace BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation
             _collection = database.GetCollection<TDocument>(GetCollectionName(typeof(TDocument)));
         }
 
-        public virtual IQueryable<TDocument> AsQueryable()
+        public virtual Task<List<TDocument>> GetAllAsync()
         {
-            return _collection.AsQueryable();
+            return Task.Run(() => _collection.Find(_ => true).ToListAsync());
         }
 
         public virtual IEnumerable<TProjected> FilterBy<TProjected>(
@@ -40,6 +39,11 @@ namespace BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation
         public virtual Task InsertOneAsync(TDocument document)
         {
             return Task.Run(() => _collection.InsertOneAsync(document));
+        }
+
+        public virtual Task InsertManyAsync(List<TDocument> documents)
+        {
+            return Task.Run(() => _collection.InsertManyAsync(documents));
         }
 
         public virtual Task<TDocument> FindByIdAsync(Guid id)
