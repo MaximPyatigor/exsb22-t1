@@ -16,7 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BudgetManager.DataAccess\BudgetManager.DataAccess.csproj" />
-    <ProjectReference Include="..\BudgetManager.Model\BudgetManager.Model.csproj" />
+    <ProjectReference Include="..\BudgetManager.SDK\BudgetManager.SDK.csproj" />
   </ItemGroup>
 
 </Project>

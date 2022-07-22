@@ -7,7 +7,6 @@ using MongoDbGenericRepository.Attributes;
 
 namespace BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation
 {
-
     public class BaseRepository<TDocument> : IBaseRepository<TDocument>
         where TDocument : IModelBase
     {

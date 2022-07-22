@@ -22,7 +22,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BudgetManager.CQRS\BudgetManager.CQRS.csproj" />
-    <ProjectReference Include="..\BudgetManager.SDK\BudgetManager.SDK.csproj" />
   </ItemGroup>
 	
 </Project>
