@@ -6,7 +6,7 @@ namespace BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation
     public interface IBaseRepository<TDocument>
         where TDocument : IModelBase
     {
-        IQueryable<TDocument> AsQueryable();
+        Task<List<TDocument>> GetAllAsync();
 
         IEnumerable<TProjected> FilterBy<TProjected>(
         Expression<Func<TDocument, bool>> filterExpression,
@@ -15,6 +15,7 @@ namespace BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation
         IEnumerable<TDocument> FilterBy(Expression<Func<TDocument, bool>> filterExpression);
 
         Task InsertOneAsync(TDocument document);
+        Task InsertManyAsync(List<TDocument> documents);
 
         Task<TDocument> FindByIdAsync(Guid id);
 
