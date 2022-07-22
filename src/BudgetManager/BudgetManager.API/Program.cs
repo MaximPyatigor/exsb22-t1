@@ -2,6 +2,7 @@ using BudgetManager.CQRS.Responses.CategoryResponses;
 using BudgetManager.DataAccess.MongoDbAccess.Repositories;
 using BudgetManager.Model;
 using BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation;
+using BudgetManager.CQRS.Mapping;
 using BudgetManager.Shared.DataAccess.MongoDB.DatabaseSettings;
 using MediatR;
 using Microsoft.Extensions.Options;
@@ -21,7 +22,10 @@ builder.Services.AddSingleton<IMongoClient, MongoClient>(sp =>
     BsonDefaults.GuidRepresentation = GuidRepresentation.Standard;
     return new MongoClient(mongoDbConfig.ConnectionString);
 });
+<<<<<<< HEAD
 builder.Services.AddScoped<IBaseRepository<Category>, CategoryRepository>();
+=======
+>>>>>>> dev
 
 builder.Services.AddControllers();
 
@@ -32,6 +36,8 @@ builder.Services.AddSwaggerGen();
 // This loads an entire assembly and looks for everything we do with mediatR
 // While we don't have anything in CQRS, line below is commented out
 builder.Services.AddMediatR(typeof(CategoryResponse).Assembly);
+
+builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 var app = builder.Build();
 

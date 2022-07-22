@@ -1,4 +1,5 @@
-﻿using BudgetManager.CQRS.Commands.CategoryCommands;
+﻿using AutoMapper;
+using BudgetManager.CQRS.Commands.CategoryCommands;
 using BudgetManager.CQRS.Responses.CategoryResponses;
 using BudgetManager.Model;
 using BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation;
@@ -9,13 +10,15 @@ namespace BudgetManager.CQRS.Handlers.CategoryHandlers
     public class AddCategoryHandler : IRequestHandler<AddCategoryCommand, Unit>
     {
         private readonly IBaseRepository<Category> _categoryRepository;
+        private readonly IMapper _mapper;
 
-        public AddCategoryHandler(IBaseRepository<Category> categoryRepository)
+        public AddCategoryHandler(IBaseRepository<Category> categoryRepository, IMapper mapper)
         {
-            this._categoryRepository = categoryRepository;
+            _categoryRepository = categoryRepository;
+            _mapper = mapper;
         }
 
-        public async Task<Unit> Handle(AddCategoryCommand request, CancellationToken cancellationToken)
+        public Task<CategoryResponse> Handle(AddCategoryCommand request, CancellationToken cancellationToken)
         {
             Category requestCategory = request.category;
             await this._categoryRepository.InsertOneAsync(requestCategory);
