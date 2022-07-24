@@ -19,9 +19,9 @@ namespace BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation
             _collection = database.GetCollection<TDocument>(GetCollectionName(typeof(TDocument)));
         }
 
-        public virtual Task<List<TDocument>> GetAllAsync(CancellationToken cancellationToken)
+        public virtual async Task<IEnumerable<TDocument>> GetAllAsync(CancellationToken cancellationToken)
         {
-            return Task.Run(() => _collection.Find(_ => true).ToListAsync(cancellationToken));
+            return await _collection.Find(_ => true).ToListAsync(cancellationToken);
         }
 
         public virtual IEnumerable<TProjected> FilterBy<TProjected>(
@@ -38,23 +38,20 @@ namespace BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation
             return _collection.Find(filterExpression).ToEnumerable(cancellationToken);
         }
 
-        public virtual Task InsertOneAsync(TDocument document, CancellationToken cancellationToken)
+        public virtual async Task InsertOneAsync(TDocument document, CancellationToken cancellationToken)
         {
-            return Task.Run(() => _collection.InsertOneAsync(document, null, cancellationToken));
+            await _collection.InsertOneAsync(document, null, cancellationToken);
         }
 
-        public virtual Task InsertManyAsync(List<TDocument> documents, CancellationToken cancellationToken)
+        public virtual async Task InsertManyAsync(IEnumerable<TDocument> documents, CancellationToken cancellationToken)
         {
-            return Task.Run(() => _collection.InsertManyAsync(documents, null, cancellationToken));
+            await _collection.InsertManyAsync(documents, null, cancellationToken);
         }
 
-        public virtual Task<TDocument> FindByIdAsync(Guid id, CancellationToken cancellationToken)
+        public virtual async Task<TDocument> FindByIdAsync(Guid id, CancellationToken cancellationToken)
         {
-            return Task.Run(() =>
-            {
                 var filter = Builders<TDocument>.Filter.Eq(doc => doc.Id, id);
-                return _collection.Find(filter).SingleOrDefaultAsync(cancellationToken);
-            });
+                return await _collection.Find(filter).SingleOrDefaultAsync(cancellationToken);
         }
 
         public virtual async Task ReplaceOneAsync(TDocument document, CancellationToken cancellationToken)
@@ -63,18 +60,15 @@ namespace BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation
             await _collection.FindOneAndReplaceAsync(filter, document, null, cancellationToken);
         }
 
-        public virtual Task DeleteByIdAsync(Guid id, CancellationToken cancellationToken)
+        public virtual async Task DeleteByIdAsync(Guid id, CancellationToken cancellationToken)
         {
-            return Task.Run(() =>
-            {
-                var filter = Builders<TDocument>.Filter.Eq(doc => doc.Id, id);
-                _collection.FindOneAndDeleteAsync(filter, null, cancellationToken);
-            });
+            var filter = Builders<TDocument>.Filter.Eq(doc => doc.Id, id);
+            await _collection.FindOneAndDeleteAsync(filter, null, cancellationToken);
         }
 
-        public virtual Task DeleteOneAsync(Expression<Func<TDocument, bool>> filterExpression, CancellationToken cancellationToken)
+        public virtual async Task DeleteOneAsync(Expression<Func<TDocument, bool>> filterExpression, CancellationToken cancellationToken)
         {
-            return Task.Run(() => _collection.FindOneAndDeleteAsync(filterExpression, null, cancellationToken));
+            await _collection.FindOneAndDeleteAsync(filterExpression, null, cancellationToken);
         }
 
         private protected string GetCollectionName(Type documentType)
