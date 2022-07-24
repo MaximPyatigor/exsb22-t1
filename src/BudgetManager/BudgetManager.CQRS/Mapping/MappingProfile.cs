@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using BudgetManager.CQRS.Responses.WalletResponses;
+using BudgetManager.Model;
 
 namespace BudgetManager.CQRS.Mapping
 {
@@ -6,7 +8,7 @@ namespace BudgetManager.CQRS.Mapping
     {
         public MappingProfile()
         {
-            //CreateMap<ItemDto, Item>();
+            CreateMap<Wallet, WalletResponse>();
         }
     }
 }

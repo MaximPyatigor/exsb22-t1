@@ -1,0 +1,39 @@
+﻿using BudgetManager.CQRS.Queries.WalletQueries;
+using BudgetManager.CQRS.Responses.WalletResponses;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
+
+namespace BudgetManager.API.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class WalletController : ControllerBase
+    {
+        private readonly IMediator _mediator;
+
+        public WalletController(IMediator mediator)
+        {
+            _mediator = mediator;
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<WalletResponse>>> GetWallets()
+        {
+            var result = await _mediator.Send(new GetWalletListQuery());
+            return Ok(result);
+        }
+
+        [HttpGet("id")]
+        public async Task<ActionResult<WalletResponse>> GetWalletById(Guid id)
+        {
+            var result = await _mediator.Send(new GetWalletByIdQuery(id));
+
+            if (result is null)
+            {
+                return NotFound();
+            }
+
+            return Ok(result);
+        }
+    }
+}
