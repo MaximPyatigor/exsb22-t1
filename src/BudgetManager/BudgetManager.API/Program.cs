@@ -1,4 +1,3 @@
-using BudgetManager.CQRS.Handlers.WalletHandlers;
 using BudgetManager.CQRS.Mapping;
 using BudgetManager.DataAccess.MongoDbAccess.Repositories;
 using BudgetManager.Model;
@@ -25,7 +24,7 @@ builder.Services.AddSingleton<IMongoClient, MongoClient>(sp =>
 
 builder.Services.AddScoped<IBaseRepository<Wallet>, WalletRepository>();
 
-builder.Services.AddMediatR(typeof(GetWalletListHandler).Assembly);
+builder.Services.AddMediatR(typeof(MappingProfile).Assembly);
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 builder.Services.AddControllers();
