@@ -24,7 +24,7 @@ namespace BudgetManager.CQRS.Handlers.NotificationHandlers
                 Description = request.notificationDto.Description,
             };
 
-            await _dataAccess.InsertOneAsync(notification);
+            await _dataAccess.InsertOneAsync(notification, cancellationToken);
             return notification.Id.ToString();
         }
     }

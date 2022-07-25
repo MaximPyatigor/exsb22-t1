@@ -20,10 +20,10 @@ namespace BudgetManager.CQRS.Handlers.NotificationHandlers
         }
         public async Task<bool> Handle(DeleteNotificationCommand request, CancellationToken cancellationToken)
         {
-            var notification = await _dataAccess.FindByIdAsync(request.Id);
+            var notification = await _dataAccess.FindByIdAsync(request.Id, cancellationToken);
             if (notification == null) return false;
 
-            await _dataAccess.DeleteByIdAsync(request.Id);
+            await _dataAccess.DeleteByIdAsync(request.Id, cancellationToken);
             return true;
         }
     }

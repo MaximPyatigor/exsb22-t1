@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace BudgetManager.CQRS.Handlers.NotificationHandlers
 {
-    public class GetNotificationListHandler : IRequestHandler<GetNotificationListQuery, IQueryable<Notification>>
+    public class GetNotificationListHandler : IRequestHandler<GetNotificationListQuery, IEnumerable<Notification>>
     {
         private readonly IBaseRepository<Notification> _dataAccess;
 
@@ -19,9 +19,9 @@ namespace BudgetManager.CQRS.Handlers.NotificationHandlers
             _dataAccess = dataAccess;
         }
 
-        public Task<IQueryable<Notification>> Handle(GetNotificationListQuery request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<Notification>> Handle(GetNotificationListQuery request, CancellationToken cancellationToken)
         {
-            return Task.FromResult(_dataAccess.AsQueryable());
+            return await _dataAccess.GetAllAsync(cancellationToken);
         }
     }
 }

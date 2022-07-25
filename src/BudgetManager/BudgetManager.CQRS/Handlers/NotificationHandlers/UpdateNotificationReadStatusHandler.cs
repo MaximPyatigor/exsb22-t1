@@ -21,12 +21,12 @@ namespace BudgetManager.CQRS.Handlers.NotificationHandlers
         }
         public async Task<NotificationResponse> Handle(UpdateNotificationReadStatusCommand request, CancellationToken cancellationToken)
         {
-            var notification = await _dataAccess.FindByIdAsync(request.Id);
+            var notification = await _dataAccess.FindByIdAsync(request.Id, cancellationToken);
             if (notification == null) return null;
 
             notification.IsRead = request.IsRead;
 
-            await _dataAccess.ReplaceOneAsync(notification);
+            await _dataAccess.ReplaceOneAsync(notification, cancellationToken);
             return new NotificationResponse(notification.Id, notification.NotificationType, notification.Description, notification.IsRead);
         }
     }

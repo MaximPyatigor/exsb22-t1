@@ -1,4 +1,5 @@
 using BudgetManager.CQRS.Handlers.NotificationHandlers;
+using BudgetManager.CQRS.Mapping;
 using BudgetManager.DataAccess.MongoDbAccess.Repositories;
 using BudgetManager.Model;
 using BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation;
@@ -32,6 +33,8 @@ builder.Services.AddSwaggerGen();
 
 // This loads an entire assembly and looks for everything we do with mediatR
 builder.Services.AddMediatR(typeof(AddNotificationHandler).Assembly);
+
+builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 var app = builder.Build();
 

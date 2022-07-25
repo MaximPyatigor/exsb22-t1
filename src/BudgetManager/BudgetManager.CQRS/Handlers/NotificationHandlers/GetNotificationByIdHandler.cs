@@ -22,7 +22,7 @@ namespace BudgetManager.CQRS.Handlers.NotificationHandlers
 
         public async Task<NotificationResponse> Handle(GetNotificationByIdQuery request, CancellationToken cancellationToken)
         {
-            var notification = await _dataAccess.FindByIdAsync(request.Id);
+            var notification = await _dataAccess.FindByIdAsync(request.Id, cancellationToken);
             return notification == null ? null : new NotificationResponse(notification.Id, notification.NotificationType, notification.Description, notification.IsRead);
         }
     }
