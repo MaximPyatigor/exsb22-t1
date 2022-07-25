@@ -20,6 +20,7 @@
 	
   <ItemGroup>
     <ProjectReference Include="..\BudgetManager.Shared.Models.MongoDB\BudgetManager.Shared.Models.MongoDB.csproj" />
+    <ProjectReference Include="..\BudgetManager.Shared.Utils\BudgetManager.Shared.Utils.csproj" />
   </ItemGroup>
 
 </Project>
