@@ -1,5 +1,6 @@
 ﻿using System.Linq.Expressions;
 using BudgetManager.Shared.Models.MongoDB.Models.Interfaces;
+using MongoDB.Driver;
 
 namespace BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation
 {
@@ -19,7 +20,11 @@ namespace BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation
 
         Task<TDocument> FindByIdAsync(Guid id, CancellationToken cancellationToken);
 
-        Task ReplaceOneAsync(TDocument document, CancellationToken cancellationToken);
+        Task<TDocument> ReplaceOneAsync(TDocument document, CancellationToken cancellationToken);
+        Task<TDocument> UpdateOneAsync(Expression<Func<TDocument, bool>> filterExpression,
+            UpdateDefinition<TDocument> updateDefinition, CancellationToken cancellationToken);
+        Task<TDocument> UpdateOneAsync(FilterDefinition<TDocument> filterExpression,
+            UpdateDefinition<TDocument> updateDefinition, CancellationToken cancellationToken);
 
         Task DeleteByIdAsync(Guid id, CancellationToken cancellationToken);
 
