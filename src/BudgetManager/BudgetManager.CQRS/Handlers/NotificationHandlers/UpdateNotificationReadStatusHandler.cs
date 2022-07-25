@@ -3,6 +3,7 @@ using BudgetManager.CQRS.Responses.NotificationResponses;
 using BudgetManager.Model;
 using BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation;
 using MediatR;
+using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,14 +20,13 @@ namespace BudgetManager.CQRS.Handlers.NotificationHandlers
         {
             _dataAccess = dataAccess;
         }
+
         public async Task<NotificationResponse> Handle(UpdateNotificationReadStatusCommand request, CancellationToken cancellationToken)
         {
-            var notification = await _dataAccess.FindByIdAsync(request.Id, cancellationToken);
-            if (notification == null) return null;
+            var filter = Builders<Notification>.Filter.Eq(x => x.Id, request.Id);
+            var update = Builders<Notification>.Update.Set(x => x.IsRead, request.IsRead);
 
-            notification.IsRead = request.IsRead;
-
-            await _dataAccess.ReplaceOneAsync(notification, cancellationToken);
+            Notification notification = await _dataAccess.UpdateOneAsync(filter, update, cancellationToken);
             return new NotificationResponse(notification.Id, notification.NotificationType, notification.Description, notification.IsRead);
         }
     }
