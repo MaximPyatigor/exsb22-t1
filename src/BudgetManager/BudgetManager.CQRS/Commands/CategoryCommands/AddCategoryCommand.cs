@@ -3,5 +3,5 @@ using MediatR;
 
 namespace BudgetManager.CQRS.Commands.CategoryCommands
 {
-    public record AddCategoryCommand(AddCategoryDTO category) : IRequest;
+    public record AddCategoryCommand(AddCategoryDTO category) : IRequest<string>;
 }

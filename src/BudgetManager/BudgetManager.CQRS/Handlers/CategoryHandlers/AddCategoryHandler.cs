@@ -7,7 +7,7 @@ using MediatR;
 
 namespace BudgetManager.CQRS.Handlers.CategoryHandlers
 {
-    public class AddCategoryHandler : IRequestHandler<AddCategoryCommand, Unit>
+    public class AddCategoryHandler : IRequestHandler<AddCategoryCommand, string>
     {
         private readonly IBaseRepository<Category> _categoryRepository;
         private readonly IMapper _mapper;
@@ -18,12 +18,12 @@ namespace BudgetManager.CQRS.Handlers.CategoryHandlers
             _mapper = mapper;
         }
 
-        public async Task<Unit> Handle(AddCategoryCommand request, CancellationToken cancellationToken)
+        public async Task<string> Handle(AddCategoryCommand request, CancellationToken cancellationToken)
         {
             AddCategoryDTO requestCategory = request.category;
             Category mappedCategory = _mapper.Map<Category>(requestCategory);
             await _categoryRepository.InsertOneAsync(mappedCategory, cancellationToken);
-            return Unit.Value;
+            return mappedCategory.Id.ToString();
         }
     }
 }
