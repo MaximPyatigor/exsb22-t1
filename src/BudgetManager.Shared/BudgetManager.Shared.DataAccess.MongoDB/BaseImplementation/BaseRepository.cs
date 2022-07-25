@@ -72,15 +72,19 @@ namespace BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation
             return await _collection.FindOneAndUpdateAsync(filterExpression, updateDefinition, null, cancellationToken);
         }
 
-        public virtual async Task DeleteByIdAsync(Guid id, CancellationToken cancellationToken)
+        public virtual async Task<bool> DeleteByIdAsync(Guid id, CancellationToken cancellationToken)
         {
             var filter = Builders<TDocument>.Filter.Eq(doc => doc.Id, id);
-            await _collection.FindOneAndDeleteAsync(filter, null, cancellationToken);
+            var deleteResult = await _collection.FindOneAndDeleteAsync(filter, null, cancellationToken);
+
+            return deleteResult is not null;
         }
 
-        public virtual async Task DeleteOneAsync(Expression<Func<TDocument, bool>> filterExpression, CancellationToken cancellationToken)
+        public virtual async Task<bool> DeleteOneAsync(Expression<Func<TDocument, bool>> filterExpression, CancellationToken cancellationToken)
         {
-            await _collection.FindOneAndDeleteAsync(filterExpression, null, cancellationToken);
+            var deleteResult = await _collection.FindOneAndDeleteAsync(filterExpression, null, cancellationToken);
+
+            return deleteResult is not null;
         }
 
         private protected string GetCollectionName(Type documentType)
