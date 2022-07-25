@@ -54,22 +54,22 @@ namespace BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation
                 return await _collection.Find(filter).SingleOrDefaultAsync(cancellationToken);
         }
 
-        public virtual async Task ReplaceOneAsync(TDocument document, CancellationToken cancellationToken)
+        public virtual async Task<TDocument> ReplaceOneAsync(TDocument document, CancellationToken cancellationToken)
         {
             var filter = Builders<TDocument>.Filter.Eq(doc => doc.Id, document.Id);
-            await _collection.FindOneAndReplaceAsync(filter, document, null, cancellationToken);
+            return await _collection.FindOneAndReplaceAsync(filter, document, null, cancellationToken);
         }
 
-        public virtual async Task UpdateOneAsync(Expression<Func<TDocument, bool>> filterExpression,
+        public virtual async Task<TDocument> UpdateOneAsync(Expression<Func<TDocument, bool>> filterExpression,
             UpdateDefinition<TDocument> updateDefinition, CancellationToken cancellationToken)
         {
-            await _collection.FindOneAndUpdateAsync(filterExpression, updateDefinition, null, cancellationToken);
+            return await _collection.FindOneAndUpdateAsync(filterExpression, updateDefinition, null, cancellationToken);
         }
 
-        public virtual async Task UpdateOneAsync(FilterDefinition<TDocument> filterExpression,
+        public virtual async Task<TDocument> UpdateOneAsync(FilterDefinition<TDocument> filterExpression,
             UpdateDefinition<TDocument> updateDefinition, CancellationToken cancellationToken)
         {
-            await _collection.FindOneAndUpdateAsync(filterExpression, updateDefinition, null, cancellationToken);
+            return await _collection.FindOneAndUpdateAsync(filterExpression, updateDefinition, null, cancellationToken);
         }
 
         public virtual async Task DeleteByIdAsync(Guid id, CancellationToken cancellationToken)
