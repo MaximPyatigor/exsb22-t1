@@ -15,37 +15,37 @@ namespace BudgetManager.API.Controllers
         public NotificationController(IMediator mediator) => _mediator = mediator;
 
         [HttpGet]
-        public async Task<IActionResult> GetNotifications()
+        public async Task<IActionResult> GetNotifications(CancellationToken cancellationToken)
         {
-            var response = await _mediator.Send(new GetNotificationListQuery());
+            var response = await _mediator.Send(new GetNotificationListQuery(), cancellationToken);
             return Ok(response);
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetNotificationById(Guid id)
+        public async Task<IActionResult> GetNotificationById(Guid id, CancellationToken cancellationToken)
         {
-            var response = await _mediator.Send(new GetNotificationByIdQuery(id));
+            var response = await _mediator.Send(new GetNotificationByIdQuery(id), cancellationToken);
             return response == null ? NotFound() : Ok(response);
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddNotification([FromBody] AddNotificationDto notification)
+        public async Task<IActionResult> AddNotification([FromBody] AddNotificationDto notification, CancellationToken cancellationToken)
         {
-            var response = await _mediator.Send(new AddNotificationCommand(notification));
+            var response = await _mediator.Send(new AddNotificationCommand(notification), cancellationToken);
             return response == null ? BadRequest() : Ok(response);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateNotificationReadStatus(Guid id, bool isRead)
+        public async Task<IActionResult> UpdateNotificationReadStatus(Guid id, bool isRead, CancellationToken cancellationToken)
         {
-            var response = await _mediator.Send(new UpdateNotificationReadStatusCommand(id, isRead));
+            var response = await _mediator.Send(new UpdateNotificationReadStatusCommand(id, isRead), cancellationToken);
             return response == null ? NotFound() : Ok(response);
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteNotification(Guid id)
+        public async Task<IActionResult> DeleteNotification(Guid id, CancellationToken cancellationToken)
         {
-            var response = await _mediator.Send(new DeleteNotificationCommand(id));
+            var response = await _mediator.Send(new DeleteNotificationCommand(id), cancellationToken);
             return response == false ? NotFound() : Ok();
         }
     }
