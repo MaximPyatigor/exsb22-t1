@@ -32,7 +32,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 // This loads an entire assembly and looks for everything we do with mediatR
-builder.Services.AddMediatR(typeof(AddNotificationHandler).Assembly);
+builder.Services.AddMediatR(typeof(MappingProfile).Assembly);
 
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 
