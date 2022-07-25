@@ -1,5 +1,5 @@
 using BudgetManager.CQRS.Commands.TransactionCommands;
-//using BudgetManager.CQRS.Queries.NotificationQueries;
+using BudgetManager.CQRS.Queries.TransactionQueries;
 using BudgetManager.Model;
 using BudgetManager.SDK;
 using MediatR;
@@ -13,6 +13,13 @@ namespace BudgetManager.API.Controllers
     {
         private readonly IMediator _mediator;
         public TransactionController(IMediator mediator) => _mediator = mediator;
+
+        [HttpGet]
+        public async Task<IActionResult> GetTransactions(CancellationToken cancellationToken)
+        {
+            var response = await _mediator.Send(new GetTransactionListQuery(), cancellationToken);
+            return Ok(response);
+        }
 
         [HttpPost]
         public async Task<IActionResult> AddTransaction([FromBody] AddTransactionDto transaction, CancellationToken cancellationToken)
