@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32602.215
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BudgetManager.Shared.Abstractions", "BudgetManager.Shared\BudgetManager.Shared.Abstractions\BudgetManager.Shared.Abstractions.csproj", "{2A6B7DDF-25A9-4242-B7A5-10C22E402B2B}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BudgetManager.Shared.DataAccess.MongoDB", "BudgetManager.Shared\BudgetManager.Shared.DataAccess.MongoDB\BudgetManager.Shared.DataAccess.MongoDB.csproj", "{505595E8-4A38-4A75-A959-21842741C2CA}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BudgetManager.Shared.Models.MongoDB", "BudgetManager.Shared\BudgetManager.Shared.Models.MongoDB\BudgetManager.Shared.Models.MongoDB.csproj", "{16C93F4D-8E05-4383-8626-48FDAAAB70C5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BudgetManager.Shared.Utils", "BudgetManager.Shared\BudgetManager.Shared.Utils\BudgetManager.Shared.Utils.csproj", "{F7601299-F35E-43EC-8D89-AD1E199FDBEF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,10 +15,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{2A6B7DDF-25A9-4242-B7A5-10C22E402B2B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2A6B7DDF-25A9-4242-B7A5-10C22E402B2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2A6B7DDF-25A9-4242-B7A5-10C22E402B2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2A6B7DDF-25A9-4242-B7A5-10C22E402B2B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{505595E8-4A38-4A75-A959-21842741C2CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{505595E8-4A38-4A75-A959-21842741C2CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{505595E8-4A38-4A75-A959-21842741C2CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -27,6 +23,10 @@ Global
 		{16C93F4D-8E05-4383-8626-48FDAAAB70C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{16C93F4D-8E05-4383-8626-48FDAAAB70C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{16C93F4D-8E05-4383-8626-48FDAAAB70C5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F7601299-F35E-43EC-8D89-AD1E199FDBEF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7601299-F35E-43EC-8D89-AD1E199FDBEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F7601299-F35E-43EC-8D89-AD1E199FDBEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F7601299-F35E-43EC-8D89-AD1E199FDBEF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
