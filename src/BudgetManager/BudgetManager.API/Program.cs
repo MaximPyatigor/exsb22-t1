@@ -1,5 +1,6 @@
 using BudgetManager.CQRS.Mapping;
 using BudgetManager.Shared.DataAccess.MongoDB.DatabaseSettings;
+using BudgetManager.Shared.Utils.Helpers;
 using Microsoft.Extensions.Options;
 using MongoDB.Bson;
 using MongoDB.Driver;
@@ -35,6 +36,8 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 app.UseSwagger();
 app.UseSwaggerUI();
+
+app.UseMiddleware<ErrorHandlerMiddleware>();
 
 app.UseHttpsRedirection();
 
