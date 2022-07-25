@@ -1,5 +1,7 @@
-﻿using BudgetManager.CQRS.Queries.WalletQueries;
+﻿using BudgetManager.CQRS.Commands.WalletCommands;
+using BudgetManager.CQRS.Queries.WalletQueries;
 using BudgetManager.CQRS.Responses.WalletResponses;
+using BudgetManager.SDK.DTOs;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,6 +22,7 @@ namespace BudgetManager.API.Controllers
         public async Task<ActionResult<IEnumerable<WalletResponse>>> GetWallets()
         {
             var result = await _mediator.Send(new GetWalletListQuery());
+
             return Ok(result);
         }
 
@@ -34,6 +37,19 @@ namespace BudgetManager.API.Controllers
             }
 
             return Ok(result);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> CreateWallet(AddWalletDTO walletDTO)
+        {
+            var result = await _mediator.Send(new AddWalletCommand(walletDTO));
+
+            if (result == Guid.Empty)
+            {
+                return BadRequest();
+            }
+
+            return Ok();
         }
     }
 }
