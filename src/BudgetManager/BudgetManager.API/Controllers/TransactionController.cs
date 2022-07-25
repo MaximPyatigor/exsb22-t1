@@ -21,6 +21,13 @@ namespace BudgetManager.API.Controllers
             return Ok(response);
         }
 
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetTransactionById(Guid id, CancellationToken cancellationToken)
+        {
+            var response = await _mediator.Send(new GetTransactionByIdQuery(id), cancellationToken);
+            return response == null ? NotFound() : Ok(response);
+        }
+
         [HttpPost]
         public async Task<IActionResult> AddTransaction([FromBody] AddTransactionDto transaction, CancellationToken cancellationToken)
         {
