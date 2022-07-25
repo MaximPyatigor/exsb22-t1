@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using BudgetManager.CQRS.Commands.CategoryCommands;
-using BudgetManager.CQRS.Responses.CategoryResponses;
 using BudgetManager.Model;
+using BudgetManager.SDK.DTO.CategoryDTOs;
 using BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation;
 using MediatR;
 
@@ -18,10 +18,11 @@ namespace BudgetManager.CQRS.Handlers.CategoryHandlers
             _mapper = mapper;
         }
 
-        public Task<CategoryResponse> Handle(AddCategoryCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(AddCategoryCommand request, CancellationToken cancellationToken)
         {
-            Category requestCategory = request.category;
-            await this._categoryRepository.InsertOneAsync(requestCategory);
+            AddCategoryDTO requestCategory = request.category;
+            Category mappedCategory = _mapper.Map<Category>(requestCategory);
+            await _categoryRepository.InsertOneAsync(mappedCategory, cancellationToken);
             return Unit.Value;
         }
     }

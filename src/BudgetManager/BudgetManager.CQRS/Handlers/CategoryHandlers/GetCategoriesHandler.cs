@@ -1,4 +1,5 @@
-﻿using BudgetManager.CQRS.Queries.CategoryQueries;
+﻿using AutoMapper;
+using BudgetManager.CQRS.Queries.CategoryQueries;
 using BudgetManager.CQRS.Responses.CategoryResponses;
 using BudgetManager.Model;
 using BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation;
@@ -9,31 +10,25 @@ namespace BudgetManager.CQRS.Handlers.CategoryHandlers
     public class GetCategoriesHandler : IRequestHandler<GetCategoriesQuery, List<CategoryResponse>>
     {
         private readonly IBaseRepository<Category> _categoryRepository;
+        private readonly IMapper _mapper;
 
-        public GetCategoriesHandler(IBaseRepository<Category> categoryRepository)
+        public GetCategoriesHandler(IBaseRepository<Category> categoryRepository, IMapper mapper)
         {
-            this._categoryRepository = categoryRepository;
+            _categoryRepository = categoryRepository;
+            _mapper = mapper;
         }
 
-        public Task<List<CategoryResponse>> Handle(GetCategoriesQuery request, CancellationToken cancellationToken)
+        public async Task<List<CategoryResponse>> Handle(GetCategoriesQuery request, CancellationToken cancellationToken)
         {
-            var allCategoriesFromDb = this._categoryRepository.AsQueryable().ToList();
+            var allCategoriesFromDb = await _categoryRepository.GetAllAsync(cancellationToken);
             var listOfResponseCategories = new List<CategoryResponse>();
             foreach (var category in allCategoriesFromDb)
             {
-                listOfResponseCategories.Add(new CategoryResponse()
-                {
-                    Id = category.Id,
-                    Name = category.Name,
-                    Limit = category.Limit,
-                    LimitPeriod = category.LimitPeriod,
-                    SubCategories = category.SubCategories,
-                    CategoryType = category.CategoryType,
-                    Color = category.Color,
-                });
+                CategoryResponse mappedCategory = _mapper.Map<CategoryResponse>(category);
+                listOfResponseCategories.Add(mappedCategory);
             }
 
-            return Task.FromResult(listOfResponseCategories);
+            return listOfResponseCategories;
         }
     }
 }

@@ -17,5 +17,9 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
   </ItemGroup>
+	
+  <ItemGroup>
+    <ProjectReference Include="..\BudgetManager.Model\BudgetManager.Model.csproj" />
+  </ItemGroup>
 
 </Project>
