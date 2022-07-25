@@ -1,4 +1,4 @@
-﻿namespace BudgetManager.SDK
+﻿namespace BudgetManager.SDK.DTO
 {
     public class AddTransactionDto
     {
