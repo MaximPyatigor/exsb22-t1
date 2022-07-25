@@ -16,17 +16,38 @@ namespace BudgetManager.API.Controllers
             _mediator = mediator;
         }
 
-        [HttpPost("[action]")]
-        public async Task<ActionResult> InsertOne(AddCategoryDTO category)
+        [HttpGet("[action]")]
+        public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
         {
-            var response = await _mediator.Send(new AddCategoryCommand(category));
+            var response = await _mediator.Send(new GetCategoriesQuery(), cancellationToken);
             return Ok(response);
         }
 
-        [HttpGet("[action]")]
-        public async Task<ActionResult> GetAll()
+        [HttpGet("[action]/{id}")]
+        public async Task<IActionResult> GetById(Guid id, CancellationToken cancellationToken)
         {
-            var response = await _mediator.Send(new GetCategoriesQuery());
+            var response = await _mediator.Send(new GetOneCategoryQuery(id), cancellationToken);
+            return Ok(response);
+        }
+
+        [HttpPost("[action]")]
+        public async Task<IActionResult> InsertOne(AddCategoryDTO category, CancellationToken cancellationToken)
+        {
+            var response = await _mediator.Send(new AddCategoryCommand(category), cancellationToken);
+            return Ok(response);
+        }
+
+        [HttpPut("[action]")]
+        public async Task<IActionResult> UpdateOne(UpdateCategoryDTO category, CancellationToken cancellationToken)
+        {
+            var response = await _mediator.Send(new UpdateCategoryCommand(category), cancellationToken);
+            return Ok(response);
+        }
+
+        [HttpDelete("[action]/{id}")]
+        public async Task<IActionResult> DeleteOne(Guid id, CancellationToken cancellationToken)
+        {
+            var response = _mediator.Send(new DeleteCategoryCommand(id), cancellationToken);
             return Ok(response);
         }
     }
