@@ -2,6 +2,7 @@ using BudgetManager.CQRS.Commands.TransactionCommands;
 using BudgetManager.CQRS.Queries.TransactionQueries;
 using BudgetManager.Model;
 using BudgetManager.SDK;
+using BudgetManager.SDK.DTO;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -33,6 +34,14 @@ namespace BudgetManager.API.Controllers
         {
             var response = await _mediator.Send(new AddTransactionCommand(transaction), cancellationToken);
             return response == null ? BadRequest() : Ok(response);
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateTransaction([FromBody] UpdateTransactionDTO updateTransaction, CancellationToken cancellationToken)
+        {
+            var result = await _mediator.Send(new UpdateTransactionCommand(updateTransaction), cancellationToken);
+
+            return Ok(result);
         }
 
         [HttpDelete("{id}")]
