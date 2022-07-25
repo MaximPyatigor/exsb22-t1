@@ -18,8 +18,16 @@ namespace BudgetManager.API.Controllers
             _mediator = mediator;
         }
 
+        [HttpPut]
+        public async Task<IActionResult> UpdateWallet([FromBody] UpdateWalletDTO updateWallet)
+        {
+            var result = await _mediator.Send(new UpdateWalletCommand(updateWallet));
+
+            return Ok(result);
+        }
+
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<WalletResponse>>> GetWallets()
+        public async Task<IActionResult> GetWallets()
         {
             var result = await _mediator.Send(new GetWalletListQuery());
 
@@ -27,20 +35,15 @@ namespace BudgetManager.API.Controllers
         }
 
         [HttpGet("id")]
-        public async Task<ActionResult<WalletResponse>> GetWalletById(Guid id)
+        public async Task<IActionResult> GetWalletById(Guid id)
         {
             var result = await _mediator.Send(new GetWalletByIdQuery(id));
 
-            if (result is null)
-            {
-                return NotFound();
-            }
-
-            return Ok(result);
+            return result is not null ? Ok(result) : NotFound();
         }
 
         [HttpPost]
-        public async Task<ActionResult> CreateWallet(AddWalletDTO walletDTO)
+        public async Task<IActionResult> CreateWallet([FromBody] AddWalletDTO walletDTO)
         {
             var result = await _mediator.Send(new AddWalletCommand(walletDTO));
 
@@ -48,11 +51,11 @@ namespace BudgetManager.API.Controllers
         }
 
         [HttpDelete("id")]
-        public async Task<ActionResult> DeleteWallet(Guid id)
+        public async Task<IActionResult> DeleteWallet(Guid id)
         {
             var result = await _mediator.Send(new DeleteWalletCommand(id));
 
-            return result ? Ok() : BadRequest();
+            return result ? Ok() : NotFound();
         }
     }
 }
