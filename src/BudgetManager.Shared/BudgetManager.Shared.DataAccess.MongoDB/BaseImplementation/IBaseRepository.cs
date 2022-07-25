@@ -26,8 +26,8 @@ namespace BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation
         Task<TDocument> UpdateOneAsync(FilterDefinition<TDocument> filterExpression,
             UpdateDefinition<TDocument> updateDefinition, CancellationToken cancellationToken);
 
-        Task DeleteByIdAsync(Guid id, CancellationToken cancellationToken);
+        Task<bool> DeleteByIdAsync(Guid id, CancellationToken cancellationToken);
 
-        Task DeleteOneAsync(Expression<Func<TDocument, bool>> filterExpression, CancellationToken cancellationToken);
+        Task<bool> DeleteOneAsync(Expression<Func<TDocument, bool>> filterExpression, CancellationToken cancellationToken);
     }
 }
