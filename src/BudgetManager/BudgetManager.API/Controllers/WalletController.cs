@@ -44,12 +44,15 @@ namespace BudgetManager.API.Controllers
         {
             var result = await _mediator.Send(new AddWalletCommand(walletDTO));
 
-            if (result == Guid.Empty)
-            {
-                return BadRequest();
-            }
+            return result == Guid.Empty ? BadRequest() : Ok();
+        }
 
-            return Ok();
+        [HttpDelete("id")]
+        public async Task<ActionResult> DeleteWallet(Guid id)
+        {
+            var result = await _mediator.Send(new DeleteWalletCommand(id));
+
+            return result ? Ok() : BadRequest();
         }
     }
 }
