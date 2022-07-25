@@ -34,5 +34,12 @@ namespace BudgetManager.API.Controllers
             var response = await _mediator.Send(new AddTransactionCommand(transaction), cancellationToken);
             return response == null ? BadRequest() : Ok(response);
         }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteTransaction(Guid id, CancellationToken cancellationToken)
+        {
+            var response = await _mediator.Send(new DeleteTransactionCommand(id), cancellationToken);
+            return response == false ? NotFound() : Ok();
+        }
     }
 }
