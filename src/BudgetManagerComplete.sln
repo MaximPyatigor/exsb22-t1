@@ -17,6 +17,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BudgetManager.Shared.DataAc
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BudgetManager.Shared.Models.MongoDB", "BudgetManager.Shared\BudgetManager.Shared.Models.MongoDB\BudgetManager.Shared.Models.MongoDB.csproj", "{21CCA097-8CE6-40AD-8113-D6B391F2CEB0}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BudgetManager.Shared.Utils", "BudgetManager.Shared\BudgetManager.Shared.Utils\BudgetManager.Shared.Utils.csproj", "{FA64AA12-80C9-418A-B838-41B92306AE23}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{21CCA097-8CE6-40AD-8113-D6B391F2CEB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{21CCA097-8CE6-40AD-8113-D6B391F2CEB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{21CCA097-8CE6-40AD-8113-D6B391F2CEB0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA64AA12-80C9-418A-B838-41B92306AE23}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA64AA12-80C9-418A-B838-41B92306AE23}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA64AA12-80C9-418A-B838-41B92306AE23}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA64AA12-80C9-418A-B838-41B92306AE23}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

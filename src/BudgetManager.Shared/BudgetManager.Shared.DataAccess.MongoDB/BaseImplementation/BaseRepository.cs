@@ -56,20 +56,23 @@ namespace BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation
 
         public virtual async Task<TDocument> ReplaceOneAsync(TDocument document, CancellationToken cancellationToken)
         {
+            var options = new FindOneAndReplaceOptions<TDocument> { ReturnDocument = ReturnDocument.After };
             var filter = Builders<TDocument>.Filter.Eq(doc => doc.Id, document.Id);
-            return await _collection.FindOneAndReplaceAsync(filter, document, null, cancellationToken);
+            return await _collection.FindOneAndReplaceAsync(filter, document, options, cancellationToken);
         }
 
         public virtual async Task<TDocument> UpdateOneAsync(Expression<Func<TDocument, bool>> filterExpression,
             UpdateDefinition<TDocument> updateDefinition, CancellationToken cancellationToken)
         {
-            return await _collection.FindOneAndUpdateAsync(filterExpression, updateDefinition, null, cancellationToken);
+            var options = new FindOneAndUpdateOptions<TDocument> { ReturnDocument = ReturnDocument.After };
+            return await _collection.FindOneAndUpdateAsync(filterExpression, updateDefinition, options, cancellationToken);
         }
 
         public virtual async Task<TDocument> UpdateOneAsync(FilterDefinition<TDocument> filterExpression,
             UpdateDefinition<TDocument> updateDefinition, CancellationToken cancellationToken)
         {
-            return await _collection.FindOneAndUpdateAsync(filterExpression, updateDefinition, null, cancellationToken);
+            var options = new FindOneAndUpdateOptions<TDocument> { ReturnDocument = ReturnDocument.After };
+            return await _collection.FindOneAndUpdateAsync(filterExpression, updateDefinition, options, cancellationToken);
         }
 
         public virtual async Task<bool> DeleteByIdAsync(Guid id, CancellationToken cancellationToken)
