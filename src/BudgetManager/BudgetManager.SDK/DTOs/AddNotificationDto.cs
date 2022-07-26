@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BudgetManager.SDK
+namespace BudgetManager.SDK.DTOs
 {
     public class AddNotificationDto
     {

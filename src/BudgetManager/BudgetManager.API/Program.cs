@@ -25,6 +25,7 @@ builder.Services.AddSingleton<IMongoClient, MongoClient>(sp =>
 });
 
 builder.Services.AddScoped<IBaseRepository<Notification>, NotificationRepository>();
+builder.Services.AddScoped<IBaseRepository<Transaction>, TransactionRepository>();
 
 builder.Services.AddControllers();
 
