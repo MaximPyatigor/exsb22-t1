@@ -20,9 +20,4 @@
     <ProjectReference Include="..\BudgetManager.SDK\BudgetManager.SDK.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Commands\WalletCommands\" />
-    <Folder Include="Handlers\WalletHandlers\" />
-  </ItemGroup>
-
 </Project>
