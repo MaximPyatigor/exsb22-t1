@@ -1,4 +1,7 @@
 ﻿using AutoMapper;
+using BudgetManager.CQRS.Responses.TransactionResponses;
+using BudgetManager.Model;
+using BudgetManager.SDK.DTO;
 
 namespace BudgetManager.CQRS.Mapping
 {
@@ -6,7 +9,8 @@ namespace BudgetManager.CQRS.Mapping
     {
         public MappingProfile()
         {
-            //CreateMap<ItemDto, Item>();
+            CreateMap<Transaction, TransactionResponse>();
+            CreateMap<UpdateTransactionDTO, Transaction>();
         }
     }
 }
