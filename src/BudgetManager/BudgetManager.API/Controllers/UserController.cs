@@ -1,6 +1,6 @@
 ﻿using BudgetManager.CQRS.Commands.UserCommands;
 using BudgetManager.CQRS.Queries.UserQueries;
-using BudgetManager.SDK.DTO.UserDTOs;
+using BudgetManager.SDK.DTOs;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

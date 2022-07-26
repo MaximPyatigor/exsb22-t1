@@ -3,7 +3,7 @@ using BudgetManager.CQRS.Commands.UserCommands;
 using BudgetManager.Model;
 using MediatR;
 using BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation;
-using BudgetManager.SDK.DTO.UserDTOs;
+using BudgetManager.SDK.DTOs;
 
 namespace BudgetManager.CQRS.Handlers.UserHandlers
 {

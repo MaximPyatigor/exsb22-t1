@@ -1,10 +1,9 @@
 ﻿using BudgetManager.Model;
 
-namespace BudgetManager.SDK.DTO.UserDTOs
+namespace BudgetManager.SDK.DTOs
 {
-    public class UpdateUserDTO
+    public class AddUserDTO
     {
-        public Guid Id { get; set; }
         public string FullName { get; set; }
         public DateTime DOB { get; set; }
         public string Email { get; set; }
