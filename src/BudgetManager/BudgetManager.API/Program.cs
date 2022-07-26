@@ -3,6 +3,7 @@ using BudgetManager.DataAccess.MongoDbAccess.Repositories;
 using BudgetManager.Model;
 using BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation;
 using BudgetManager.Shared.DataAccess.MongoDB.DatabaseSettings;
+using BudgetManager.Shared.Utils.Helpers;
 using MediatR;
 using Microsoft.Extensions.Options;
 using MongoDB.Bson;
@@ -23,6 +24,7 @@ builder.Services.AddSingleton<IMongoClient, MongoClient>(sp =>
 });
 
 builder.Services.AddScoped<IBaseRepository<Wallet>, WalletRepository>();
+builder.Services.AddScoped<IBaseRepository<Transaction>, TransactionRepository>();
 
 builder.Services.AddMediatR(typeof(MappingProfile).Assembly);
 builder.Services.AddAutoMapper(typeof(MappingProfile));
@@ -38,6 +40,8 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 app.UseSwagger();
 app.UseSwaggerUI();
+
+app.UseMiddleware<ErrorHandlerMiddleware>();
 
 app.UseHttpsRedirection();
 
