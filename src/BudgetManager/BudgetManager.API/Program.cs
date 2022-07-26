@@ -1,14 +1,10 @@
 using BudgetManager.CQRS.Handlers.NotificationHandlers;
 using BudgetManager.CQRS.Mapping;
-<<<<<<< HEAD
 using BudgetManager.CQRS.Responses.CategoryResponses;
-=======
->>>>>>> dev
 using BudgetManager.DataAccess.MongoDbAccess.Repositories;
 using BudgetManager.Model;
 using BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation;
 using BudgetManager.Shared.DataAccess.MongoDB.DatabaseSettings;
-using MediatR;
 using BudgetManager.Shared.Utils.Helpers;
 using MediatR;
 using Microsoft.Extensions.Options;
