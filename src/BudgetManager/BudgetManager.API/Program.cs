@@ -1,3 +1,4 @@
+using BudgetManager.CQRS.Handlers.NotificationHandlers;
 using BudgetManager.CQRS.Mapping;
 using BudgetManager.DataAccess.MongoDbAccess.Repositories;
 using BudgetManager.Model;
@@ -24,6 +25,7 @@ builder.Services.AddSingleton<IMongoClient, MongoClient>(sp =>
 });
 
 builder.Services.AddScoped<IBaseRepository<Wallet>, WalletRepository>();
+builder.Services.AddScoped<IBaseRepository<Notification>, NotificationRepository>();
 builder.Services.AddScoped<IBaseRepository<Transaction>, TransactionRepository>();
 
 builder.Services.AddMediatR(typeof(MappingProfile).Assembly);

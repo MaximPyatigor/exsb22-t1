@@ -1,8 +1,9 @@
-﻿namespace BudgetManager.SDK.DTO
+﻿namespace BudgetManager.SDK.DTOs
 {
-    public class AddTransactionDto
+    public class UpdateTransactionDTO
     {
-        public string CategoryId { get; set; }
+        public Guid Id { get; set; }
+        public Guid CategoryId { get; set; }
         public DateTime DateOfTransaction { get; set; }
         public decimal Value { get; set; }
         public int CategoryType { get; set; }
