@@ -1,4 +1,7 @@
 ﻿using AutoMapper;
+using BudgetManager.CQRS.Responses.UserResponses;
+using BudgetManager.Model;
+using BudgetManager.SDK.DTO.UserDTOs;
 
 namespace BudgetManager.CQRS.Mapping
 {
@@ -7,6 +10,9 @@ namespace BudgetManager.CQRS.Mapping
         public MappingProfile()
         {
             //CreateMap<ItemDto, Item>();
+            CreateMap<AddUserDTO, User>();
+            CreateMap<User, UserResponse>();
+            CreateMap<UpdateUserDTO, User>();
         }
     }
 }
