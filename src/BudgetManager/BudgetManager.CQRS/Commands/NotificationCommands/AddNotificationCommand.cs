@@ -5,5 +5,5 @@ using MediatR;
 
 namespace BudgetManager.CQRS.Commands.NotificationCommands
 {
-    public record AddNotificationCommand(AddNotificationDto notificationDto) : IRequest<string>;
+    public record AddNotificationCommand(AddNotificationDto NotificationDto) : IRequest<string>;
 }

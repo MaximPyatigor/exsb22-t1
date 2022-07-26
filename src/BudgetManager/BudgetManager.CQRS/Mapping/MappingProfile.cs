@@ -27,6 +27,7 @@ namespace BudgetManager.CQRS.Mapping
             CreateMap<Transaction, TransactionResponse>();
             CreateMap<AddTransactionDTO, Transaction>();
             CreateMap<UpdateTransactionDTO, Transaction>();
+            CreateMap<AddNotificationDto, Notification>();
             CreateMap<Notification, NotificationResponse>();
         }
     }
