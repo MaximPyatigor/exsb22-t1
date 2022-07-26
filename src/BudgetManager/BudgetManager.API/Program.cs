@@ -42,8 +42,9 @@ builder.Services.AddCors(opt =>
 {
     opt.AddDefaultPolicy(policy =>
     {
-        policy.WithOrigins("https://sandbox-money-app.herokuapp.com")
-        .AllowAnyMethod().AllowAnyHeader();
+        policy.AllowAnyOrigin()
+        .AllowAnyMethod()
+        .AllowAnyHeader();
     });
 });
 
