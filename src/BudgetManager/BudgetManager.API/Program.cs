@@ -24,19 +24,18 @@ builder.Services.AddSingleton<IMongoClient, MongoClient>(sp =>
     return new MongoClient(mongoDbConfig.ConnectionString);
 });
 
+builder.Services.AddScoped<IBaseRepository<Wallet>, WalletRepository>();
 builder.Services.AddScoped<IBaseRepository<Notification>, NotificationRepository>();
 builder.Services.AddScoped<IBaseRepository<Transaction>, TransactionRepository>();
+
+builder.Services.AddMediatR(typeof(MappingProfile).Assembly);
+builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 builder.Services.AddControllers();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
-// This loads an entire assembly and looks for everything we do with mediatR
-builder.Services.AddMediatR(typeof(MappingProfile).Assembly);
-
-builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 var app = builder.Build();
 
