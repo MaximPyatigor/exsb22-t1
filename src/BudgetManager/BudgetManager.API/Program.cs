@@ -1,5 +1,6 @@
 using BudgetManager.CQRS.Handlers.NotificationHandlers;
 using BudgetManager.CQRS.Mapping;
+using BudgetManager.CQRS.Responses.CategoryResponses;
 using BudgetManager.DataAccess.MongoDbAccess.Repositories;
 using BudgetManager.Model;
 using BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation;
@@ -23,6 +24,7 @@ builder.Services.AddSingleton<IMongoClient, MongoClient>(sp =>
     BsonDefaults.GuidRepresentation = GuidRepresentation.Standard;
     return new MongoClient(mongoDbConfig.ConnectionString);
 });
+builder.Services.AddScoped<IBaseRepository<Category>, CategoryRepository>();
 
 builder.Services.AddScoped<IBaseRepository<User>, UserRepository>();
 builder.Services.AddScoped<IBaseRepository<Wallet>, WalletRepository>();

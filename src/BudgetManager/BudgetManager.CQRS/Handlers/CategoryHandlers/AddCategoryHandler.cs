@@ -1,22 +1,30 @@
 ﻿using AutoMapper;
 using BudgetManager.CQRS.Commands.CategoryCommands;
-using BudgetManager.CQRS.Responses.CategoryResponses;
+using BudgetManager.Model;
+using BudgetManager.SDK;
+using BudgetManager.SDK.DTOs.CategoryDTOs;
+using BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation;
 using MediatR;
 
 namespace BudgetManager.CQRS.Handlers.CategoryHandlers
 {
-    public class AddCategoryHandler : IRequestHandler<AddCategoryCommand, CategoryResponse>
+    public class AddCategoryHandler : IRequestHandler<AddCategoryCommand, string>
     {
+        private readonly IBaseRepository<Category> _categoryRepository;
         private readonly IMapper _mapper;
 
-        public AddCategoryHandler(IMapper mapper)
+        public AddCategoryHandler(IBaseRepository<Category> categoryRepository, IMapper mapper)
         {
+            _categoryRepository = categoryRepository;
             _mapper = mapper;
         }
 
-        public Task<CategoryResponse> Handle(AddCategoryCommand request, CancellationToken cancellationToken)
+        public async Task<string> Handle(AddCategoryCommand request, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            AddCategoryDTO requestCategory = request.category;
+            Category mappedCategory = _mapper.Map<Category>(requestCategory);
+            await _categoryRepository.InsertOneAsync(mappedCategory, cancellationToken);
+            return mappedCategory.Id == Guid.Empty ? null : mappedCategory.Id.ToString();
         }
     }
 }
