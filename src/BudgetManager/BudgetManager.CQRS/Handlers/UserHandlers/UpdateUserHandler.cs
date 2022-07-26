@@ -1,12 +1,14 @@
 ﻿using AutoMapper;
 using BudgetManager.CQRS.Commands.UserCommands;
+using BudgetManager.CQRS.Responses.UserResponses;
 using BudgetManager.Model;
 using BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation;
 using MediatR;
+using MongoDB.Driver;
 
 namespace BudgetManager.CQRS.Handlers.UserHandlers
 {
-    public class UpdateUserHandler : IRequestHandler<UpdateUserCommand, User>
+    public class UpdateUserHandler : IRequestHandler<UpdateUserCommand, UserResponse>
     {
         private readonly IBaseRepository<User> _userRepository;
         private readonly IMapper _mapper;
@@ -17,19 +19,21 @@ namespace BudgetManager.CQRS.Handlers.UserHandlers
             _mapper = mapper;
         }
 
-        public async Task<User> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
+        public async Task<UserResponse> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
         {
-            var updateUser = request.updateUser;
-            var existingUser = await _userRepository.FindByIdAsync(updateUser.Id, cancellationToken);
-            if (existingUser is null)
-            {
-                return null;
-            }
+            var updateUser = _mapper.Map<User>(request.updateUser);
+            var filter = Builders<User>.Filter.Eq(u => u.Id, updateUser.Id);
+            var update = Builders<User>.Update
+                .Set(u => u.FullName, updateUser.FullName)
+                .Set(u => u.DOB, updateUser.DOB)
+                .Set(u => u.Email, updateUser.Email)
+                .Set(u => u.DefaultCurrency, updateUser.DefaultCurrency)
+                .Set(u => u.Categories, updateUser.Categories)
+                .Set(u => u.Wallets, updateUser.Wallets)
+                .Set(u => u.Notifications, updateUser.Notifications);
+            var result = _mapper.Map<UserResponse>(await _userRepository.UpdateOneAsync(filter, update, cancellationToken));
 
-            var mappedUser = _mapper.Map<User>(updateUser);
-            var response = await _userRepository.ReplaceOneAsync(mappedUser, cancellationToken);
-
-            return response;
+            return result;
         }
     }
 }

@@ -1,6 +1,10 @@
 using BudgetManager.CQRS.Mapping;
+using BudgetManager.DataAccess.MongoDbAccess.Repositories;
+using BudgetManager.Model;
+using BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation;
 using BudgetManager.Shared.DataAccess.MongoDB.DatabaseSettings;
 using BudgetManager.Shared.Utils.Helpers;
+using MediatR;
 using Microsoft.Extensions.Options;
 using MongoDB.Bson;
 using MongoDB.Driver;
@@ -18,6 +22,10 @@ builder.Services.AddSingleton<IMongoClient, MongoClient>(sp =>
     BsonDefaults.GuidRepresentation = GuidRepresentation.Standard;
     return new MongoClient(mongoDbConfig.ConnectionString);
 });
+
+builder.Services.AddScoped<IBaseRepository<User>, UserRepository>();
+builder.Services.AddMediatR(typeof(MappingProfile).Assembly);
+builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 builder.Services.AddControllers();
 
