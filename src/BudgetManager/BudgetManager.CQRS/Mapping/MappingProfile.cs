@@ -5,7 +5,6 @@ using BudgetManager.CQRS.Responses.TransactionResponses;
 using BudgetManager.CQRS.Responses.UserResponses;
 using BudgetManager.Model;
 using BudgetManager.SDK.DTOs;
-using BudgetManager.SDK.DTO.UserDTOs;
 
 namespace BudgetManager.CQRS.Mapping
 {
