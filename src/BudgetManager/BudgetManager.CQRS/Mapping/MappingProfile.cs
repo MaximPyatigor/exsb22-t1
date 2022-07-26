@@ -17,6 +17,7 @@ namespace BudgetManager.CQRS.Mapping
             CreateMap<AddWalletDTO, Wallet>();
             CreateMap<UpdateWalletDTO, Wallet>(); 
             CreateMap<Transaction, TransactionResponse>();
+            CreateMap<AddTransactionDTO, Transaction>();
             CreateMap<UpdateTransactionDTO, Transaction>();
             CreateMap<Notification, NotificationResponse>();
         }

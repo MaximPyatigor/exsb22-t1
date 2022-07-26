@@ -1,4 +1,5 @@
-﻿using BudgetManager.CQRS.Commands.TransactionCommands;
+﻿using AutoMapper;
+using BudgetManager.CQRS.Commands.TransactionCommands;
 using BudgetManager.Model;
 using BudgetManager.Model.Enums;
 using BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation;
@@ -8,24 +9,18 @@ namespace BudgetManager.CQRS.Handlers.TransactionHandlers
 {
     public class AddTransactionHandler : IRequestHandler<AddTransactionCommand, Guid>
     {
+        private readonly IMapper _mapper;
         private readonly IBaseRepository<Transaction> _dataAccess;
 
-        public AddTransactionHandler(IBaseRepository<Transaction> dataAccess)
+        public AddTransactionHandler(IBaseRepository<Transaction> dataAccess, IMapper mapper)
         {
             _dataAccess = dataAccess;
+            _mapper = mapper;
         }
 
         public async Task<Guid> Handle(AddTransactionCommand request, CancellationToken cancellationToken)
         {
-            Transaction transaction = new Transaction()
-            {
-                CategoryId = new Guid(request.transactionDto.CategoryId),
-                DateOfTransaction = request.transactionDto.DateOfTransaction,
-                Value = request.transactionDto.Value,
-                CategoryType = (CategoryTypes)request.transactionDto.CategoryType,
-                Description = request.transactionDto.Description,
-            };
-
+            var transaction = _mapper.Map<Transaction>(request.transactionDto);
             await _dataAccess.InsertOneAsync(transaction, cancellationToken);
             return transaction.Id;
         }
