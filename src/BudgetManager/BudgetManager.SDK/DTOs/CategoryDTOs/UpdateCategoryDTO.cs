@@ -1,6 +1,6 @@
 ﻿using BudgetManager.Model.Enums;
 
-namespace BudgetManager.SDK.DTO.CategoryDTOs
+namespace BudgetManager.SDK.DTOs.CategoryDTOs
 {
     public class UpdateCategoryDTO
     {

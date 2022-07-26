@@ -1,7 +1,8 @@
 ﻿using AutoMapper;
 using BudgetManager.CQRS.Commands.CategoryCommands;
 using BudgetManager.Model;
-using BudgetManager.SDK.DTO.CategoryDTOs;
+using BudgetManager.SDK;
+using BudgetManager.SDK.DTOs.CategoryDTOs;
 using BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation;
 using MediatR;
 

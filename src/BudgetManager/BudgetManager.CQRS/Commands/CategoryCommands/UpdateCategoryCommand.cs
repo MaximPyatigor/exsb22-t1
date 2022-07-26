@@ -1,5 +1,5 @@
 ﻿using BudgetManager.Model;
-using BudgetManager.SDK.DTO.CategoryDTOs;
+using BudgetManager.SDK.DTOs.CategoryDTOs;
 using MediatR;
 
 namespace BudgetManager.CQRS.Commands.CategoryCommands
