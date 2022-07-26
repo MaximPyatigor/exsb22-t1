@@ -23,7 +23,7 @@ namespace BudgetManager.CQRS.Handlers.CategoryHandlers
             AddCategoryDTO requestCategory = request.category;
             Category mappedCategory = _mapper.Map<Category>(requestCategory);
             await _categoryRepository.InsertOneAsync(mappedCategory, cancellationToken);
-            return mappedCategory.Id.ToString();
+            return mappedCategory.Id == Guid.Empty ? null : mappedCategory.Id.ToString();
         }
     }
 }
