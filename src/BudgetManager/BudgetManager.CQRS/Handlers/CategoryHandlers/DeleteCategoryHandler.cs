@@ -16,9 +16,7 @@ namespace BudgetManager.CQRS.Handlers.CategoryHandlers
 
         public async Task<bool> Handle(DeleteCategoryCommand request, CancellationToken cancellationToken)
         {
-            var idToDelete = request.id;
-
-            var result = await _categoryRepository.DeleteByIdAsync(idToDelete, cancellationToken);
+            var result = await _categoryRepository.DeleteByIdAsync(request.id, cancellationToken);
             return result;
         }
     }

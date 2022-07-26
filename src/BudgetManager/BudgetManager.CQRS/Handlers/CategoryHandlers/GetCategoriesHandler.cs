@@ -7,7 +7,7 @@ using MediatR;
 
 namespace BudgetManager.CQRS.Handlers.CategoryHandlers
 {
-    public class GetCategoriesHandler : IRequestHandler<GetCategoriesQuery, List<CategoryResponse>>
+    public class GetCategoriesHandler : IRequestHandler<GetCategoriesQuery, IEnumerable<CategoryResponse>>
     {
         private readonly IBaseRepository<Category> _categoryRepository;
         private readonly IMapper _mapper;
@@ -18,15 +18,10 @@ namespace BudgetManager.CQRS.Handlers.CategoryHandlers
             _mapper = mapper;
         }
 
-        public async Task<List<CategoryResponse>> Handle(GetCategoriesQuery request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<CategoryResponse>> Handle(GetCategoriesQuery request, CancellationToken cancellationToken)
         {
             var allCategoriesFromDb = await _categoryRepository.GetAllAsync(cancellationToken);
-            var listOfResponseCategories = new List<CategoryResponse>();
-            foreach (var category in allCategoriesFromDb)
-            {
-                CategoryResponse mappedCategory = _mapper.Map<CategoryResponse>(category);
-                listOfResponseCategories.Add(mappedCategory);
-            }
+            var listOfResponseCategories = _mapper.Map<IEnumerable<CategoryResponse>>(allCategoriesFromDb);
 
             return listOfResponseCategories;
         }
