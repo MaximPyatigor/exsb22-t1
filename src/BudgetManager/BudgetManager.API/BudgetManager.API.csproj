@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-	<ProjectReference Include="..\..\BudgetManager.Shared\BudgetManager.Shared.DataAccess.MongoDB\BudgetManager.Shared.DataAccess.MongoDB.csproj" />
+    <ProjectReference Include="..\..\BudgetManager.Shared\BudgetManager.Shared.DataAccess.MongoDB\BudgetManager.Shared.DataAccess.MongoDB.csproj" />
     <ProjectReference Include="..\BudgetManager.CQRS\BudgetManager.CQRS.csproj" />
   </ItemGroup>
 	

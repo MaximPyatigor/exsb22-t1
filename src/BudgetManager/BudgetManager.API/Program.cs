@@ -1,3 +1,4 @@
+using BudgetManager.CQRS.Handlers.NotificationHandlers;
 using BudgetManager.CQRS.Mapping;
 using BudgetManager.DataAccess.MongoDbAccess.Repositories;
 using BudgetManager.Model;
@@ -23,6 +24,7 @@ builder.Services.AddSingleton<IMongoClient, MongoClient>(sp =>
     return new MongoClient(mongoDbConfig.ConnectionString);
 });
 
+builder.Services.AddScoped<IBaseRepository<Notification>, NotificationRepository>();
 builder.Services.AddScoped<IBaseRepository<Transaction>, TransactionRepository>();
 
 builder.Services.AddControllers();

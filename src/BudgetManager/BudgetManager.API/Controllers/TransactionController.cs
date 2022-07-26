@@ -1,7 +1,7 @@
 using BudgetManager.CQRS.Commands.TransactionCommands;
 using BudgetManager.CQRS.Queries.TransactionQueries;
 using BudgetManager.Model;
-using BudgetManager.SDK.DTO;
+using BudgetManager.SDK.DTOs;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
