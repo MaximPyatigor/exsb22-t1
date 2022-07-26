@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 using BudgetManager.Model.Enums;
 using BudgetManager.Shared.Models.MongoDB;
 using BudgetManager.Shared.Models.MongoDB.Models.Interfaces;

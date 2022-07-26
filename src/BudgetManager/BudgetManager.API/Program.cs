@@ -1,3 +1,4 @@
+using BudgetManager.CQRS.Handlers.NotificationHandlers;
 using BudgetManager.CQRS.Mapping;
 using BudgetManager.DataAccess.MongoDbAccess.Repositories;
 using BudgetManager.Model;
@@ -24,6 +25,10 @@ builder.Services.AddSingleton<IMongoClient, MongoClient>(sp =>
 });
 
 builder.Services.AddScoped<IBaseRepository<User>, UserRepository>();
+builder.Services.AddScoped<IBaseRepository<Wallet>, WalletRepository>();
+builder.Services.AddScoped<IBaseRepository<Notification>, NotificationRepository>();
+builder.Services.AddScoped<IBaseRepository<Transaction>, TransactionRepository>();
+
 builder.Services.AddMediatR(typeof(MappingProfile).Assembly);
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 
@@ -32,12 +37,6 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
-// This loads an entire assembly and looks for everything we do with mediatR
-// While we don't have anything in CQRS, line below is commented out
-// builder.Services.AddMediatR(typeof({replace this with any class from BudgetManager.CQRS}).Assembly);
-
-builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 var app = builder.Build();
 
