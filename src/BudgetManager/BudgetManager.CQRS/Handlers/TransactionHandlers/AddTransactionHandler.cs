@@ -6,7 +6,7 @@ using MediatR;
 
 namespace BudgetManager.CQRS.Handlers.TransactionHandlers
 {
-    public class AddTransactionHandler : IRequestHandler<AddTransactionCommand, string>
+    public class AddTransactionHandler : IRequestHandler<AddTransactionCommand, Guid>
     {
         private readonly IBaseRepository<Transaction> _dataAccess;
 
@@ -15,9 +15,8 @@ namespace BudgetManager.CQRS.Handlers.TransactionHandlers
             _dataAccess = dataAccess;
         }
 
-        public async Task<string> Handle(AddTransactionCommand request, CancellationToken cancellationToken)
+        public async Task<Guid> Handle(AddTransactionCommand request, CancellationToken cancellationToken)
         {
-            if (request == null) { return null; }
             Transaction transaction = new Transaction()
             {
                 CategoryId = new Guid(request.transactionDto.CategoryId),
@@ -28,7 +27,7 @@ namespace BudgetManager.CQRS.Handlers.TransactionHandlers
             };
 
             await _dataAccess.InsertOneAsync(transaction, cancellationToken);
-            return transaction.Id.ToString();
+            return transaction.Id;
         }
     }
 }
