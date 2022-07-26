@@ -1,11 +1,11 @@
 using AutoMapper;
 using BudgetManager.CQRS.Responses.NotificationResponses;
 using BudgetManager.CQRS.Responses.WalletResponses;
-using BudgetManager.Model;
-using BudgetManager.SDK.DTOs;
 using BudgetManager.CQRS.Responses.TransactionResponses;
+using BudgetManager.CQRS.Responses.UserResponses;
 using BudgetManager.Model;
 using BudgetManager.SDK.DTOs;
+using BudgetManager.SDK.DTO.UserDTOs;
 
 namespace BudgetManager.CQRS.Mapping
 {
@@ -13,6 +13,9 @@ namespace BudgetManager.CQRS.Mapping
     {
         public MappingProfile()
         {
+            CreateMap<AddUserDTO, User>();
+            CreateMap<User, UserResponse>();
+            CreateMap<UpdateUserDTO, User>();
             CreateMap<Wallet, WalletResponse>();
             CreateMap<AddWalletDTO, Wallet>();
             CreateMap<UpdateWalletDTO, Wallet>(); 
