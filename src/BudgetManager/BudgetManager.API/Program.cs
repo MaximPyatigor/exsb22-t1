@@ -38,10 +38,14 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddCors(p => p.AddPolicy("corsapp", builder =>
+builder.Services.AddCors(opt =>
 {
-    builder.WithOrigins("*").AllowAnyMethod().AllowAnyHeader();
-}));
+    opt.AddDefaultPolicy(policy =>
+    {
+        policy.WithOrigins("https://sandbox-money-app.herokuapp.com")
+        .AllowAnyMethod().AllowAnyHeader();
+    });
+});
 
 var app = builder.Build();
 
@@ -51,7 +55,7 @@ app.UseSwaggerUI();
 
 app.UseMiddleware<ErrorHandlerMiddleware>();
 
-app.UseCors("corsapp");
+app.UseCors();
 
 app.UseHttpsRedirection();
 
