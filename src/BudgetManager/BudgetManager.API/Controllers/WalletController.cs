@@ -22,7 +22,7 @@ namespace BudgetManager.API.Controllers
         {
             var result = await _mediator.Send(new UpdateWalletCommand(updateWallet), cancellationToken);
 
-            return Ok(result);
+            return result is not null ? Ok(result) : NotFound();
         }
 
         [HttpGet]
@@ -30,7 +30,7 @@ namespace BudgetManager.API.Controllers
         {
             var result = await _mediator.Send(new GetWalletListQuery(), cancellationToken);
 
-            return Ok(result);
+            return result is not null ? Ok(result) : NotFound();
         }
 
         [HttpGet("id")]
