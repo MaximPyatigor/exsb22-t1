@@ -1,5 +1,4 @@
 using System.ComponentModel.DataAnnotations;
-using BudgetManager.Shared.Models.MongoDB;
 using BudgetManager.Shared.Models.MongoDB.Models.Interfaces;
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDbGenericRepository.Attributes;
@@ -14,8 +13,9 @@ namespace BudgetManager.Model
         [Required]
         public string Name { get; set; }
         [Required]
-        public string Currency { get; set; }
+        public Currency Currency { get; set; }
         [Required]
         public decimal Balance { get; set; }
+        public DateTime DateOfChange { get; set; }
     }
 }

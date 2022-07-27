@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using BudgetManager.Shared.Models.MongoDB;
 using BudgetManager.Shared.Models.MongoDB.Models.Interfaces;
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDbGenericRepository.Attributes;
@@ -17,8 +16,9 @@ namespace BudgetManager.Model
         public DateTime DOB { get; set; }
         [Required]
         public string Email { get; set; }
-        [Required]
-        public string DefaultCurrency { get; set; }
+        public Currency DefaultCurrency { get; set; }
+        public Guid DefaultWallet { get; set; }
+        public Country Country { get; set; }
         public List<Category>? Categories { get; set; }
         public List<Wallet>? Wallets { get; set; }
         public List<Notification>? Notifications { get; set; }
