@@ -2,10 +2,10 @@
 {
     public class AddTransactionDTO
     {
-        public string CategoryId { get; set; }
+        public Guid CategoryId { get; set; }
         public DateTime DateOfTransaction { get; set; }
         public decimal Value { get; set; }
-        public int CategoryType { get; set; }
+        public int TransactionType { get; set; }
         public string Description { get; set; }
     }
 }

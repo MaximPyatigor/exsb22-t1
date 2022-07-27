@@ -26,15 +26,14 @@ namespace BudgetManager.CQRS.Handlers.TransactionHandlers
 
         public async Task<TransactionResponse> Handle(UpdateTransactionCommand request, CancellationToken cancellationToken)
         {
-            var existingTransactionObject = await _dataAccess.FindByIdAsync(request.transactionDTO.Id, cancellationToken);
-
-            if (existingTransactionObject == null)
-            {
-                return null;
-            }
-
             var mappedTransaction = _mapper.Map<Transaction>(request.transactionDTO);
-            var response = await _dataAccess.ReplaceOneAsync(mappedTransaction, cancellationToken);
+            var filter = Builders<Transaction>.Filter.Eq(opt => opt.Id, mappedTransaction.Id);
+            var update = Builders<Transaction>.Update
+                .Set(o => o.CategoryId, mappedTransaction.CategoryId)
+                .Set(o => o.DateOfTransaction, mappedTransaction.DateOfTransaction)
+                .Set(o => o.Value, mappedTransaction.Value)
+                .Set(o => o.Description, mappedTransaction.Description);
+            var response = _mapper.Map<TransactionResponse>(await _dataAccess.UpdateOneAsync(filter, update, cancellationToken));
 
             return _mapper.Map<TransactionResponse>(response);
         }
