@@ -26,7 +26,6 @@ namespace BudgetManager.CQRS.Handlers.UserHandlers
             var update = Builders<User>.Update
                 .Set(u => u.FullName, updateUser.FullName)
                 .Set(u => u.DOB, updateUser.DOB)
-                .Set(u => u.Email, updateUser.Email)
                 .Set(u => u.DefaultCurrency, updateUser.DefaultCurrency)
                 .Set(u => u.Categories, updateUser.Categories)
                 .Set(u => u.Wallets, updateUser.Wallets)
