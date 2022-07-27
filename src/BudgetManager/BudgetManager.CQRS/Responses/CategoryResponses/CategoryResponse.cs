@@ -14,7 +14,7 @@ namespace BudgetManager.CQRS.Responses.CategoryResponses
 
         public List<Guid>? SubCategories { get; set; }
 
-        public CategoryTypes CategoryType { get; set; }
+        public OperationType CategoryType { get; set; }
 
         public string Color { get; set; }
     }

@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using BudgetManager.Model.Enums;
-using BudgetManager.Shared.Models.MongoDB;
 using BudgetManager.Shared.Models.MongoDB.Models.Interfaces;
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDbGenericRepository.Attributes;
@@ -19,9 +18,7 @@ namespace BudgetManager.Model
         [Required]
         public decimal Value { get; set; }
         [Required]
-        public CategoryTypes CategoryType { get; set; }
-        public decimal BalanceBefore { get; set; }
-        public decimal BalanceAfter { get; set; }
+        public OperationType TransactionType { get; set; }
         [Required]
         public string Description { get; set; }
     }
