@@ -1,12 +1,14 @@
 ﻿using AutoMapper;
 using BudgetManager.CQRS.Commands.CategoryCommands;
+using BudgetManager.CQRS.Responses.CategoryResponses;
 using BudgetManager.Model;
 using BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation;
 using MediatR;
+using MongoDB.Driver;
 
 namespace BudgetManager.CQRS.Handlers.CategoryHandlers
 {
-    public class UpdateCategoryHandler : IRequestHandler<UpdateCategoryCommand, Category>
+    public class UpdateCategoryHandler : IRequestHandler<UpdateCategoryCommand, CategoryResponse>
     {
         private readonly IBaseRepository<Category> _categoryRepository;
         private readonly IMapper _mapper;
@@ -17,17 +19,21 @@ namespace BudgetManager.CQRS.Handlers.CategoryHandlers
             _mapper = mapper;
         }
 
-        public async Task<Category> Handle(UpdateCategoryCommand request, CancellationToken cancellationToken)
+        public async Task<CategoryResponse> Handle(UpdateCategoryCommand request, CancellationToken cancellationToken)
         {
             var updateCategoryObject = request.updateCategoryObject;
-            var existingCategoryObject = await _categoryRepository.FindByIdAsync(updateCategoryObject.Id, cancellationToken);
-            if (existingCategoryObject == null)
-            {
-                return null;
-            }
 
             var mappedCategory = _mapper.Map<Category>(updateCategoryObject);
-            var response = await _categoryRepository.ReplaceOneAsync(mappedCategory, cancellationToken);
+
+            var filter = Builders<Category>.Filter.Eq(opt => opt.Id, mappedCategory.Id);
+            var update = Builders<Category>.Update
+                .Set(o => o.Name, mappedCategory.Name)
+                .Set(o => o.Limit, mappedCategory.Limit)
+                .Set(o => o.LimitPeriod, mappedCategory.LimitPeriod)
+                .Set(o => o.SubCategories, mappedCategory.SubCategories)
+                .Set(o => o.CategoryType, mappedCategory.CategoryType)
+                .Set(o => o.Color, mappedCategory.Color);
+            var response = _mapper.Map<CategoryResponse>(await _categoryRepository.UpdateOneAsync(filter, update, cancellationToken));
 
             return response;
         }
