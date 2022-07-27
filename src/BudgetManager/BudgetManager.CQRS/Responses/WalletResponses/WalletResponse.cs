@@ -1,4 +1,6 @@
-﻿namespace BudgetManager.CQRS.Responses.WalletResponses
+﻿using BudgetManager.Model;
+
+namespace BudgetManager.CQRS.Responses.WalletResponses
 {
     public class WalletResponse
     {
@@ -6,8 +8,10 @@
 
         public string Name { get; set; }
 
-        public string Currency { get; set; }
+        public Currency Currency { get; set; }
 
         public decimal Balance { get; set; }
+
+        public DateTime DateOfChange { get; set; }
     }
 }
