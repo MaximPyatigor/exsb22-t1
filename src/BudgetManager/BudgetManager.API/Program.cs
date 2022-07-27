@@ -1,6 +1,4 @@
-using BudgetManager.CQRS.Handlers.NotificationHandlers;
 using BudgetManager.CQRS.Mapping;
-using BudgetManager.CQRS.Responses.CategoryResponses;
 using BudgetManager.DataAccess.MongoDbAccess.Repositories;
 using BudgetManager.Model;
 using BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation;
@@ -40,6 +38,16 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddCors(opt =>
+{
+    opt.AddDefaultPolicy(policy =>
+    {
+        policy.AllowAnyOrigin()
+        .AllowAnyMethod()
+        .AllowAnyHeader();
+    });
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -47,6 +55,8 @@ app.UseSwagger();
 app.UseSwaggerUI();
 
 app.UseMiddleware<ErrorHandlerMiddleware>();
+
+app.UseCors();
 
 app.UseHttpsRedirection();
 
