@@ -41,7 +41,7 @@ namespace BudgetManager.API.Controllers
         {
             var user = await _mediator.Send(new AddUserCommand(userDTO), cancellationToken);
 
-            return user == Guid.Empty ? BadRequest() : Ok();
+            return user == Guid.Empty ? BadRequest() : Ok(user);
         }
 
         // PUT api/<UserController>/5

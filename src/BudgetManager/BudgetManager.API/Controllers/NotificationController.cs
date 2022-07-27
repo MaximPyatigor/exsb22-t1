@@ -33,7 +33,7 @@ namespace BudgetManager.API.Controllers
         public async Task<IActionResult> AddNotification([FromBody] AddNotificationDto notification, CancellationToken cancellationToken)
         {
             var response = await _mediator.Send(new AddNotificationCommand(notification), cancellationToken);
-            return response == null ? BadRequest() : Ok(response);
+            return response == Guid.Empty ? BadRequest() : Ok(response);
         }
 
         [HttpPut("{id}")]
@@ -47,7 +47,7 @@ namespace BudgetManager.API.Controllers
         public async Task<IActionResult> DeleteNotification(Guid id, CancellationToken cancellationToken)
         {
             var response = await _mediator.Send(new DeleteNotificationCommand(id), cancellationToken);
-            return response == false ? NotFound() : Ok();
+            return response ? Ok() : NotFound();
         }
     }
 }

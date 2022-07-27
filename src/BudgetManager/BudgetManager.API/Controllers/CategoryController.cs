@@ -34,7 +34,7 @@ namespace BudgetManager.API.Controllers
         public async Task<IActionResult> InsertOne(AddCategoryDTO category, CancellationToken cancellationToken)
         {
             var response = await _mediator.Send(new AddCategoryCommand(category), cancellationToken);
-            return response == null ? BadRequest() : Ok(response);
+            return response == Guid.Empty ? BadRequest() : Ok(response);
         }
 
         [HttpPut("[action]")]
