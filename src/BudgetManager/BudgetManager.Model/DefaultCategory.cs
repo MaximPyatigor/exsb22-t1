@@ -1,8 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 using BudgetManager.Model.Enums;
 using BudgetManager.Shared.Models.MongoDB.Models.Interfaces;
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDbGenericRepository.Attributes;
+using Newtonsoft.Json.Converters;
 
 namespace BudgetManager.Model
 {
@@ -13,9 +15,9 @@ namespace BudgetManager.Model
         public Guid Id { get; set; }
         [Required]
         public string Name { get; set; }
-        public List<Category>? SubCategories { get; set; }
-
+        public List<DefaultCategory>? SubCategories { get; set; }
         [Required]
+        [JsonConverter(typeof(JsonStringEnumConverter))]
         public OperationType CategoryType { get; set; }
         [Required]
         public string Color { get; set; }

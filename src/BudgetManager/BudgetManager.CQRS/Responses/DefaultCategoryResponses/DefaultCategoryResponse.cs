@@ -1,5 +1,7 @@
 ﻿using BudgetManager.Model;
 using BudgetManager.Model.Enums;
+using Newtonsoft.Json.Converters;
+using System.Text.Json.Serialization;
 
 namespace BudgetManager.CQRS.Responses.DefaultCategoryResponses
 {
@@ -9,7 +11,7 @@ namespace BudgetManager.CQRS.Responses.DefaultCategoryResponses
 
         public string Name { get; set; }
 
-        public List<Category>? SubCategories { get; set; }
+        public List<DefaultCategory>? SubCategories { get; set; }
 
         public OperationType CategoryType { get; set; }
 

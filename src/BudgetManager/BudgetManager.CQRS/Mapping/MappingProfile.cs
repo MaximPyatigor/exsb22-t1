@@ -33,7 +33,7 @@ namespace BudgetManager.CQRS.Mapping
             CreateMap<AddNotificationDto, Notification>();
             CreateMap<Notification, NotificationResponse>();
             CreateMap<Country, CountryResponse>();
-            CreateMap<DefaultCategory, DefaultCategoryResponse>();
+            CreateMap<DefaultCategory, DefaultCategoryResponse>().ForMember(o => o.CategoryType, p => p.MapFrom(b => b.CategoryType));
             CreateMap<Currency, CurrencyResponse>();
         }
     }
