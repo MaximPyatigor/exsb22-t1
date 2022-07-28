@@ -12,11 +12,7 @@ namespace BudgetManager.CQRS.Responses.TransactionResponses
 
         public decimal Value { get; set; }
 
-        public OperationType CategoryType { get; set; }
-
-        public decimal BalanceBefore { get; set; }
-
-        public decimal BalanceAfter { get; set; }
+        public OperationType TransactionType { get; set; }
 
         public string Description { get; set; }
     }

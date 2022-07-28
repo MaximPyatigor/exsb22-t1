@@ -8,7 +8,7 @@ using MediatR;
 
 namespace BudgetManager.CQRS.Handlers.NotificationHandlers
 {
-    public class AddNotificationHandler : IRequestHandler<AddNotificationCommand, string>
+    public class AddNotificationHandler : IRequestHandler<AddNotificationCommand, Guid>
     {
         private readonly IBaseRepository<Notification> _dataAccess;
         private readonly IMapper _mapper;
@@ -18,13 +18,13 @@ namespace BudgetManager.CQRS.Handlers.NotificationHandlers
             _dataAccess = dataAccess;
             _mapper = mapper;
         }
-        public async Task<string> Handle(AddNotificationCommand request, CancellationToken cancellationToken)
+
+        public async Task<Guid> Handle(AddNotificationCommand request, CancellationToken cancellationToken)
         {
-            if (request == null) { return null; }
             var notification = _mapper.Map<Notification>(request.NotificationDto);
 
             await _dataAccess.InsertOneAsync(notification, cancellationToken);
-            return notification.Id == Guid.Empty ? null : notification.Id.ToString();
+            return notification.Id;
         }
     }
 }

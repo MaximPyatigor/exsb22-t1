@@ -6,7 +6,9 @@ using BudgetManager.CQRS.Responses.NotificationResponses;
 using BudgetManager.CQRS.Responses.WalletResponses;
 using BudgetManager.CQRS.Responses.TransactionResponses;
 using BudgetManager.CQRS.Responses.UserResponses;
+using BudgetManager.CQRS.Responses.CurrencyResponses;
 using BudgetManager.SDK.DTOs;
+using BudgetManager.CQRS.Responses.CountryResponses;
 
 namespace BudgetManager.CQRS.Mapping
 {
@@ -29,6 +31,8 @@ namespace BudgetManager.CQRS.Mapping
             CreateMap<UpdateTransactionDTO, Transaction>();
             CreateMap<AddNotificationDto, Notification>();
             CreateMap<Notification, NotificationResponse>();
+            CreateMap<Country, CountryResponse>();
+            CreateMap<Currency, CurrencyResponse>();
         }
     }
 }
