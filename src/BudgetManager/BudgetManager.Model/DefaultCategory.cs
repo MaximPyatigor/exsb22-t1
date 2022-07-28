@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 using BudgetManager.Model.Enums;
+using BudgetManager.Shared.Models.MongoDB.Models.Interfaces;
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDbGenericRepository.Attributes;
 using Newtonsoft.Json.Converters;
@@ -8,7 +9,7 @@ using Newtonsoft.Json.Converters;
 namespace BudgetManager.Model
 {
     [CollectionName("DefaultCategories")]
-    public class DefaultCategory
+    public class DefaultCategory : IModelBase
     {
         [BsonId]
         public Guid Id { get; set; }
