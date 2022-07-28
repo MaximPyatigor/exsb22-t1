@@ -16,6 +16,7 @@ namespace BudgetManager.API.Controllers
             _mediatr = mediator;
         }
 
+        [ApiExplorerSettings(IgnoreApi = true)]
         [HttpPost]
         public async Task<IActionResult> CreateMany([FromBody] IEnumerable<DefaultCategory> defaultCategories,
             CancellationToken cancellationToken)

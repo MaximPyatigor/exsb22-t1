@@ -17,11 +17,7 @@ namespace BudgetManager.CQRS.Handlers.DefaultCategoryHandlers
         public async Task<IEnumerable<Guid>> Handle(AddManyDefaultCategoriesCommand request, CancellationToken cancellationToken)
         {
             await _defaultCategoryRepository.InsertManyAsync(request.defaultCategories, cancellationToken);
-            var listOfIds = new List<Guid>();
-            foreach (var category in request.defaultCategories)
-            {
-                listOfIds.Add(category.Id);
-            }
+            var listOfIds = request.defaultCategories.Select(c => c.Id).ToList();
 
             return listOfIds;
         }
