@@ -6,6 +6,7 @@ using BudgetManager.CQRS.Responses.NotificationResponses;
 using BudgetManager.CQRS.Responses.WalletResponses;
 using BudgetManager.CQRS.Responses.TransactionResponses;
 using BudgetManager.CQRS.Responses.UserResponses;
+using BudgetManager.CQRS.Responses.CurrencyResponses;
 using BudgetManager.SDK.DTOs;
 using BudgetManager.CQRS.Responses.CountryResponses;
 using BudgetManager.CQRS.Responses.DefaultCategoryResponses;
@@ -33,6 +34,7 @@ namespace BudgetManager.CQRS.Mapping
             CreateMap<Notification, NotificationResponse>();
             CreateMap<Country, CountryResponse>();
             CreateMap<DefaultCategory, DefaultCategoryResponse>();
+            CreateMap<Currency, CurrencyResponse>();
         }
     }
 }
