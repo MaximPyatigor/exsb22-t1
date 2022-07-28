@@ -19,7 +19,6 @@ namespace BudgetManager.Model
         public decimal Value { get; set; }
         [Required]
         public OperationType TransactionType { get; set; }
-        [Required]
         public string Description { get; set; }
     }
 }

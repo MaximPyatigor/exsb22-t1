@@ -23,7 +23,11 @@ namespace BudgetManager.CQRS.Handlers.WalletHandlers
         {
             var updateWallet = _mapper.Map<Wallet>(request.walletDTO);
             var filter = Builders<Wallet>.Filter.Eq(opt => opt.Id, updateWallet.Id);
-            var update = Builders<Wallet>.Update.Set(o => o.Name, updateWallet.Name).Set(o => o.Currency, updateWallet.Currency);
+            var update = Builders<Wallet>.Update
+                .Set(o => o.Name, updateWallet.Name)
+                .Set(o => o.Currency, updateWallet.Currency)
+                .Set(o => o.Balance, updateWallet.Balance)
+                .Set(o => o.DateOfChange, updateWallet.DateOfChange);
             var result = _mapper.Map<WalletResponse>(await _dataAccess.UpdateOneAsync(filter, update, cancellationToken));
 
             return result;

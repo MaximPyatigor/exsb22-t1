@@ -12,7 +12,11 @@ namespace BudgetManager.CQRS.Responses.UserResponses
 
         public string Email { get; set; }
 
-        public string DefaultCurrency { get; set; }
+        public Currency DefaultCurrency { get; set; }
+
+        public Guid DefaultWallet { get; set; }
+
+        public Country Country { get; set; }
 
         public List<Category>? Categories { get; set; }
 
