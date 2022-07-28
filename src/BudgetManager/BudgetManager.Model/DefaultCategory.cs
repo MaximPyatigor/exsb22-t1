@@ -17,7 +17,7 @@ namespace BudgetManager.Model
         public string Name { get; set; }
         public List<DefaultCategory>? SubCategories { get; set; }
         [Required]
-        [JsonConverter(typeof(StringEnumConverter))]
+        [JsonConverter(typeof(JsonStringEnumConverter))]
         public OperationType CategoryType { get; set; }
         [Required]
         public string Color { get; set; }

@@ -2,10 +2,13 @@
 using BudgetManager.CQRS.Commands.CurrencyCommands;
 using BudgetManager.CQRS.Commands.DefaultCategoryCommands;
 using BudgetManager.CQRS.Commands.NotificationCommands;
+using BudgetManager.CQRS.Commands.UserCommands;
 using BudgetManager.CQRS.Queries.CategoryQueries;
 using BudgetManager.CQRS.Queries.CountryQueries;
 using BudgetManager.CQRS.Queries.CurrencyQueries;
+using BudgetManager.CQRS.Queries.DefaultCategoryQueries;
 using BudgetManager.CQRS.Queries.NotificationQueries;
+using BudgetManager.CQRS.Queries.UserQueries;
 using BudgetManager.Model;
 using BudgetManager.SDK.DTOs;
 using BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation;
@@ -29,10 +32,11 @@ namespace BudgetManager.API.Seeding
             var task1 = SeedCountries();
             var task2 = SeedCurrencies();
             var task3 = SeedCategories();
+            var task4 = SeedUsers();
 
             // Wait for all of the seeding functions to finish before moving on. This way program doesn't start
             // before making sure, that every needed document is seeded and in place.
-            Task.WaitAll(task1, task2, task3);
+            Task.WaitAll(task1, task2, task3, task4);
         }
 
         public async Task SeedCountries()
@@ -79,8 +83,6 @@ namespace BudgetManager.API.Seeding
                     return;
                 }
 
-                currencies = currencies.Distinct();
-
                 Console.WriteLine("Seeding Currencies...");
                 await _mediator.Send(new AddManyCurrenciesCommand(currencies));
                 Console.WriteLine("Seeding Currencies successful.");
@@ -89,10 +91,10 @@ namespace BudgetManager.API.Seeding
 
         public async Task SeedCategories()
         {
-            var currenciesList = await _mediator.Send(new GetCategoriesQuery());
+            var categoriesList = await _mediator.Send(new GetDefaultCategoriesQuery());
 
             // Check if null or empty
-            if (currenciesList == null || !currenciesList.Any())
+            if (categoriesList == null || !categoriesList.Any())
             {
                 Console.WriteLine("No categories found in the database.");
 
@@ -109,6 +111,31 @@ namespace BudgetManager.API.Seeding
                 Console.WriteLine("Seeding Categories...");
                 await _mediator.Send(new AddManyDefaultCategoriesCommand(categories));
                 Console.WriteLine("Seeding Categories successful.");
+            }
+        }
+
+        public async Task SeedUsers()
+        {
+            var usersList = await _mediator.Send(new GetUsersQuery());
+
+            // Check if null or empty
+            if (usersList == null || !usersList.Any())
+            {
+                Console.WriteLine("No users found in the database.");
+
+                var usersPath = ".\\Seeding\\Seeds\\users.json";
+                string usersCategories = File.ReadAllText(usersPath);
+
+                var users = JsonConvert.DeserializeObject<IEnumerable<AddUserDTO>>(usersCategories);
+                if (users == null)
+                {
+                    Console.WriteLine("No default users to seed found");
+                    return;
+                }
+
+                Console.WriteLine("Seeding Users...");
+                await _mediator.Send(new AddManyUsersCommand(users));
+                Console.WriteLine("Seeding Users successful.");
             }
         }
     }
