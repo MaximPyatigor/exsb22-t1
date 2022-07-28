@@ -1,17 +1,13 @@
 ﻿using BudgetManager.Model;
 using BudgetManager.Model.Enums;
 
-namespace BudgetManager.CQRS.Responses.CategoryResponses
+namespace BudgetManager.CQRS.Responses.DefaultCategoryResponses
 {
-    public class CategoryResponse
+    public class DefaultCategoryResponse
     {
         public Guid Id { get; set; }
 
         public string Name { get; set; }
-
-        public decimal Limit { get; set; }
-
-        public LimitPeriods LimitPeriod { get; set; }
 
         public List<Category>? SubCategories { get; set; }
 
