@@ -8,6 +8,7 @@ using BudgetManager.CQRS.Responses.TransactionResponses;
 using BudgetManager.CQRS.Responses.UserResponses;
 using BudgetManager.SDK.DTOs;
 using BudgetManager.CQRS.Responses.CountryResponses;
+using BudgetManager.CQRS.Responses.DefaultCategoryResponses;
 
 namespace BudgetManager.CQRS.Mapping
 {
@@ -31,6 +32,7 @@ namespace BudgetManager.CQRS.Mapping
             CreateMap<AddNotificationDto, Notification>();
             CreateMap<Notification, NotificationResponse>();
             CreateMap<Country, CountryResponse>();
+            CreateMap<DefaultCategory, DefaultCategoryResponse>();
         }
     }
 }
