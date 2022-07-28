@@ -1,0 +1,247 @@
+[
+  {
+    "Id": "a0ffbfb1-fbd1-4472-ad18-324f9ad41e5d",
+    "Name": "Salary",
+    "SubCategories": [],
+    "OperationType": "Income",
+    "Color": "#000000"
+  },
+  {
+    "Id": "a0ffbfb1-fbd1-4472-ad18-324f9ad42e5d",
+    "Name": "Child support received",
+    "SubCategories": [],
+    "OperationType": "Income",
+    "Color": "#000000"
+  },
+  {
+    "Id": "a0ffbfb1-fbd1-4472-ad18-324f9ad43e5d",
+    "Name": "Gift",
+    "SubCategories": [],
+    "OperationType": "Income",
+    "Color": "#000000"
+  },
+  {
+    "Id": "a0ffbfb1-fbd1-4472-ad18-324f9ad44e5d",
+    "Name": "Partner's salary",
+    "SubCategories": [],
+    "OperationType": "Income",
+    "Color": "#000000"
+  },
+  {
+    "Id": "a0ffbfb1-fbd1-4472-ad18-324f9ad45e5d",
+    "Name": "Home & utilities",
+    "SubCategories": [
+      {
+        "Id": "54cca692-3ca4-4054-86c8-4cf93fb5c1a3",
+        "Name": "Mortgage",
+        "SubCategories": [],
+        "OperationType": "Expense",
+        "Color": "#000000"
+      },
+      {
+        "Id": "54cca692-3ca4-4054-87c8-4cf93fb5c1a3",
+        "Name": "Rent",
+        "SubCategories": [],
+        "OperationType": "Expense",
+        "Color": "#000000"
+      },
+      {
+        "Id": "54cca692-3ca4-4054-88c8-4cf93fb5c1a3",
+        "Name": "Utilities",
+        "SubCategories": [],
+        "OperationType": "Expense",
+        "Color": "#000000"
+      },
+      {
+        "Id": "54cca692-3ca4-4054-89c8-4cf93fb5c1a3",
+        "Name": "Chemicals and household items",
+        "SubCategories": [],
+        "OperationType": "Expense",
+        "Color": "#000000"
+      }
+    ],
+    "OperationType": "Expense",
+    "Color": "#000000"
+  },
+  {
+    "Id": "a0ffbfb1-fbd1-4472-ad18-324f9ad46e5d",
+    "Name": "Insurance",
+    "SubCategories": [
+      {
+        "Id": "54cca692-3ca4-4054-90c8-4cf93fb5c1a3",
+        "Name": "Car insurance",
+        "SubCategories": [],
+        "OperationType": "Expense",
+        "Color": "#000000"
+      },
+      {
+        "Id": "54cca692-3ca4-4054-91c8-4cf93fb5c1a3",
+        "Name": "Health insurance",
+        "SubCategories": [],
+        "OperationType": "Expense",
+        "Color": "#000000"
+      }
+    ],
+    "OperationType": "Expense",
+    "Color": "#000000"
+  },
+  {
+    "Id": "a0ffbfb1-fbd1-4472-ad18-324f9ad47e5d",
+    "Name": "Food",
+    "SubCategories": [
+      {
+        "Id": "54cca692-3ca4-4054-92c8-4cf93fb5c1a3",
+        "Name": "Groceries",
+        "SubCategories": [],
+        "OperationType": "Expense",
+        "Color": "#000000"
+      },
+      {
+        "Id": "54cca692-3ca4-4054-93c8-4cf93fb5c1a3",
+        "Name": "Eating out",
+        "SubCategories": [],
+        "OperationType": "Expense",
+        "Color": "#000000"
+      }
+    ],
+    "OperationType": "Expense",
+    "Color": "#000000"
+  },
+  {
+    "Id": "a0ffbfb1-fbd1-4472-ad18-324f9ad48e5d",
+    "Name": "Entertainment & Hobby",
+    "SubCategories": [
+      {
+        "Id": "54cca692-3ca4-4054-94c8-4cf93fb5c1a3",
+        "Name": "Hobbies",
+        "SubCategories": [],
+        "OperationType": "Expense",
+        "Color": "#000000"
+      },
+      {
+        "Id": "54cca692-3ca4-4054-95c8-4cf93fb5c1a3",
+        "Name": "Books",
+        "SubCategories": [],
+        "OperationType": "Expense",
+        "Color": "#000000"
+      },
+      {
+        "Id": "54cca692-3ca4-4054-96c8-4cf93fb5c1a3",
+        "Name": "Cinema, theater, museum, concert",
+        "SubCategories": [],
+        "OperationType": "Expense",
+        "Color": "#000000"
+      },
+      {
+        "Id": "54cca692-3ca4-4054-97c8-4cf93fb5c1a3",
+        "Name": "Subscriptions",
+        "SubCategories": [],
+        "OperationType": "Expense",
+        "Color": "#000000"
+      },
+      {
+        "Id": "54cca692-3ca4-4054-98c8-4cf93fb5c1a3",
+        "Name": "Celebrations & gifts",
+        "SubCategories": [],
+        "OperationType": "Expense",
+        "Color": "#000000"
+      }
+    ],
+    "OperationType": "Expense",
+    "Color": "#000000"
+  },
+  {
+    "Id": "a0ffbfb1-fbd1-4472-ad18-324f9ad49e5d",
+    "Name": "Health & Sport",
+    "SubCategories": [
+      {
+        "Id": "54cca692-3ca4-4054-99c8-4cf93fb5c1a3",
+        "Name": "Medicines & pharmacy",
+        "SubCategories": [],
+        "OperationType": "Expense",
+        "Color": "#000000"
+      },
+      {
+        "Id": "54cca692-3ca4-4054-00c8-4cf93fb5c1a3",
+        "Name": "Sports & gym",
+        "SubCategories": [],
+        "OperationType": "Expense",
+        "Color": "#000000"
+      }
+    ],
+    "OperationType": "Expense",
+    "Color": "#000000"
+  },
+  {
+    "Id": "a0ffbfb1-fbd1-4472-ad18-324f9ad50e5d",
+    "Name": "Beauty",
+    "SubCategories": [],
+    "OperationType": "Expense",
+    "Color": "#000000"
+  },
+  {
+    "Id": "a0ffbfb1-fbd1-4472-ad18-324f9ad51e5d",
+    "Name": "Clothes",
+    "SubCategories": [],
+    "OperationType": "Expense",
+    "Color": "#000000"
+  },
+  {
+    "Id": "a0ffbfb1-fbd1-4472-ad18-324f9ad52e5d",
+    "Name": "Transport",
+    "SubCategories": [
+      {
+        "Id": "54cca692-3ca4-4054-01c8-4cf93fb5c1a3",
+        "Name": "Public transport & train",
+        "SubCategories": [],
+        "OperationType": "Expense",
+        "Color": "#000000"
+      },
+      {
+        "Id": "54cca692-3ca4-4054-02c8-4cf93fb5c1a3",
+        "Name": "Petrol",
+        "SubCategories": [],
+        "OperationType": "Expense",
+        "Color": "#000000"
+      },
+      {
+        "Id": "54cca692-3ca4-4054-03c8-4cf93fb5c1a3",
+        "Name": "Road tolls & parking",
+        "SubCategories": [],
+        "OperationType": "Expense",
+        "Color": "#000000"
+      }
+    ],
+    "OperationType": "Expense",
+    "Color": "#000000"
+  },
+  {
+    "Id": "a0ffbfb1-fbd1-4472-ad18-324f9ad53e5d",
+    "Name": "Education",
+    "SubCategories": [],
+    "OperationType": "Expense",
+    "Color": "#000000"
+  },
+  {
+    "Id": "a0ffbfb1-fbd1-4472-ad18-324f9ad54e5d",
+    "Name": "Pets",
+    "SubCategories": [],
+    "OperationType": "Expense",
+    "Color": "#000000"
+  },
+  {
+    "Id": "a0ffbfb1-fbd1-4472-ad18-324f9ad55e5d",
+    "Name": "Children",
+    "SubCategories": [
+      {
+        "Id": "54cca692-3ca4-4054-04c8-4cf93fb5c1a3",
+        "Name": "Children products",
+        "SubCategories": [],
+        "OperationType": "Expense",
+        "Color": "#000000"
+      }
+    ],
+    "OperationType": "Expense",
+    "Color": "#000000"
+  }
+]

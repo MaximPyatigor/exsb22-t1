@@ -1,4 +1,4 @@
-﻿namespace BudgetManager.CQRS.Seeding
+﻿namespace BudgetManager.API.Seeding
 {
     public interface ISeedingService
     {

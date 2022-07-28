@@ -1,5 +1,5 @@
+using BudgetManager.API.Seeding;
 using BudgetManager.CQRS.Mapping;
-using BudgetManager.CQRS.Seeding;
 using BudgetManager.DataAccess.MongoDbAccess.Repositories;
 using BudgetManager.Model;
 using BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation;
