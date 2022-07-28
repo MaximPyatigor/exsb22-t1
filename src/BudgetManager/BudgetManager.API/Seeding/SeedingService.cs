@@ -1,12 +1,15 @@
 ﻿using BudgetManager.CQRS.Commands.CountryCommands;
 using BudgetManager.CQRS.Commands.CurrencyCommands;
+using BudgetManager.CQRS.Commands.DefaultCategoryCommands;
 using BudgetManager.CQRS.Commands.NotificationCommands;
+using BudgetManager.CQRS.Queries.CategoryQueries;
 using BudgetManager.CQRS.Queries.CountryQueries;
 using BudgetManager.CQRS.Queries.CurrencyQueries;
 using BudgetManager.CQRS.Queries.NotificationQueries;
 using BudgetManager.Model;
 using BudgetManager.SDK.DTOs;
 using BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation;
+using BudgetManager.Shared.Models.MongoDB.Models.Interfaces;
 using MediatR;
 using Newtonsoft.Json;
 
@@ -21,25 +24,27 @@ namespace BudgetManager.API.Seeding
             _mediator = mediator;
         }
 
-        // This function is not async because we want to make sure that data is in place and seeded
-        // before program launches.
         public void Seed()
         {
-            SeedCountries();
-            SeedCurrencies();
-            SeedCategories();
+            var task1 = SeedCountries();
+            var task2 = SeedCurrencies();
+            var task3 = SeedCategories();
+
+            // Wait for all of the seeding functions to finish before moving on. This way program doesn't start
+            // before making sure, that every needed document is seeded and in place.
+            Task.WaitAll(task1, task2, task3);
         }
 
-        public void SeedCountries()
+        public async Task SeedCountries()
         {
-            var countriesList = _mediator.Send(new GetCountryListQuery()).GetAwaiter().GetResult();
+            var countriesList = await _mediator.Send(new GetCountryListQuery());
 
             // Check if null or empty
             if (countriesList == null || !countriesList.Any())
             {
                 Console.WriteLine("No countries found in the database.");
 
-                var countriesCurrenciesPath = ".\\Seeding\\Seeds\\country-by-currency-code.json";
+                var countriesCurrenciesPath = ".\\Seeding\\Seeds\\country_currency.json";
                 string jsonCountriesCurrencies = File.ReadAllText(countriesCurrenciesPath);
 
                 var countries = JsonConvert.DeserializeObject<IEnumerable<Country>>(jsonCountriesCurrencies);
@@ -50,21 +55,21 @@ namespace BudgetManager.API.Seeding
                 }
 
                 Console.WriteLine("Seeding Countries...");
-                _mediator.Send(new AddManyCountriesCommand(countries)).GetAwaiter().GetResult();
+                await _mediator.Send(new AddManyCountriesCommand(countries));
                 Console.WriteLine("Seeding Countries successful.");
             }
         }
 
-        public void SeedCurrencies()
+        public async Task SeedCurrencies()
         {
-            var currenciesList = _mediator.Send(new GetCurrencyListQuery()).GetAwaiter().GetResult();
+            var currenciesList = await _mediator.Send(new GetCurrencyListQuery());
 
             // Check if null or empty
             if (currenciesList == null || !currenciesList.Any())
             {
                 Console.WriteLine("No currencies found in the database.");
 
-                var countriesCurrenciesPath = ".\\Seeding\\Seeds\\country-by-currency-code.json";
+                var countriesCurrenciesPath = ".\\Seeding\\Seeds\\currencies.json";
                 string jsonCountriesCurrencies = File.ReadAllText(countriesCurrenciesPath);
 
                 var currencies = JsonConvert.DeserializeObject<IEnumerable<Currency>>(jsonCountriesCurrencies);
@@ -77,14 +82,14 @@ namespace BudgetManager.API.Seeding
                 currencies = currencies.Distinct();
 
                 Console.WriteLine("Seeding Currencies...");
-                _mediator.Send(new AddManyCurrenciesCommand(currencies)).GetAwaiter().GetResult();
+                await _mediator.Send(new AddManyCurrenciesCommand(currencies));
                 Console.WriteLine("Seeding Currencies successful.");
             }
         }
 
-        public void SeedCategories()
+        public async Task SeedCategories()
         {
- /*           var currenciesList = _mediator.Send(new GetCurrencyListQuery()).GetAwaiter().GetResult();
+            var currenciesList = await _mediator.Send(new GetCategoriesQuery());
 
             // Check if null or empty
             if (currenciesList == null || !currenciesList.Any())
@@ -92,9 +97,9 @@ namespace BudgetManager.API.Seeding
                 Console.WriteLine("No categories found in the database.");
 
                 var categoriesPath = ".\\Seeding\\Seeds\\default-categories.json";
-                string jsonCategories= File.ReadAllText(categoriesPath);
+                string jsonCategories = File.ReadAllText(categoriesPath);
 
-                var categories = JsonConvert.DeserializeObject<IEnumerable<Currency>>(jsonCategories);
+                var categories = JsonConvert.DeserializeObject<IEnumerable<DefaultCategory>>(jsonCategories);
                 if (categories == null)
                 {
                     Console.WriteLine("No default categories to seed found");
@@ -102,9 +107,9 @@ namespace BudgetManager.API.Seeding
                 }
 
                 Console.WriteLine("Seeding Categories...");
-                _mediator.Send(new AddManyCategoriesCommand(categories)).GetAwaiter().GetResult();
+                await _mediator.Send(new AddManyDefaultCategoriesCommand(categories));
                 Console.WriteLine("Seeding Categories successful.");
-            }*/
+            }
         }
     }
 }

@@ -12,7 +12,7 @@ namespace BudgetManager.Model
         [BsonId]
         public Guid Id { get; set; }
         [Required]
-        [JsonProperty("currency_code")]
+        [JsonProperty("currencyCode")]
         public string CurrencyCode { get; set; }
     }
 }

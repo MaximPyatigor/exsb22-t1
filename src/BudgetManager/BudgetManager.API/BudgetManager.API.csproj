@@ -12,13 +12,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="Seeding\Seeds\country-by-currency-code.json" />
     <Content Remove="Seeding\Seeds\default-categories.json" />
     <Content Remove="Seeding\Seeds\default-subcategories.json" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Seeding\Seeds\country-by-currency-code.json" />
     <None Include="Seeding\Seeds\default-categories.json" />
   </ItemGroup>
 	
