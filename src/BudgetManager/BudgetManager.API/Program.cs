@@ -29,6 +29,7 @@ builder.Services.AddScoped<IBaseRepository<Wallet>, WalletRepository>();
 builder.Services.AddScoped<IBaseRepository<Notification>, NotificationRepository>();
 builder.Services.AddScoped<IBaseRepository<Transaction>, TransactionRepository>();
 builder.Services.AddScoped<IBaseRepository<Country>, CountryRepository>();
+builder.Services.AddScoped<IBaseRepository<Currency>, CurrencyRepository>();
 
 builder.Services.AddMediatR(typeof(MappingProfile).Assembly);
 builder.Services.AddAutoMapper(typeof(MappingProfile));
