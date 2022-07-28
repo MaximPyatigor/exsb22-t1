@@ -28,6 +28,18 @@ namespace BudgetManager.API.Controllers
             return response == null ? NotFound() : Ok(response);
         }
 
+        [HttpGet("page/{pageNumber:int}")]
+        public async Task<IActionResult> GetTransactionPage(int pageNumber, CancellationToken cancellationToken)
+        {
+            if (pageNumber <= 0)
+            {
+                return BadRequest();
+            }
+
+            var pageResult = await _mediator.Send(new GetTransactionsByPageQuery(pageNumber), cancellationToken);
+            return Ok(pageResult);
+        }
+
         [HttpPost]
         public async Task<IActionResult> AddTransaction([FromBody] AddTransactionDTO transaction, CancellationToken cancellationToken)
         {
