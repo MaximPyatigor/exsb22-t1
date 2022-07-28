@@ -13,7 +13,8 @@ namespace BudgetManager.Model
         public Guid Id { get; set; }
         [Required]
         public string Name { get; set; }
-        public List<Guid>? SubCategories { get; set; }
+        public List<Category>? SubCategories { get; set; }
+
         [Required]
         public OperationType CategoryType { get; set; }
         [Required]
