@@ -3,7 +3,7 @@ using BudgetManager.Model;
 using BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation;
 using MediatR;
 
-namespace BudgetManager.CQRS.Handlers.CountryHandlers
+namespace BudgetManager.CQRS.Handlers.CurrencyHandlers
 {
     public class AddManyCurrenciesHandler : IRequestHandler<AddManyCurrenciesCommand, IEnumerable<Guid>>
     {
