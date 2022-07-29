@@ -28,6 +28,13 @@ namespace BudgetManager.API.Controllers
             return response == null ? NotFound() : Ok(response);
         }
 
+        [HttpGet("{userId}/{opterationType}")]
+        public async Task<IActionResult> GetTransactionsByOperation(Guid userId, string operationType, CancellationToken cancellationToken)
+        {
+            var response = await _mediator.Send(new GetTransactionListByUserIdQuery(userId, operationType), cancellationToken);
+            return response == null ? NotFound() : Ok(response);
+        }
+
         [HttpPost]
         public async Task<IActionResult> AddTransaction([FromBody] AddTransactionDTO transaction, CancellationToken cancellationToken)
         {
@@ -47,7 +54,7 @@ namespace BudgetManager.API.Controllers
         public async Task<IActionResult> DeleteTransaction(Guid id, CancellationToken cancellationToken)
         {
             var response = await _mediator.Send(new DeleteTransactionCommand(id), cancellationToken);
-            return response == false ? NotFound() : Ok();
+            return response ? Ok() : NotFound();
         }
     }
 }

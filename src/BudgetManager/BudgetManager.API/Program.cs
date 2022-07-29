@@ -1,4 +1,5 @@
 using BudgetManager.CQRS.Mapping;
+using BudgetManager.DataAccess.MongoDbAccess.Interfaces;
 using BudgetManager.DataAccess.MongoDbAccess.Repositories;
 using BudgetManager.Model;
 using BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation;
@@ -28,6 +29,7 @@ builder.Services.AddScoped<IBaseRepository<User>, UserRepository>();
 builder.Services.AddScoped<IBaseRepository<Wallet>, WalletRepository>();
 builder.Services.AddScoped<IBaseRepository<Notification>, NotificationRepository>();
 builder.Services.AddScoped<IBaseRepository<Transaction>, TransactionRepository>();
+builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
 
 builder.Services.AddMediatR(typeof(MappingProfile).Assembly);
 builder.Services.AddAutoMapper(typeof(MappingProfile));
