@@ -5,6 +5,7 @@ namespace BudgetManager.SDK.DTOs.CategoryDTOs
 {
     public class AddCategoryDTO
     {
+        public Guid UserId { get; set; }
         public string Name { get; set; }
         public decimal Limit { get; set; }
         public LimitPeriods LimitPeriod { get; set; }

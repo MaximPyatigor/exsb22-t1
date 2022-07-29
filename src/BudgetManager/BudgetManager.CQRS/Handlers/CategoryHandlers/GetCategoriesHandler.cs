@@ -9,18 +9,22 @@ namespace BudgetManager.CQRS.Handlers.CategoryHandlers
 {
     public class GetCategoriesHandler : IRequestHandler<GetCategoriesQuery, IEnumerable<CategoryResponse>>
     {
-        private readonly IBaseRepository<Category> _categoryRepository;
+        private readonly IBaseRepository<User> _userRepository;
         private readonly IMapper _mapper;
 
-        public GetCategoriesHandler(IBaseRepository<Category> categoryRepository, IMapper mapper)
+        public GetCategoriesHandler(IBaseRepository<User> userRepository, IMapper mapper)
         {
-            _categoryRepository = categoryRepository;
+            _userRepository = userRepository;
             _mapper = mapper;
         }
 
         public async Task<IEnumerable<CategoryResponse>> Handle(GetCategoriesQuery request, CancellationToken cancellationToken)
         {
-            var allCategoriesFromDb = await _categoryRepository.GetAllAsync(cancellationToken);
+            var user = await _userRepository.FindByIdAsync(request.userId, cancellationToken);
+
+            if (user is null) { return null; }
+
+            var allCategoriesFromDb = user.Categories;
             var listOfResponseCategories = _mapper.Map<IEnumerable<CategoryResponse>>(allCategoriesFromDb);
 
             return listOfResponseCategories;
