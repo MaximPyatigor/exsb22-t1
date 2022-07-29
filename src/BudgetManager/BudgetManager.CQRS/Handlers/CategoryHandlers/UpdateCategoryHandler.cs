@@ -10,32 +10,41 @@ namespace BudgetManager.CQRS.Handlers.CategoryHandlers
 {
     public class UpdateCategoryHandler : IRequestHandler<UpdateCategoryCommand, CategoryResponse>
     {
-        private readonly IBaseRepository<Category> _categoryRepository;
+        private readonly IBaseRepository<User> _userRepository;
         private readonly IMapper _mapper;
 
-        public UpdateCategoryHandler(IBaseRepository<Category> categoryRepository, IMapper mapper)
+        public UpdateCategoryHandler(IBaseRepository<User> userRepository, IMapper mapper)
         {
-            _categoryRepository = categoryRepository;
+            _userRepository = userRepository;
             _mapper = mapper;
         }
 
         public async Task<CategoryResponse> Handle(UpdateCategoryCommand request, CancellationToken cancellationToken)
         {
             var updateCategoryObject = request.updateCategoryObject;
+            var userId = request.updateCategoryObject.UserId;
+            var user = await _userRepository.FindByIdAsync(userId, cancellationToken);
+
+            if (user is null) { return null; }
 
             var mappedCategory = _mapper.Map<Category>(updateCategoryObject);
+            var userCategory = user.Categories.Where(c => c.Id == mappedCategory.Id).FirstOrDefault();
+            var index = user.Categories.IndexOf(userCategory);
 
-            var filter = Builders<Category>.Filter.Eq(opt => opt.Id, mappedCategory.Id);
-            var update = Builders<Category>.Update
-                .Set(o => o.Name, mappedCategory.Name)
-                .Set(o => o.Limit, mappedCategory.Limit)
-                .Set(o => o.LimitPeriod, mappedCategory.LimitPeriod)
-                .Set(o => o.SubCategories, mappedCategory.SubCategories)
-                .Set(o => o.CategoryType, mappedCategory.CategoryType)
-                .Set(o => o.Color, mappedCategory.Color);
-            var response = _mapper.Map<CategoryResponse>(await _categoryRepository.UpdateOneAsync(filter, update, cancellationToken));
+            if (userCategory is not null && index is not -1)
+            {
+                mappedCategory.Id = userCategory.Id;
+                user.Categories[index] = mappedCategory;
 
-            return response;
+                var filter = Builders<User>.Filter.Eq(u => u.Id, userId);
+                var update = Builders<User>.Update.Set(u => u.Categories, user.Categories);
+
+                await _userRepository.UpdateOneAsync(filter, update, cancellationToken);
+                return _mapper.Map<CategoryResponse>(mappedCategory);
+            } else
+            {
+                return null;
+            }
         }
     }
 }

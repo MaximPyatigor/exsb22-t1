@@ -10,7 +10,7 @@ namespace BudgetManager.Model
     public class Category : IModelBase
     {
         [BsonId]
-        public Guid Id { get; set; }
+        public Guid Id { get; set; } = Guid.NewGuid();
         [Required]
         public string Name { get; set; }
         [Required]
