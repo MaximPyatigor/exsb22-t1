@@ -39,8 +39,8 @@ namespace BudgetManager.API.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateNotificationReadStatus(Guid userId, Guid id, bool isRead, CancellationToken cancellationToken)
         {
-            var response = await _mediator.Send(new UpdateNotificationReadStatusCommand(id, isRead), cancellationToken);
-            return response == null ? NotFound() : Ok(response);
+            var response = await _mediator.Send(new UpdateNotificationReadStatusCommand(userId, id, isRead), cancellationToken);
+            return Ok(response);
         }
 
         [HttpDelete("{id}")]

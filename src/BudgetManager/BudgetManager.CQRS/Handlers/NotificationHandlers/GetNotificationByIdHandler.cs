@@ -27,8 +27,6 @@ namespace BudgetManager.CQRS.Handlers.NotificationHandlers
 
         public async Task<NotificationResponse> Handle(GetNotificationByIdQuery request, CancellationToken cancellationToken)
         {
-            // Retrieve User from the database only with Notification field, then map the list to response.
-
             var definition = Builders<User>.Projection
                 .Exclude(x => x.Id)
                 .Include(x => x.Notifications);
