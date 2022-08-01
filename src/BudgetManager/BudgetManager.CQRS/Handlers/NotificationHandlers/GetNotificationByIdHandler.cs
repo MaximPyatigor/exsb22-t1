@@ -33,12 +33,12 @@ namespace BudgetManager.CQRS.Handlers.NotificationHandlers
                 .Exclude(x => x.Id)
                 .Include(x => x.Notifications);
 
-            var filterUser = Builders<User>.Filter.Eq(u => u.Id, request.UserId);
+            var userFilter = Builders<User>.Filter.Eq(u => u.Id, request.UserId);
 
-            var filterNotification = Builders<User>.Filter.ElemMatch(x => x.Notifications,
+            var notificationFilter = Builders<User>.Filter.ElemMatch(x => x.Notifications,
                 Builders<Notification>.Filter.Eq(y => y.Id, request.Id));
 
-            var filter = filterUser & filterNotification;
+            var filter = userFilter & notificationFilter;
 
             var filteredUser = (await _userContext
                 .FilterBy<UserNotificationListProjection>(filter, definition, cancellationToken))

@@ -11,12 +11,12 @@ namespace BudgetManager.CQRS.Handlers.NotificationHandlers
 {
     public class AddNotificationHandler : IRequestHandler<AddNotificationCommand, Guid>
     {
-        private readonly IBaseRepository<User> _userRepository;
+        private readonly IBaseRepository<User> _userContext;
         private readonly IMapper _mapper;
 
         public AddNotificationHandler(IBaseRepository<User> userContext, IMapper mapper)
         {
-            _userRepository = userContext;
+            _userContext = userContext;
             _mapper = mapper;
         }
 
@@ -27,7 +27,7 @@ namespace BudgetManager.CQRS.Handlers.NotificationHandlers
             var filter = Builders<User>.Filter.Eq(u => u.Id, request.UserId);
             var update = Builders<User>.Update.Push(u => u.Notifications, notification);
 
-            var updatedUser = await _userRepository.UpdateOneAsync(filter, update, cancellationToken);
+            var updatedUser = await _userContext.UpdateOneAsync(filter, update, cancellationToken);
 
             if (updatedUser == null) { return Guid.Empty; }
             return (Guid)notification.Id;
