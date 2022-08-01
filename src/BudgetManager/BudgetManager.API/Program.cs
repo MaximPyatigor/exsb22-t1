@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using BudgetManager.API.Seeding;
 using BudgetManager.CQRS.Mapping;
 using BudgetManager.DataAccess.MongoDbAccess.Repositories;
@@ -38,7 +39,10 @@ builder.Services.AddScoped<ISeedingService, SeedingService>();
 builder.Services.AddMediatR(typeof(MappingProfile).Assembly);
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddJsonOptions(x =>
+{
+    x.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+});
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
