@@ -3,15 +3,16 @@ using BudgetManager.CQRS.Commands.WalletCommands;
 using BudgetManager.Model;
 using BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation;
 using MediatR;
+using MongoDB.Driver;
 
 namespace BudgetManager.CQRS.Handlers.WalletHandlers
 {
     public class AddWalletHandler : IRequestHandler<AddWalletCommand, Guid>
     {
         private readonly IMapper _mapper;
-        private readonly IBaseRepository<Wallet> _dataAccess;
+        private readonly IBaseRepository<User> _dataAccess;
 
-        public AddWalletHandler(IMapper mapper ,IBaseRepository<Wallet> dataAccess)
+        public AddWalletHandler(IMapper mapper ,IBaseRepository<User> dataAccess)
         {
             _mapper = mapper;
             _dataAccess = dataAccess;
@@ -19,10 +20,29 @@ namespace BudgetManager.CQRS.Handlers.WalletHandlers
 
         public async Task<Guid> Handle(AddWalletCommand request, CancellationToken cancellationToken)
         {
-            var wallet = _mapper.Map<Wallet>(request.walletDTO);
-            await _dataAccess.InsertOneAsync(wallet, cancellationToken);
+            var userId = request.addWalletDTO.UserId;
+            var setDefault = request.addWalletDTO.SetDefault;
+            var wallet = _mapper.Map<Wallet>(request.addWalletDTO);
 
-            return wallet.Id;
+            wallet.DateOfChange = DateTime.UtcNow;
+
+            var filter = Builders<User>.Filter.Eq(u => u.Id, userId);
+            var update = Builders<User>.Update.Push(u => u.Wallets, wallet);
+
+            if (setDefault)
+            {
+                update.Set(u => u.DefaultWallet, wallet.Id);
+            }
+
+            var result = await _dataAccess.UpdateOneAsync(filter, update, cancellationToken);
+
+            if (result.Wallets.Count == 1)
+            {
+                var updateDefaultWallet = Builders<User>.Update.Set(u => u.DefaultWallet, wallet.Id);
+                result = await _dataAccess.UpdateOneAsync(filter, updateDefaultWallet, cancellationToken);
+            }
+
+            return result is not null ? wallet.Id : Guid.Empty;
         }
     }
 }
