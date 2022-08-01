@@ -1,18 +1,17 @@
 ﻿using AutoMapper;
 using BudgetManager.CQRS.Queries.CategoryQueries;
 using BudgetManager.CQRS.Responses.CategoryResponses;
-using BudgetManager.Model;
-using BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation;
+using BudgetManager.DataAccess.MongoDbAccess.Interfaces;
 using MediatR;
 
 namespace BudgetManager.CQRS.Handlers.CategoryHandlers
 {
     public class GetOneCategoryHandler: IRequestHandler<GetOneCategoryQuery, CategoryResponse>
     {
-        private readonly IBaseRepository<Category> _categoryRepository;
+        private readonly ICategoryRepository _categoryRepository;
         private readonly IMapper _mapper;
 
-        public GetOneCategoryHandler(IBaseRepository<Category> categoryRepository, IMapper mapper)
+        public GetOneCategoryHandler(ICategoryRepository categoryRepository, IMapper mapper)
         {
             _categoryRepository = categoryRepository;
             _mapper = mapper;

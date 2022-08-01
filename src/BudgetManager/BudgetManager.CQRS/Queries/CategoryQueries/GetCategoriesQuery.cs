@@ -3,5 +3,5 @@ using MediatR;
 
 namespace BudgetManager.CQRS.Queries.CategoryQueries
 {
-    public record GetCategoriesQuery() : IRequest<IEnumerable<CategoryResponse>>;
+    public record GetCategoriesQuery(Guid userId) : IRequest<IEnumerable<CategoryResponse>>;
 }

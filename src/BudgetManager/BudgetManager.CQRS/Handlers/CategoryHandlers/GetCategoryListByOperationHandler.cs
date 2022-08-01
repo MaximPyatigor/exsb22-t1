@@ -6,20 +6,20 @@ using MediatR;
 
 namespace BudgetManager.CQRS.Handlers.CategoryHandlers
 {
-    public class GetCategoriesHandler : IRequestHandler<GetCategoriesQuery, IEnumerable<CategoryResponse>>
+    public class GetCategoryListByOperationHandler : IRequestHandler<GetCategoriesByOperationQuery, IEnumerable<CategoryResponse>>
     {
         private readonly ICategoryRepository _categoryRepository;
         private readonly IMapper _mapper;
 
-        public GetCategoriesHandler(ICategoryRepository categoryRepository, IMapper mapper)
+        public GetCategoryListByOperationHandler(ICategoryRepository categoryRepository, IMapper mapper)
         {
             _categoryRepository = categoryRepository;
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<CategoryResponse>> Handle(GetCategoriesQuery request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<CategoryResponse>> Handle(GetCategoriesByOperationQuery request, CancellationToken cancellationToken)
         {
-            var allCategoriesFromDb = await _categoryRepository.GetListByUserIdAsync(request.userId, cancellationToken);
+            var allCategoriesFromDb = await _categoryRepository.GetListByOperationAsync(request.userId, request.operationType, cancellationToken);
             var listOfResponseCategories = _mapper.Map<IEnumerable<CategoryResponse>>(allCategoriesFromDb);
 
             return listOfResponseCategories;

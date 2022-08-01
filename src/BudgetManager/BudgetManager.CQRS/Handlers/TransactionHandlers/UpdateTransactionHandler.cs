@@ -1,24 +1,19 @@
 ﻿using AutoMapper;
 using BudgetManager.CQRS.Commands.TransactionCommands;
 using BudgetManager.CQRS.Responses.TransactionResponses;
+using BudgetManager.DataAccess.MongoDbAccess.Interfaces;
 using BudgetManager.Model;
-using BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation;
 using MediatR;
 using MongoDB.Driver;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BudgetManager.CQRS.Handlers.TransactionHandlers
 {
     public class UpdateTransactionHandler : IRequestHandler<UpdateTransactionCommand, TransactionResponse>
     {
         private readonly IMapper _mapper;
-        private readonly IBaseRepository<Transaction> _dataAccess;
+        private readonly ITransactionRepository _dataAccess;
 
-        public UpdateTransactionHandler(IBaseRepository<Transaction> dataAccess, IMapper mapper)
+        public UpdateTransactionHandler(ITransactionRepository dataAccess, IMapper mapper)
         {
             _dataAccess = dataAccess;
             _mapper = mapper;

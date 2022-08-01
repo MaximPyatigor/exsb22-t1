@@ -9,7 +9,7 @@ namespace BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation
     public abstract class BaseRepository<TDocument> : IBaseRepository<TDocument>
         where TDocument : IModelBase
     {
-        private readonly IMongoCollection<TDocument> _collection;
+        protected readonly IMongoCollection<TDocument> _collection;
         private readonly IMongoClient _client;
 
         public BaseRepository(IMongoDbSettings settings, IMongoClient client)

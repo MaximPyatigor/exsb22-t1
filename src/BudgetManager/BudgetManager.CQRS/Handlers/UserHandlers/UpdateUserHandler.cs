@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using BudgetManager.CQRS.Commands.UserCommands;
 using BudgetManager.CQRS.Responses.UserResponses;
+using BudgetManager.DataAccess.MongoDbAccess.Interfaces;
 using BudgetManager.Model;
-using BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation;
 using MediatR;
 using MongoDB.Driver;
 
@@ -10,10 +10,10 @@ namespace BudgetManager.CQRS.Handlers.UserHandlers
 {
     public class UpdateUserHandler : IRequestHandler<UpdateUserCommand, UserResponse>
     {
-        private readonly IBaseRepository<User> _userRepository;
+        private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
 
-        public UpdateUserHandler(IBaseRepository<User> userRepository, IMapper mapper)
+        public UpdateUserHandler(IUserRepository userRepository, IMapper mapper)
         {
             _userRepository = userRepository;
             _mapper = mapper;

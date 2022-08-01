@@ -16,9 +16,9 @@ namespace BudgetManager.API.Controllers
         public NotificationController(IMediator mediator) => _mediator = mediator;
 
         [HttpGet]
-        public async Task<IActionResult> GetNotifications(CancellationToken cancellationToken)
+        public async Task<IActionResult> GetNotifications(Guid userId, CancellationToken cancellationToken)
         {
-            var response = await _mediator.Send(new GetNotificationListQuery(), cancellationToken);
+            var response = await _mediator.Send(new GetNotificationListQuery(userId), cancellationToken);
             return Ok(response);
         }
 

@@ -1,8 +1,7 @@
 ﻿using AutoMapper;
 using BudgetManager.CQRS.Queries.CountryQueries;
 using BudgetManager.CQRS.Responses.CountryResponses;
-using BudgetManager.Model;
-using BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation;
+using BudgetManager.DataAccess.MongoDbAccess.Interfaces;
 using MediatR;
 
 namespace BudgetManager.CQRS.Handlers.CountryHandlers
@@ -10,9 +9,9 @@ namespace BudgetManager.CQRS.Handlers.CountryHandlers
     public class GetCountryListHandler : IRequestHandler<GetCountryListQuery, IEnumerable<CountryResponse>>
     {
         private readonly IMapper _mapper;
-        private readonly IBaseRepository<Country> _dataAccess;
+        private readonly ICountryRepository _dataAccess;
 
-        public GetCountryListHandler(IMapper mapper, IBaseRepository<Country> dataAccess)
+        public GetCountryListHandler(IMapper mapper, ICountryRepository dataAccess)
         {
             _mapper = mapper;
             _dataAccess = dataAccess;

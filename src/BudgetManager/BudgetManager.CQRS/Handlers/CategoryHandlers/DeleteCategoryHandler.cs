@@ -1,15 +1,14 @@
 ﻿using BudgetManager.CQRS.Commands.CategoryCommands;
-using BudgetManager.Model;
-using BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation;
+using BudgetManager.DataAccess.MongoDbAccess.Interfaces;
 using MediatR;
 
 namespace BudgetManager.CQRS.Handlers.CategoryHandlers
 {
     public class DeleteCategoryHandler : IRequestHandler<DeleteCategoryCommand, bool>
     {
-        private readonly IBaseRepository<Category> _categoryRepository;
+        private readonly ICategoryRepository _categoryRepository;
 
-        public DeleteCategoryHandler(IBaseRepository<Category> categoryRepository)
+        public DeleteCategoryHandler(ICategoryRepository categoryRepository)
         {
             _categoryRepository = categoryRepository;
         }

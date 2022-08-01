@@ -1,19 +1,17 @@
 ﻿using AutoMapper;
 using BudgetManager.CQRS.Commands.NotificationCommands;
-using BudgetManager.CQRS.Responses.NotificationResponses;
+using BudgetManager.DataAccess.MongoDbAccess.Interfaces;
 using BudgetManager.Model;
-using BudgetManager.Model.Enums;
-using BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation;
 using MediatR;
 
 namespace BudgetManager.CQRS.Handlers.NotificationHandlers
 {
     public class AddNotificationHandler : IRequestHandler<AddNotificationCommand, Guid>
     {
-        private readonly IBaseRepository<Notification> _dataAccess;
+        private readonly INotificationRepository _dataAccess;
         private readonly IMapper _mapper;
 
-        public AddNotificationHandler(IBaseRepository<Notification> dataAccess, IMapper mapper)
+        public AddNotificationHandler(INotificationRepository dataAccess, IMapper mapper)
         {
             _dataAccess = dataAccess;
             _mapper = mapper;

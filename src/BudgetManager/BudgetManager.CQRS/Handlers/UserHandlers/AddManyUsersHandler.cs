@@ -1,18 +1,18 @@
 ﻿using AutoMapper;
 using BudgetManager.CQRS.Commands.UserCommands;
 using BudgetManager.CQRS.Responses.UserResponses;
+using BudgetManager.DataAccess.MongoDbAccess.Interfaces;
 using BudgetManager.Model;
-using BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation;
 using MediatR;
 
 namespace BudgetManager.CQRS.Handlers.UserHandlers
 {
     public class AddManyUsersHandler : IRequestHandler<AddManyUsersCommand, IEnumerable<Guid>>
     {
-        private readonly IBaseRepository<User> _userRepository;
+        private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
 
-        public AddManyUsersHandler(IBaseRepository<User> userRepository, IMapper mapper)
+        public AddManyUsersHandler(IUserRepository userRepository, IMapper mapper)
         {
             _userRepository = userRepository;
             _mapper = mapper;

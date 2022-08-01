@@ -1,15 +1,14 @@
 ﻿using BudgetManager.CQRS.Commands.UserCommands;
-using BudgetManager.Model;
-using BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation;
+using BudgetManager.DataAccess.MongoDbAccess.Interfaces;
 using MediatR;
 
 namespace BudgetManager.CQRS.Handlers.UserHandlers
 {
     public class DeleteUserHandler : IRequestHandler<DeleteUserCommand, bool>
     {
-        private readonly IBaseRepository<User> _userRepository;
+        private readonly IUserRepository _userRepository;
 
-        public DeleteUserHandler(IBaseRepository<User> userRepository)
+        public DeleteUserHandler(IUserRepository userRepository)
         {
             _userRepository = userRepository;
         }

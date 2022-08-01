@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using BudgetManager.CQRS.Commands.WalletCommands;
+using BudgetManager.DataAccess.MongoDbAccess.Interfaces;
 using BudgetManager.Model;
-using BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation;
 using MediatR;
 
 namespace BudgetManager.CQRS.Handlers.WalletHandlers
@@ -9,9 +9,9 @@ namespace BudgetManager.CQRS.Handlers.WalletHandlers
     public class AddWalletHandler : IRequestHandler<AddWalletCommand, Guid>
     {
         private readonly IMapper _mapper;
-        private readonly IBaseRepository<Wallet> _dataAccess;
+        private readonly IWalletRepository _dataAccess;
 
-        public AddWalletHandler(IMapper mapper ,IBaseRepository<Wallet> dataAccess)
+        public AddWalletHandler(IMapper mapper, IWalletRepository dataAccess)
         {
             _mapper = mapper;
             _dataAccess = dataAccess;

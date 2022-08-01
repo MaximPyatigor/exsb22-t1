@@ -1,8 +1,8 @@
+using System.Text.Json.Serialization;
 using BudgetManager.API.Seeding;
 using BudgetManager.CQRS.Mapping;
+using BudgetManager.DataAccess.MongoDbAccess.Interfaces;
 using BudgetManager.DataAccess.MongoDbAccess.Repositories;
-using BudgetManager.Model;
-using BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation;
 using BudgetManager.Shared.DataAccess.MongoDB.DatabaseSettings;
 using BudgetManager.Shared.Utils.Helpers;
 using MediatR;
@@ -24,21 +24,24 @@ builder.Services.AddSingleton<IMongoClient, MongoClient>(sp =>
     return new MongoClient(mongoDbConfig.ConnectionString);
 });
 
-builder.Services.AddScoped<IBaseRepository<Category>, CategoryRepository>();
-builder.Services.AddScoped<IBaseRepository<User>, UserRepository>();
-builder.Services.AddScoped<IBaseRepository<Wallet>, WalletRepository>();
-builder.Services.AddScoped<IBaseRepository<Notification>, NotificationRepository>();
-builder.Services.AddScoped<IBaseRepository<Transaction>, TransactionRepository>();
-builder.Services.AddScoped<IBaseRepository<Country>, CountryRepository>();
-builder.Services.AddScoped<IBaseRepository<Currency>, CurrencyRepository>();
-builder.Services.AddScoped<IBaseRepository<DefaultCategory>, DefaultCategoryRepository>();
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IWalletRepository, WalletRepository>();
+builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
+builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
+builder.Services.AddScoped<ICountryRepository, CountryRepository>();
+builder.Services.AddScoped<ICurrencyRepository, CurrencyRepository>();
+builder.Services.AddScoped<IDefaultCategory, DefaultCategoryRepository>();
 
 builder.Services.AddScoped<ISeedingService, SeedingService>();
 
 builder.Services.AddMediatR(typeof(MappingProfile).Assembly);
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddJsonOptions(x =>
+{
+    x.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+});
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

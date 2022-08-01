@@ -2,17 +2,17 @@
 using BudgetManager.CQRS.Commands.UserCommands;
 using BudgetManager.Model;
 using MediatR;
-using BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation;
 using BudgetManager.SDK.DTOs;
+using BudgetManager.DataAccess.MongoDbAccess.Interfaces;
 
 namespace BudgetManager.CQRS.Handlers.UserHandlers
 {
     public class AddUserHandler : IRequestHandler<AddUserCommand, Guid>
     {
-        private readonly IBaseRepository<User> _userRepository;
+        private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
 
-        public AddUserHandler(IBaseRepository<User> userRepository, IMapper mapper)
+        public AddUserHandler(IUserRepository userRepository, IMapper mapper)
         {
             _userRepository = userRepository;
             _mapper = mapper;

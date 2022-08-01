@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using BudgetManager.CQRS.Commands.WalletCommands;
 using BudgetManager.CQRS.Responses.WalletResponses;
+using BudgetManager.DataAccess.MongoDbAccess.Interfaces;
 using BudgetManager.Model;
-using BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation;
 using MediatR;
 using MongoDB.Driver;
 
@@ -11,9 +11,9 @@ namespace BudgetManager.CQRS.Handlers.WalletHandlers
     public class UpdateWalletHandler : IRequestHandler<UpdateWalletCommand, WalletResponse>
     {
         private readonly IMapper _mapper;
-        private readonly IBaseRepository<Wallet> _dataAccess;
+        private readonly IWalletRepository _dataAccess;
 
-        public UpdateWalletHandler(IBaseRepository<Wallet> dataAccess, IMapper mapper)
+        public UpdateWalletHandler(IWalletRepository dataAccess, IMapper mapper)
         {
             _dataAccess = dataAccess;
             _mapper = mapper;
