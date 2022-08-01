@@ -38,16 +38,6 @@ namespace BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation
             return _collection.Find(filterExpression).ToEnumerable(cancellationToken);
         }
 
-        public IEnumerable<TProjected> FilterBy<TProjected>(FilterDefinition<TDocument> filterDefenition, ProjectionDefinition<TDocument, TProjected> projectDefinition, CancellationToken cancellationToken)
-        {
-            return _collection.Find(filterDefenition).Project(projectDefinition).ToEnumerable(cancellationToken);
-        }
-
-        public IEnumerable<TDocument> FilterBy(FilterDefinition<TDocument> filterDefenition, CancellationToken cancellationToken)
-        {
-            return _collection.Find(filterDefenition).ToEnumerable(cancellationToken);
-        }
-
         public virtual async Task InsertOneAsync(TDocument document, CancellationToken cancellationToken)
         {
             await _collection.InsertOneAsync(document, null, cancellationToken);
