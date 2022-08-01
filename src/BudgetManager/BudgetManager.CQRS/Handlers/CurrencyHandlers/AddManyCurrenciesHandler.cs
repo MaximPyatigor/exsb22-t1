@@ -1,15 +1,14 @@
 ﻿using BudgetManager.CQRS.Commands.CurrencyCommands;
-using BudgetManager.Model;
-using BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation;
+using BudgetManager.DataAccess.MongoDbAccess.Interfaces;
 using MediatR;
 
 namespace BudgetManager.CQRS.Handlers.CurrencyHandlers
 {
     public class AddManyCurrenciesHandler : IRequestHandler<AddManyCurrenciesCommand, IEnumerable<Guid>>
     {
-        private readonly IBaseRepository<Currency> _dataAccess;
+        private readonly ICurrencyRepository _dataAccess;
 
-        public AddManyCurrenciesHandler(IBaseRepository<Currency> dataAccess)
+        public AddManyCurrenciesHandler(ICurrencyRepository dataAccess)
         {
             _dataAccess = dataAccess;
         }

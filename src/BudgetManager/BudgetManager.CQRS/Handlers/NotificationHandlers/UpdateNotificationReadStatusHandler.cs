@@ -1,24 +1,19 @@
 ﻿using AutoMapper;
 using BudgetManager.CQRS.Commands.NotificationCommands;
 using BudgetManager.CQRS.Responses.NotificationResponses;
+using BudgetManager.DataAccess.MongoDbAccess.Interfaces;
 using BudgetManager.Model;
-using BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation;
 using MediatR;
 using MongoDB.Driver;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BudgetManager.CQRS.Handlers.NotificationHandlers
 {
     public class UpdateNotificationReadStatusHandler : IRequestHandler<UpdateNotificationReadStatusCommand, NotificationResponse>
     {
-        private readonly IBaseRepository<Notification> _dataAccess;
+        private readonly INotificationRepository _dataAccess;
         private readonly IMapper _mapper;
 
-        public UpdateNotificationReadStatusHandler(IBaseRepository<Notification> dataAccess, IMapper mapper)
+        public UpdateNotificationReadStatusHandler(INotificationRepository dataAccess, IMapper mapper)
         {
             _dataAccess = dataAccess;
             _mapper = mapper;

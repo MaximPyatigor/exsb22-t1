@@ -1,8 +1,7 @@
 ﻿using AutoMapper;
 using BudgetManager.CQRS.Queries.CurrencyQueries;
 using BudgetManager.CQRS.Responses.CurrencyResponses;
-using BudgetManager.Model;
-using BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation;
+using BudgetManager.DataAccess.MongoDbAccess.Interfaces;
 using MediatR;
 
 namespace BudgetManager.CQRS.Handlers.CurrencyHandlers
@@ -10,9 +9,9 @@ namespace BudgetManager.CQRS.Handlers.CurrencyHandlers
     public class GetCurrencyListHandler : IRequestHandler<GetCurrencyListQuery, IEnumerable<CurrencyResponse>>
     {
         private readonly IMapper _mapper;
-        private readonly IBaseRepository<Currency> _dataAccess;
+        private readonly ICurrencyRepository _dataAccess;
 
-        public GetCurrencyListHandler(IMapper mapper, IBaseRepository<Currency> dataAccess)
+        public GetCurrencyListHandler(IMapper mapper, ICurrencyRepository dataAccess)
         {
             _mapper = mapper;
             _dataAccess = dataAccess;

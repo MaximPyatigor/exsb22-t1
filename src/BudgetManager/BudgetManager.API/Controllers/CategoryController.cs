@@ -1,5 +1,6 @@
 ﻿using BudgetManager.CQRS.Commands.CategoryCommands;
 using BudgetManager.CQRS.Queries.CategoryQueries;
+using BudgetManager.Model.Enums;
 using BudgetManager.SDK.DTOs.CategoryDTOs;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -17,9 +18,16 @@ namespace BudgetManager.API.Controllers
         }
 
         [HttpGet("[action]")]
-        public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
+        public async Task<IActionResult> GetAll(Guid userId, CancellationToken cancellationToken)
         {
-            var response = await _mediator.Send(new GetCategoriesQuery(), cancellationToken);
+            var response = await _mediator.Send(new GetCategoriesQuery(userId), cancellationToken);
+            return response == null ? NotFound() : Ok(response);
+        }
+
+        [HttpGet("[action]/{operationType}")]
+        public async Task<IActionResult> GetAllByOperation(Guid userId, OperationType operationType, CancellationToken cancellationToken)
+        {
+            var response = await _mediator.Send(new GetCategoriesByOperationQuery(userId, operationType), cancellationToken);
             return response == null ? NotFound() : Ok(response);
         }
 

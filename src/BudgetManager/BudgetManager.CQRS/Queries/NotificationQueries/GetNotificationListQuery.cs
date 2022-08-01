@@ -3,5 +3,5 @@ using MediatR;
 
 namespace BudgetManager.CQRS.Queries.NotificationQueries
 {
-    public record GetNotificationListQuery() : IRequest<IEnumerable<NotificationResponse>>;
+    public record GetNotificationListQuery(Guid userId) : IRequest<IEnumerable<NotificationResponse>>;
 }

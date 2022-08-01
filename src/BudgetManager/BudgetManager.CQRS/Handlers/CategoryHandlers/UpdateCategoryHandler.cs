@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using BudgetManager.CQRS.Commands.CategoryCommands;
 using BudgetManager.CQRS.Responses.CategoryResponses;
+using BudgetManager.DataAccess.MongoDbAccess.Interfaces;
 using BudgetManager.Model;
-using BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation;
 using MediatR;
 using MongoDB.Driver;
 
@@ -10,10 +10,10 @@ namespace BudgetManager.CQRS.Handlers.CategoryHandlers
 {
     public class UpdateCategoryHandler : IRequestHandler<UpdateCategoryCommand, CategoryResponse>
     {
-        private readonly IBaseRepository<Category> _categoryRepository;
+        private readonly ICategoryRepository _categoryRepository;
         private readonly IMapper _mapper;
 
-        public UpdateCategoryHandler(IBaseRepository<Category> categoryRepository, IMapper mapper)
+        public UpdateCategoryHandler(ICategoryRepository categoryRepository, IMapper mapper)
         {
             _categoryRepository = categoryRepository;
             _mapper = mapper;

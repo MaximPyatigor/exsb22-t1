@@ -1,18 +1,17 @@
 ﻿using AutoMapper;
 using BudgetManager.CQRS.Queries.DefaultCategoryQueries;
 using BudgetManager.CQRS.Responses.DefaultCategoryResponses;
-using BudgetManager.Model;
-using BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation;
+using BudgetManager.DataAccess.MongoDbAccess.Interfaces;
 using MediatR;
 
 namespace BudgetManager.CQRS.Handlers.DefaultCategoryHandlers
 {
     public class GetDefaultCategoriesHandler : IRequestHandler<GetDefaultCategoriesQuery, IEnumerable<DefaultCategoryResponse>>
     {
-        private readonly IBaseRepository<DefaultCategory> _defaultCategoryRepository;
+        private readonly IDefaultCategory _defaultCategoryRepository;
         private readonly IMapper _mapper;
 
-        public GetDefaultCategoriesHandler(IBaseRepository<DefaultCategory> baseRepository,
+        public GetDefaultCategoriesHandler(IDefaultCategory baseRepository,
             IMapper mapper)
         {
             _defaultCategoryRepository = baseRepository;

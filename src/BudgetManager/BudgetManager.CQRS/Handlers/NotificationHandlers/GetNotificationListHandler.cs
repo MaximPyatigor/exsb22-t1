@@ -1,18 +1,17 @@
 ﻿using AutoMapper;
 using BudgetManager.CQRS.Queries.NotificationQueries;
 using BudgetManager.CQRS.Responses.NotificationResponses;
-using BudgetManager.Model;
-using BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation;
+using BudgetManager.DataAccess.MongoDbAccess.Interfaces;
 using MediatR;
 
 namespace BudgetManager.CQRS.Handlers.NotificationHandlers
 {
     public class GetNotificationListHandler : IRequestHandler<GetNotificationListQuery, IEnumerable<NotificationResponse>>
     {
-        private readonly IBaseRepository<Notification> _dataAccess;
+        private readonly INotificationRepository _dataAccess;
         private readonly IMapper _mapper;
 
-        public GetNotificationListHandler(IBaseRepository<Notification> dataAccess, IMapper mapper)
+        public GetNotificationListHandler(INotificationRepository dataAccess, IMapper mapper)
         {
             _dataAccess = dataAccess;
             _mapper = mapper;
@@ -20,7 +19,7 @@ namespace BudgetManager.CQRS.Handlers.NotificationHandlers
 
         public async Task<IEnumerable<NotificationResponse>> Handle(GetNotificationListQuery request, CancellationToken cancellationToken)
         {
-            var result = _mapper.Map<IEnumerable<NotificationResponse>>(await _dataAccess.GetAllAsync(cancellationToken));
+            var result = _mapper.Map<IEnumerable<NotificationResponse>>(await _dataAccess.GetListByUserIdAsync(request.userId, cancellationToken));
             return result;
         }
     }

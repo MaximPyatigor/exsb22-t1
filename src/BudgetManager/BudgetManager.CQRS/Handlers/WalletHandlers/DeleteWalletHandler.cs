@@ -1,15 +1,14 @@
 ﻿using BudgetManager.CQRS.Commands.WalletCommands;
-using BudgetManager.Model;
-using BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation;
+using BudgetManager.DataAccess.MongoDbAccess.Interfaces;
 using MediatR;
 
 namespace BudgetManager.CQRS.Handlers.WalletHandlers
 {
     public class DeleteWalletHandler : IRequestHandler<DeleteWalletCommand, bool>
     {
-        private readonly IBaseRepository<Wallet> _dataAccess;
+        private readonly IWalletRepository _dataAccess;
 
-        public DeleteWalletHandler(IBaseRepository<Wallet> dataAccess)
+        public DeleteWalletHandler(IWalletRepository dataAccess)
         {
             _dataAccess = dataAccess;
         }

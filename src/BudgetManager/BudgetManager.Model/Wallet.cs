@@ -13,6 +13,8 @@ namespace BudgetManager.Model
         [Required]
         public string Name { get; set; }
         [Required]
+        public Guid UserId { get; set; }
+        [Required]
         public Currency Currency { get; set; }
         [Required]
         public decimal Balance { get; set; }

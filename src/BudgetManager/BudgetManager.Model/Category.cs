@@ -14,9 +14,9 @@ namespace BudgetManager.Model
         [Required]
         public string Name { get; set; }
         [Required]
-        public decimal Limit { get; set; }
-        [Required]
-        public LimitPeriods LimitPeriod { get; set; }
+        public Guid UserId { get; set; }
+        public decimal? Limit { get; set; }
+        public LimitPeriods? LimitPeriod { get; set; }
         public List<Category>? SubCategories { get; set; }
         [Required]
         public OperationType CategoryType { get; set; }

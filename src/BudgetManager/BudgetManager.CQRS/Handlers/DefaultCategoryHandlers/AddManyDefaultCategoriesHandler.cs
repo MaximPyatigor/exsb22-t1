@@ -1,15 +1,14 @@
 ﻿using BudgetManager.CQRS.Commands.DefaultCategoryCommands;
-using BudgetManager.Model;
-using BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation;
+using BudgetManager.DataAccess.MongoDbAccess.Interfaces;
 using MediatR;
 
 namespace BudgetManager.CQRS.Handlers.DefaultCategoryHandlers
 {
     public class AddManyDefaultCategoriesHandler : IRequestHandler<AddManyDefaultCategoriesCommand, IEnumerable<Guid>>
     {
-        private readonly IBaseRepository<DefaultCategory> _defaultCategoryRepository;
+        private readonly IDefaultCategory _defaultCategoryRepository;
 
-        public AddManyDefaultCategoriesHandler(IBaseRepository<DefaultCategory> baseRepository)
+        public AddManyDefaultCategoriesHandler(IDefaultCategory baseRepository)
         {
             _defaultCategoryRepository = baseRepository;
         }

@@ -1,20 +1,14 @@
 ﻿using BudgetManager.CQRS.Commands.NotificationCommands;
-using BudgetManager.Model;
-using BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation;
+using BudgetManager.DataAccess.MongoDbAccess.Interfaces;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BudgetManager.CQRS.Handlers.NotificationHandlers
 {
     public class DeleteNotificationHandler : IRequestHandler<DeleteNotificationCommand, bool>
     {
-        private readonly IBaseRepository<Notification> _dataAccess;
+        private readonly INotificationRepository _dataAccess;
 
-        public DeleteNotificationHandler(IBaseRepository<Notification> dataAccess)
+        public DeleteNotificationHandler(INotificationRepository dataAccess)
         {
             _dataAccess = dataAccess;
         }
