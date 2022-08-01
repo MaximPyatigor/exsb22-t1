@@ -26,12 +26,13 @@ namespace BudgetManager.CQRS.Handlers.CategoryHandlers
             var filter = Builders<User>.Filter.Eq(u => u.Id, userId)
                 & Builders<User>.Filter.ElemMatch(u => u.Categories, categoryFilter);
 
-            var user = await _userRepository.FilterBy(filter, cancellationToken);
-            if (user == null) { return false; }
+            var response = await _userRepository.FilterBy(filter, cancellationToken);
+            var listOfUsers = response.ToList();
+            if (listOfUsers == null || listOfUsers.Count < 1) { return false; }
             else
             {
                 var update = Builders<User>.Update.PullFilter(u => u.Categories, categoryFilter);
-                await _userRepository.UpdateOneAsync(filter, update, cancellationToken);
+                var result = await _userRepository.UpdateOneAsync(filter, update, cancellationToken);
 
                 return true;
             }

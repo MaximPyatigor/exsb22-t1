@@ -28,9 +28,10 @@ namespace BudgetManager.CQRS.Handlers.CategoryHandlers
             var filter = Builders<User>.Filter.Eq(u => u.Id, userId)
                 & Builders<User>.Filter.ElemMatch(u => u.Categories, categoryFilter);
 
-            var user = await _userRepository.FilterBy(filter, cancellationToken);
+            var response = await _userRepository.FilterBy(filter, cancellationToken);
+            var listOfUsers = response.ToList();
 
-            if (user is null) { return null; }
+            if (listOfUsers is null || listOfUsers.Count < 1) { return null; }
             else
             {
                 var mappedCategory = _mapper.Map<Category>(updateCategoryObject);
