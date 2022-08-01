@@ -18,8 +18,6 @@ namespace BudgetManager.CQRS.Handlers.CategoryHandlers
 
         public async Task<bool> Handle(DeleteCategoryCommand request, CancellationToken cancellationToken)
         {
-            Stopwatch sw = new Stopwatch();
-            sw.Start();
 
             var userId = request.deleteDto.UserId;
             var categoryId = request.deleteDto.Id;
@@ -30,14 +28,13 @@ namespace BudgetManager.CQRS.Handlers.CategoryHandlers
 
             var user = await _userRepository.FilterBy(filter, cancellationToken);
             if (user == null) { return false; }
+            else
+            {
+                var update = Builders<User>.Update.PullFilter(u => u.Categories, categoryFilter);
+                await _userRepository.UpdateOneAsync(filter, update, cancellationToken);
 
-            var update = Builders<User>.Update.PullFilter(u => u.Categories, categoryFilter);
-
-            await _userRepository.UpdateOneAsync(filter, update, cancellationToken);
-            sw.Stop();
-            Debug.WriteLine(sw.Elapsed);
-
-            return true;
+                return true;
+            }
         }
     }
 }

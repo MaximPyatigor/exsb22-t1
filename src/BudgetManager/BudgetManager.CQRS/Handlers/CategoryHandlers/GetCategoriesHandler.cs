@@ -4,6 +4,8 @@ using BudgetManager.CQRS.Responses.CategoryResponses;
 using BudgetManager.Model;
 using BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation;
 using MediatR;
+using MongoDB.Bson;
+using MongoDB.Driver;
 
 namespace BudgetManager.CQRS.Handlers.CategoryHandlers
 {
@@ -20,12 +22,15 @@ namespace BudgetManager.CQRS.Handlers.CategoryHandlers
 
         public async Task<IEnumerable<CategoryResponse>> Handle(GetCategoriesQuery request, CancellationToken cancellationToken)
         {
-            var user = await _userRepository.FindByIdAsync(request.userId, cancellationToken);
+            var filter = Builders<User>.Filter.Eq(u => u.Id, request.userId);
+            var projection = Builders<User>.Projection.Include(u => u.Categories);
+            var response = await _userRepository.FilterBy<User>(filter, projection, cancellationToken);
+            var listOfUsers = response.ToList();
 
-            if (user is null) { return null; }
+            if (response is null || listOfUsers is null || listOfUsers.Count < 1) { return null; }
 
-            var allCategoriesFromDb = user.Categories;
-            var listOfResponseCategories = _mapper.Map<IEnumerable<CategoryResponse>>(allCategoriesFromDb);
+            var usersCategories = listOfUsers[0].Categories;
+            var listOfResponseCategories = _mapper.Map<IEnumerable<CategoryResponse>>(usersCategories);
 
             return listOfResponseCategories;
         }

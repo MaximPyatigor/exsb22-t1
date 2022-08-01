@@ -4,6 +4,7 @@ using BudgetManager.CQRS.Responses.CategoryResponses;
 using BudgetManager.Model;
 using BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation;
 using MediatR;
+using MongoDB.Driver;
 
 namespace BudgetManager.CQRS.Handlers.CategoryHandlers
 {
@@ -23,16 +24,18 @@ namespace BudgetManager.CQRS.Handlers.CategoryHandlers
             var userId = request.queryDto.UserId;
             var categoryId = request.queryDto.Id;
 
-            var user = await _userRepository.FindByIdAsync(userId, cancellationToken);
-            if (user is null)
-            {
-                return null;
-            }
+            var filter = Builders<User>.Filter.Eq(u => u.Id, userId)
+                & Builders<User>.Filter.ElemMatch(u => u.Categories, c => c.Id == categoryId);
+            var projection = Builders<User>.Projection.Include(u => u.Categories)
+                .ElemMatch(u => u.Categories, c => c.Id == categoryId);
 
-            var category = user.Categories.Where(c => c.Id == categoryId).FirstOrDefault();
-            if (category is null) { return null; }
+            var response = await _userRepository.FilterBy<User>(filter, projection, cancellationToken);
+            var listOfUsers = response.ToList();
 
-            var mappedCategory = _mapper.Map<CategoryResponse>(category);
+            if (response is null || listOfUsers is null || listOfUsers.Count < 1) { return null; }
+
+            var usersCategory = listOfUsers[0].Categories.FirstOrDefault();
+            var mappedCategory = _mapper.Map<CategoryResponse>(usersCategory);
             return mappedCategory;
         }
     }

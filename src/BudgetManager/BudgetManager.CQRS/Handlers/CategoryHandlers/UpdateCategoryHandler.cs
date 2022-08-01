@@ -23,27 +23,22 @@ namespace BudgetManager.CQRS.Handlers.CategoryHandlers
         {
             var updateCategoryObject = request.updateCategoryObject;
             var userId = request.updateCategoryObject.UserId;
-            var user = await _userRepository.FindByIdAsync(userId, cancellationToken);
+
+            var categoryFilter = Builders<Category>.Filter.Eq(u => u.Id, updateCategoryObject.Id);
+            var filter = Builders<User>.Filter.Eq(u => u.Id, userId)
+                & Builders<User>.Filter.ElemMatch(u => u.Categories, categoryFilter);
+
+            var user = await _userRepository.FilterBy(filter, cancellationToken);
 
             if (user is null) { return null; }
-
-            var mappedCategory = _mapper.Map<Category>(updateCategoryObject);
-            var userCategory = user.Categories.Where(c => c.Id == mappedCategory.Id).FirstOrDefault();
-            var index = user.Categories.IndexOf(userCategory);
-
-            if (userCategory is not null && index is not -1)
+            else
             {
-                mappedCategory.Id = userCategory.Id;
-                user.Categories[index] = mappedCategory;
+                var mappedCategory = _mapper.Map<Category>(updateCategoryObject);
 
-                var filter = Builders<User>.Filter.Eq(u => u.Id, userId);
-                var update = Builders<User>.Update.Set(u => u.Categories, user.Categories);
+                var update = Builders<User>.Update.Set(u => u.Categories[-1], mappedCategory);
 
                 await _userRepository.UpdateOneAsync(filter, update, cancellationToken);
                 return _mapper.Map<CategoryResponse>(mappedCategory);
-            } else
-            {
-                return null;
             }
         }
     }

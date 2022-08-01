@@ -28,10 +28,9 @@ namespace BudgetManager.CQRS.Handlers.CategoryHandlers
             if (user is null) { return Guid.Empty; }
 
             Category mappedCategory = _mapper.Map<Category>(requestCategory);
-            user.Categories.Add(mappedCategory);
 
             var filter = Builders<User>.Filter.Eq(u => u.Id, userId);
-            var update = Builders<User>.Update.Set(u => u.Categories, user.Categories);
+            var update = Builders<User>.Update.Push(u => u.Categories, mappedCategory);
 
             await _userRepository.UpdateOneAsync(filter, update, cancellationToken);
             return mappedCategory.Id;
