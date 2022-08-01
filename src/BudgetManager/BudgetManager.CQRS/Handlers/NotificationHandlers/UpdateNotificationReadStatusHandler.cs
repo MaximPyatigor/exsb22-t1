@@ -15,22 +15,31 @@ namespace BudgetManager.CQRS.Handlers.NotificationHandlers
 {
     public class UpdateNotificationReadStatusHandler : IRequestHandler<UpdateNotificationReadStatusCommand, NotificationResponse>
     {
-        private readonly IBaseRepository<Notification> _dataAccess;
+        private readonly IBaseRepository<User> _userContext;
         private readonly IMapper _mapper;
 
-        public UpdateNotificationReadStatusHandler(IBaseRepository<Notification> dataAccess, IMapper mapper)
+        public UpdateNotificationReadStatusHandler(IBaseRepository<User> userContext, IMapper mapper)
         {
-            _dataAccess = dataAccess;
+            _userContext = userContext;
             _mapper = mapper;
         }
 
         public async Task<NotificationResponse> Handle(UpdateNotificationReadStatusCommand request, CancellationToken cancellationToken)
         {
-            var filter = Builders<Notification>.Filter.Eq(x => x.Id, request.Id);
-            var update = Builders<Notification>.Update.Set(x => x.IsRead, request.IsRead);
+            var userFilter = Builders<User>.Filter.Eq(u => u.Id, request.UserId);
+            var notificationFilter = Builders<User>.Filter.ElemMatch(x => x.Notifications,
+                Builders<Notification>.Filter.Eq(y => y.Id, request.Id));
 
-            Notification notification = await _dataAccess.UpdateOneAsync(filter, update, cancellationToken);
-            return _mapper.Map<NotificationResponse>(notification);
+            var filter = userFilter & notificationFilter;
+
+            var update = Builders<User>.Update.Set(u => u.Notifications[-1].IsRead, request.IsRead);
+
+            var updatedUser = await _userContext.UpdateOneAsync(filter, update, cancellationToken);
+
+            if (updatedUser == null) { throw new KeyNotFoundException("UserId or notificationId not found"); }
+
+            var result = _mapper.Map<NotificationResponse>(updatedUser.Notifications.FirstOrDefault());
+            return result;
         }
     }
 }

@@ -8,5 +8,5 @@ using System.Threading.Tasks;
 
 namespace BudgetManager.CQRS.Commands.NotificationCommands
 {
-    public record UpdateNotificationReadStatusCommand(Guid Id, bool IsRead) : IRequest<NotificationResponse>;
+    public record UpdateNotificationReadStatusCommand(Guid UserId, Guid Id, bool IsRead) : IRequest<NotificationResponse>;
 }
