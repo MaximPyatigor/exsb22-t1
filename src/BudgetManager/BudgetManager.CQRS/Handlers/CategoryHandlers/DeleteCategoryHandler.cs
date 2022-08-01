@@ -3,6 +3,7 @@ using BudgetManager.Model;
 using BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation;
 using MediatR;
 using MongoDB.Driver;
+using System.Diagnostics;
 
 namespace BudgetManager.CQRS.Handlers.CategoryHandlers
 {
@@ -17,27 +18,26 @@ namespace BudgetManager.CQRS.Handlers.CategoryHandlers
 
         public async Task<bool> Handle(DeleteCategoryCommand request, CancellationToken cancellationToken)
         {
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
+
             var userId = request.deleteDto.UserId;
             var categoryId = request.deleteDto.Id;
-            var user = await _userRepository.FindByIdAsync(userId, cancellationToken);
+            var categoryFilter = Builders<Category>.Filter.Eq(c => c.Id, categoryId);
+
+            var filter = Builders<User>.Filter.Eq(u => u.Id, userId)
+                & Builders<User>.Filter.ElemMatch(u => u.Categories, categoryFilter);
+
+            var user = await _userRepository.FilterBy(filter, cancellationToken);
             if (user == null) { return false; }
 
-            var category = user.Categories.Where(c => c.Id == categoryId).FirstOrDefault();
-            if (category == null) { return false; }
+            var update = Builders<User>.Update.PullFilter(u => u.Categories, categoryFilter);
 
-            var result = user.Categories.Remove(category);
-            if (result)
-            {
-                var filter = Builders<User>.Filter.Eq(u => u.Id, userId);
-                var update = Builders<User>.Update.Set(u => u.Categories, user.Categories);
+            await _userRepository.UpdateOneAsync(filter, update, cancellationToken);
+            sw.Stop();
+            Debug.WriteLine(sw.Elapsed);
 
-                await _userRepository.UpdateOneAsync(filter, update, cancellationToken);
-            } else
-            {
-                return false;
-            }
-
-            return result;
+            return true;
         }
     }
 }

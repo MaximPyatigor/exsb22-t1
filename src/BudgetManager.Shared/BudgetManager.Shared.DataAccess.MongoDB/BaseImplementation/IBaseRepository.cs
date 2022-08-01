@@ -12,8 +12,12 @@ namespace BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation
         IEnumerable<TProjected> FilterBy<TProjected>(
         Expression<Func<TDocument, bool>> filterExpression,
         Expression<Func<TDocument, TProjected>> projectionExpression, CancellationToken cancellationToken);
+        IEnumerable<TProjected> FilterBy<TProjected>(
+        FilterDefinition<TDocument> filterDefinition,
+        ProjectionDefinition<TDocument, TProjected> projectDefinition, CancellationToken cancellationToken);
 
         IEnumerable<TDocument> FilterBy(Expression<Func<TDocument, bool>> filterExpression, CancellationToken cancellationToken);
+        IEnumerable<TDocument> FilterBy(FilterDefinition<TDocument> filterDefenition, CancellationToken cancellationToken);
 
         Task InsertOneAsync(TDocument document, CancellationToken cancellationToken);
         Task InsertManyAsync(IEnumerable<TDocument> documents, CancellationToken cancellationToken);
