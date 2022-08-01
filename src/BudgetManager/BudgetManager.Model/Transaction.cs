@@ -12,6 +12,10 @@ namespace BudgetManager.Model
         [BsonId]
         public Guid Id { get; set; }
         [Required]
+        public Guid UserId { get; set; }
+        [Required]
+        public Guid WalletId { get; set; }
+        [Required]
         public Guid CategoryId { get; set; }
         [Required]
         public DateTime DateOfTransaction { get; set; }
