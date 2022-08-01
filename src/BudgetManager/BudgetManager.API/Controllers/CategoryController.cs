@@ -24,9 +24,9 @@ namespace BudgetManager.API.Controllers
         }
 
         [HttpGet("[action]")]
-        public async Task<IActionResult> GetById([FromQuery] GetOneCategoryDTO requestDto, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetById(Guid userId, Guid categoryId, CancellationToken cancellationToken)
         {
-            var response = await _mediator.Send(new GetOneCategoryQuery(requestDto), cancellationToken);
+            var response = await _mediator.Send(new GetOneCategoryQuery(userId, categoryId), cancellationToken);
             return response == null ? NotFound() : Ok(response);
         }
 
@@ -45,9 +45,9 @@ namespace BudgetManager.API.Controllers
         }
 
         [HttpDelete("[action]")]
-        public async Task<IActionResult> DeleteOne([FromQuery] DeleteOneCategoryDTO deleteOne, CancellationToken cancellationToken)
+        public async Task<IActionResult> DeleteOne(Guid userId, Guid categoryId, CancellationToken cancellationToken)
         {
-            var response = await _mediator.Send(new DeleteCategoryCommand(deleteOne), cancellationToken);
+            var response = await _mediator.Send(new DeleteCategoryCommand(userId, categoryId), cancellationToken);
             return response ? Ok(response) : NotFound();
         }
     }

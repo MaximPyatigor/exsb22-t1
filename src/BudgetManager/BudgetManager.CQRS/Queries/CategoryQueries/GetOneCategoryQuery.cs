@@ -4,5 +4,5 @@ using MediatR;
 
 namespace BudgetManager.CQRS.Queries.CategoryQueries
 {
-    public record GetOneCategoryQuery(GetOneCategoryDTO queryDto) : IRequest<CategoryResponse>;
+    public record GetOneCategoryQuery(Guid userId, Guid categoryId) : IRequest<CategoryResponse>;
 }

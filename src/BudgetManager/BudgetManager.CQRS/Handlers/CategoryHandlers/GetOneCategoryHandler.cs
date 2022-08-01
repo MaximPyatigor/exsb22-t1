@@ -21,8 +21,8 @@ namespace BudgetManager.CQRS.Handlers.CategoryHandlers
 
         public async Task<CategoryResponse> Handle(GetOneCategoryQuery request, CancellationToken cancellationToken)
         {
-            var userId = request.queryDto.UserId;
-            var categoryId = request.queryDto.Id;
+            var userId = request.userId;
+            var categoryId = request.categoryId;
 
             var filter = Builders<User>.Filter.Eq(u => u.Id, userId)
                 & Builders<User>.Filter.ElemMatch(u => u.Categories, c => c.Id == categoryId);

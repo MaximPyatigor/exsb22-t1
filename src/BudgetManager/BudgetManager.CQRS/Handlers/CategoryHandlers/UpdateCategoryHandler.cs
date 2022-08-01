@@ -28,19 +28,18 @@ namespace BudgetManager.CQRS.Handlers.CategoryHandlers
             var filter = Builders<User>.Filter.Eq(u => u.Id, userId)
                 & Builders<User>.Filter.ElemMatch(u => u.Categories, categoryFilter);
 
-            var response = await _userRepository.FilterBy(filter, cancellationToken);
-            var user = response.FirstOrDefault();
+            var mappedCategory = _mapper.Map<Category>(updateCategoryObject);
 
-            if (user == null) { return null; }
-            else
-            {
-                var mappedCategory = _mapper.Map<Category>(updateCategoryObject);
+            var update = Builders<User>.Update
+                .Set(u => u.Categories[-1].Name, mappedCategory.Name)
+                .Set(u => u.Categories[-1].CategoryType, mappedCategory.CategoryType)
+                .Set(u => u.Categories[-1].Color, mappedCategory.Color)
+                .Set(u => u.Categories[-1].LimitPeriod, mappedCategory.LimitPeriod)
+                .Set(u => u.Categories[-1].Limit, mappedCategory.Limit);
 
-                var update = Builders<User>.Update.Set(u => u.Categories[-1], mappedCategory);
+            var result = await _userRepository.UpdateOneAsync(filter, update, cancellationToken);
 
-                await _userRepository.UpdateOneAsync(filter, update, cancellationToken);
-                return _mapper.Map<CategoryResponse>(mappedCategory);
-            }
+            return result is null ? null : _mapper.Map<CategoryResponse>(mappedCategory);
         }
     }
 }

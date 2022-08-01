@@ -3,5 +3,5 @@ using MediatR;
 
 namespace BudgetManager.CQRS.Commands.CategoryCommands
 {
-    public record DeleteCategoryCommand(DeleteOneCategoryDTO deleteDto) : IRequest<bool>;
+    public record DeleteCategoryCommand(Guid userId, Guid categoryId) : IRequest<bool>;
 }
