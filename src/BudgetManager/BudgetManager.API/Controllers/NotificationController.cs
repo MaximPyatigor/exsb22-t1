@@ -26,14 +26,14 @@ namespace BudgetManager.API.Controllers
         public async Task<IActionResult> GetNotificationById(Guid userId, Guid id, CancellationToken cancellationToken)
         {
             var response = await _mediator.Send(new GetNotificationByIdQuery(userId, id), cancellationToken);
-            return response == null ? NotFound() : Ok(response);
+            return Ok(response);
         }
 
         [HttpPost]
         public async Task<IActionResult> AddNotification(Guid userId, [FromBody] AddNotificationDto notification, CancellationToken cancellationToken)
         {
             var response = await _mediator.Send(new AddNotificationCommand(userId, notification), cancellationToken);
-            return response == Guid.Empty ? NotFound("UserId not found") : Ok(response);
+            return Ok(response);
         }
 
         [HttpPut("{id}")]
@@ -46,8 +46,8 @@ namespace BudgetManager.API.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteNotification(Guid userId, Guid id, CancellationToken cancellationToken)
         {
-            var response = await _mediator.Send(new DeleteNotificationCommand(userId, id), cancellationToken);
-            return response ? Ok() : NotFound();
+            await _mediator.Send(new DeleteNotificationCommand(userId, id), cancellationToken);
+            return Ok();
         }
     }
 }
