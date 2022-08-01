@@ -24,18 +24,33 @@ namespace BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation
             return await _collection.Find(_ => true).ToListAsync(cancellationToken);
         }
 
-        public virtual IEnumerable<TProjected> FilterBy<TProjected>(
+        public virtual Task<IEnumerable<TProjected>> FilterBy<TProjected>(
         Expression<Func<TDocument, bool>> filterExpression,
         Expression<Func<TDocument, TProjected>> projectionExpression,
         CancellationToken cancellationToken)
         {
-            return _collection.Find(filterExpression).Project(projectionExpression).ToEnumerable(cancellationToken);
+            return Task.FromResult(_collection.Find(filterExpression).Project(projectionExpression).ToEnumerable(cancellationToken));
         }
 
-        public virtual IEnumerable<TDocument> FilterBy(Expression<Func<TDocument, bool>> filterExpression,
+        public virtual async Task<IEnumerable<TDocument>> FilterBy(Expression<Func<TDocument, bool>> filterExpression,
             CancellationToken cancellationToken)
         {
-            return _collection.Find(filterExpression).ToEnumerable(cancellationToken);
+            var result = await _collection.FindAsync(filterExpression);
+            return result.ToEnumerable(cancellationToken);
+        }
+
+        public Task<IEnumerable<TProjected>> FilterBy<TProjected>(
+            FilterDefinition<TDocument> filterDefenition,
+            ProjectionDefinition<TDocument, TProjected> projectDefinition,
+            CancellationToken cancellationToken)
+        {
+            return Task.FromResult(_collection.Find(filterDefenition).Project(projectDefinition).ToEnumerable(cancellationToken));
+        }
+
+        public async Task<IEnumerable<TDocument>> FilterBy(FilterDefinition<TDocument> filterDefenition, CancellationToken cancellationToken)
+        {
+            var result = await _collection.FindAsync(filterDefenition);
+            return result.ToEnumerable(cancellationToken);
         }
 
         public virtual async Task InsertOneAsync(TDocument document, CancellationToken cancellationToken)
