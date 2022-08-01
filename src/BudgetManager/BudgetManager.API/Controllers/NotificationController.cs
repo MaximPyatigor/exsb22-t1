@@ -16,24 +16,24 @@ namespace BudgetManager.API.Controllers
         public NotificationController(IMediator mediator) => _mediator = mediator;
 
         [HttpGet]
-        public async Task<IActionResult> GetNotifications(CancellationToken cancellationToken)
+        public async Task<IActionResult> GetNotifications(Guid userId, CancellationToken cancellationToken)
         {
-            var response = await _mediator.Send(new GetNotificationListQuery(), cancellationToken);
+            var response = await _mediator.Send(new GetNotificationListQuery(userId), cancellationToken);
             return Ok(response);
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetNotificationById(Guid id, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetNotificationById(Guid userId, Guid id, CancellationToken cancellationToken)
         {
-            var response = await _mediator.Send(new GetNotificationByIdQuery(id), cancellationToken);
+            var response = await _mediator.Send(new GetNotificationByIdQuery(userId, id), cancellationToken);
             return response == null ? NotFound() : Ok(response);
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddNotification([FromBody] AddNotificationDto notification, CancellationToken cancellationToken)
+        public async Task<IActionResult> AddNotification(Guid userId, [FromBody] AddNotificationDto notification, CancellationToken cancellationToken)
         {
-            var response = await _mediator.Send(new AddNotificationCommand(notification), cancellationToken);
-            return response == Guid.Empty ? BadRequest() : Ok(response);
+            var response = await _mediator.Send(new AddNotificationCommand(userId, notification), cancellationToken);
+            return response == Guid.Empty ? NotFound("UserId not found") : Ok(response);
         }
 
         [HttpPut("{id}")]
