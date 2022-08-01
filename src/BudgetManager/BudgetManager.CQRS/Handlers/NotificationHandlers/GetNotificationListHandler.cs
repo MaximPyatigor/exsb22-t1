@@ -35,7 +35,7 @@ namespace BudgetManager.CQRS.Handlers.NotificationHandlers
                 .FilterBy<UserNotificationListProjection>(filter, definition, cancellationToken))
                 .FirstOrDefault();
 
-            if(filteredUser == null) { throw new KeyNotFoundException();  }
+            if(filteredUser == null) { throw new KeyNotFoundException("UserId or notificationId not found"); }
 
             var result = _mapper.Map<IEnumerable<NotificationResponse>>(filteredUser.Notifications);
             return result;

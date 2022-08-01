@@ -31,7 +31,7 @@ namespace BudgetManager.CQRS.Handlers.NotificationHandlers
             var update = Builders<User>.Update.PullFilter(u => u.Notifications, n => n.Id == request.Id );
             var updatedUser = await _userContext.UpdateOneAsync(filter, update, cancellationToken);
 
-            if (updatedUser == null) { throw new KeyNotFoundException(); }
+            if (updatedUser == null) { throw new KeyNotFoundException("UserId or notificationId not found"); }
             return true;
         }
     }

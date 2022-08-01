@@ -29,7 +29,7 @@ namespace BudgetManager.CQRS.Handlers.NotificationHandlers
 
             var updatedUser = await _userContext.UpdateOneAsync(filter, update, cancellationToken);
 
-            if (updatedUser == null) { throw new KeyNotFoundException(); }
+            if (updatedUser == null) { throw new KeyNotFoundException("UserId or notificationId not found"); }
             return (Guid)notification.Id;
         }
     }
