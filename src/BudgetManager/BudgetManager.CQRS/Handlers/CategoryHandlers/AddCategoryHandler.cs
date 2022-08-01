@@ -23,17 +23,14 @@ namespace BudgetManager.CQRS.Handlers.CategoryHandlers
         {
             Guid userId = request.category.UserId;
             AddCategoryDTO requestCategory = request.category;
-            var user = await _userRepository.FindByIdAsync(userId, cancellationToken);
-
-            if (user is null) { return Guid.Empty; }
-
             Category mappedCategory = _mapper.Map<Category>(requestCategory);
 
             var filter = Builders<User>.Filter.Eq(u => u.Id, userId);
             var update = Builders<User>.Update.Push(u => u.Categories, mappedCategory);
 
-            await _userRepository.UpdateOneAsync(filter, update, cancellationToken);
-            return mappedCategory.Id;
+            var result = await _userRepository.UpdateOneAsync(filter, update, cancellationToken);
+
+            return result is not null ? mappedCategory.Id : Guid.Empty;
         }
     }
 }

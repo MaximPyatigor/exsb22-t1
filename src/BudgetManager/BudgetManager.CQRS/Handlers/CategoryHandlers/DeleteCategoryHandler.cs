@@ -27,8 +27,8 @@ namespace BudgetManager.CQRS.Handlers.CategoryHandlers
                 & Builders<User>.Filter.ElemMatch(u => u.Categories, categoryFilter);
 
             var response = await _userRepository.FilterBy(filter, cancellationToken);
-            var listOfUsers = response.ToList();
-            if (listOfUsers == null || listOfUsers.Count < 1) { return false; }
+            var user = response.FirstOrDefault();
+            if (user == null) { return false; }
             else
             {
                 var update = Builders<User>.Update.PullFilter(u => u.Categories, categoryFilter);

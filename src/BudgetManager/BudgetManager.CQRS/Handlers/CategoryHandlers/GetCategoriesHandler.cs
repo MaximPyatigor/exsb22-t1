@@ -25,11 +25,11 @@ namespace BudgetManager.CQRS.Handlers.CategoryHandlers
             var filter = Builders<User>.Filter.Eq(u => u.Id, request.userId);
             var projection = Builders<User>.Projection.Include(u => u.Categories);
             var response = await _userRepository.FilterBy<User>(filter, projection, cancellationToken);
-            var listOfUsers = response.ToList();
+            var user = response.FirstOrDefault();
 
-            if (response is null || listOfUsers is null || listOfUsers.Count < 1) { return null; }
+            if (user == null) { return null; }
 
-            var usersCategories = listOfUsers[0].Categories;
+            var usersCategories = user.Categories;
             var listOfResponseCategories = _mapper.Map<IEnumerable<CategoryResponse>>(usersCategories);
 
             return listOfResponseCategories;

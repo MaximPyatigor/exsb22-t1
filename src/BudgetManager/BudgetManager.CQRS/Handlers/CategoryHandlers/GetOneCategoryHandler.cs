@@ -30,11 +30,11 @@ namespace BudgetManager.CQRS.Handlers.CategoryHandlers
                 .ElemMatch(u => u.Categories, c => c.Id == categoryId);
 
             var response = await _userRepository.FilterBy<User>(filter, projection, cancellationToken);
-            var listOfUsers = response.ToList();
+            var user = response.FirstOrDefault();
 
-            if (response is null || listOfUsers is null || listOfUsers.Count < 1) { return null; }
+            if (user == null ) { return null; }
 
-            var usersCategory = listOfUsers[0].Categories.FirstOrDefault();
+            var usersCategory = user.Categories.FirstOrDefault();
             var mappedCategory = _mapper.Map<CategoryResponse>(usersCategory);
             return mappedCategory;
         }
