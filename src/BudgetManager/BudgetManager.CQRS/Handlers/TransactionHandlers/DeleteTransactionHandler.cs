@@ -1,20 +1,14 @@
 ﻿using BudgetManager.CQRS.Commands.TransactionCommands;
-using BudgetManager.Model;
-using BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation;
+using BudgetManager.DataAccess.MongoDbAccess.Interfaces;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BudgetManager.CQRS.Handlers.TransactionHandlers
 {
     public class DeleteTransactionHandler : IRequestHandler<DeleteTransactionCommand, bool>
     {
-        private readonly IBaseRepository<Transaction> _dataAccess;
+        private readonly ITransactionRepository _dataAccess;
 
-        public DeleteTransactionHandler(IBaseRepository<Transaction> dataAccess)
+        public DeleteTransactionHandler(ITransactionRepository dataAccess)
         {
             _dataAccess = dataAccess;
         }
