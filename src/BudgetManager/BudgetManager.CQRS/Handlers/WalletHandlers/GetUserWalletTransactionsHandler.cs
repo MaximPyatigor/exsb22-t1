@@ -30,8 +30,8 @@ namespace BudgetManager.CQRS.Handlers.WalletHandlers
             WalletTransactionsDTO walletTransactions = new WalletTransactionsDTO
             {
                 Wallet = wallet,
-                IsDefaultWallet = wallet.Id == request.walletId,
-                Transactions = userWalletTransactions.ToList(),
+                IsDefaultWallet = wallet?.Id == request.walletId,
+                Transactions = userWalletTransactions.OrderByDescending(t => t.DateOfTransaction).ToList(),
             };
 
             return walletTransactions;
