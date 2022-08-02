@@ -9,7 +9,7 @@ namespace BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation
     public abstract class BaseRepository<TDocument> : IBaseRepository<TDocument>
         where TDocument : IModelBase
     {
-        private readonly IMongoCollection<TDocument> _collection;
+        protected readonly IMongoCollection<TDocument> _collection;
         private readonly IMongoClient _client;
 
         public BaseRepository(IMongoDbSettings settings, IMongoClient client)
@@ -40,11 +40,11 @@ namespace BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation
         }
 
         public Task<IEnumerable<TProjected>> FilterBy<TProjected>(
-            FilterDefinition<TDocument> filterDefenition,
+            FilterDefinition<TDocument> filterDefinition,
             ProjectionDefinition<TDocument, TProjected> projectDefinition,
             CancellationToken cancellationToken)
         {
-            return Task.FromResult(_collection.Find(filterDefenition).Project(projectDefinition).ToEnumerable(cancellationToken));
+            return Task.FromResult(_collection.Find(filterDefinition).Project(projectDefinition).ToEnumerable(cancellationToken));
         }
 
         public async Task<IEnumerable<TDocument>> FilterBy(FilterDefinition<TDocument> filterDefenition, CancellationToken cancellationToken)

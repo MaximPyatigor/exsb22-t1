@@ -1,6 +1,7 @@
 using System.Text.Json.Serialization;
 using BudgetManager.API.Seeding;
 using BudgetManager.CQRS.Mapping;
+using BudgetManager.DataAccess.MongoDbAccess.Interfaces;
 using BudgetManager.DataAccess.MongoDbAccess.Repositories;
 using BudgetManager.Model;
 using BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation;
@@ -33,6 +34,7 @@ builder.Services.AddScoped<IBaseRepository<Transaction>, TransactionRepository>(
 builder.Services.AddScoped<IBaseRepository<Country>, CountryRepository>();
 builder.Services.AddScoped<IBaseRepository<Currency>, CurrencyRepository>();
 builder.Services.AddScoped<IBaseRepository<DefaultCategory>, DefaultCategoryRepository>();
+builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
 
 builder.Services.AddScoped<ISeedingService, SeedingService>();
 
