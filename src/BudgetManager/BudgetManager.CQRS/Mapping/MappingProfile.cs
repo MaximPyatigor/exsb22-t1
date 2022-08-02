@@ -34,6 +34,7 @@ namespace BudgetManager.CQRS.Mapping
             CreateMap<Notification, NotificationResponse>();
             CreateMap<Country, CountryResponse>();
             CreateMap<DefaultCategory, DefaultCategoryResponse>().ForMember(o => o.CategoryType, p => p.MapFrom(b => b.CategoryType));
+            CreateMap<DefaultCategory, Category>();
             CreateMap<Currency, CurrencyResponse>();
         }
     }

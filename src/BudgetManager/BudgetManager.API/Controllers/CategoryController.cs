@@ -1,4 +1,4 @@
-﻿using BudgetManager.CQRS.Commands.CategoryCommands;
+using BudgetManager.CQRS.Commands.CategoryCommands;
 using BudgetManager.CQRS.Queries.CategoryQueries;
 using BudgetManager.SDK.DTOs.CategoryDTOs;
 using MediatR;
@@ -17,16 +17,16 @@ namespace BudgetManager.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
+        public async Task<IActionResult> GetAll(Guid userId, CancellationToken cancellationToken)
         {
-            var response = await _mediator.Send(new GetCategoriesQuery(), cancellationToken);
+            var response = await _mediator.Send(new GetCategoriesQuery(userId), cancellationToken);
             return response == null ? NotFound() : Ok(response);
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(Guid id, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetById(Guid userId, Guid categoryId, CancellationToken cancellationToken)
         {
-            var response = await _mediator.Send(new GetOneCategoryQuery(id), cancellationToken);
+            var response = await _mediator.Send(new GetOneCategoryQuery(userId, categoryId), cancellationToken);
             return response == null ? NotFound() : Ok(response);
         }
 
@@ -45,9 +45,9 @@ namespace BudgetManager.API.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteOne(Guid id, CancellationToken cancellationToken)
+        public async Task<IActionResult> DeleteOne(Guid userId, Guid categoryId, CancellationToken cancellationToken)
         {
-            var response = await _mediator.Send(new DeleteCategoryCommand(id), cancellationToken);
+            var response = await _mediator.Send(new DeleteCategoryCommand(userId, categoryId), cancellationToken);
             return response ? Ok(response) : NotFound();
         }
     }
