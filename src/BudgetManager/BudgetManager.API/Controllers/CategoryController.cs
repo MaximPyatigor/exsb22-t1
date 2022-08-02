@@ -16,35 +16,35 @@ namespace BudgetManager.API.Controllers
             _mediator = mediator;
         }
 
-        [HttpGet("[action]")]
+        [HttpGet]
         public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
         {
             var response = await _mediator.Send(new GetCategoriesQuery(), cancellationToken);
             return response == null ? NotFound() : Ok(response);
         }
 
-        [HttpGet("[action]/{id}")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetById(Guid id, CancellationToken cancellationToken)
         {
             var response = await _mediator.Send(new GetOneCategoryQuery(id), cancellationToken);
             return response == null ? NotFound() : Ok(response);
         }
 
-        [HttpPost("[action]")]
+        [HttpPost]
         public async Task<IActionResult> InsertOne(AddCategoryDTO category, CancellationToken cancellationToken)
         {
             var response = await _mediator.Send(new AddCategoryCommand(category), cancellationToken);
             return response == Guid.Empty ? BadRequest() : Ok(response);
         }
 
-        [HttpPut("[action]")]
+        [HttpPut]
         public async Task<IActionResult> UpdateOne(UpdateCategoryDTO category, CancellationToken cancellationToken)
         {
             var response = await _mediator.Send(new UpdateCategoryCommand(category), cancellationToken);
             return response == null ? NotFound() : Ok(response);
         }
 
-        [HttpDelete("[action]/{id}")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteOne(Guid id, CancellationToken cancellationToken)
         {
             var response = await _mediator.Send(new DeleteCategoryCommand(id), cancellationToken);

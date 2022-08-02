@@ -33,7 +33,7 @@ namespace BudgetManager.API.Controllers
             return result is not null ? Ok(result) : NotFound();
         }
 
-        [HttpGet("id")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetWalletById(Guid id, CancellationToken cancellationToken)
         {
             var result = await _mediator.Send(new GetWalletByIdQuery(id), cancellationToken);
@@ -49,7 +49,7 @@ namespace BudgetManager.API.Controllers
             return result == Guid.Empty ? BadRequest() : Ok(result);
         }
 
-        [HttpDelete("id")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteWallet(Guid id, CancellationToken cancellationToken)
         {
             var result = await _mediator.Send(new DeleteWalletCommand(id), cancellationToken);
