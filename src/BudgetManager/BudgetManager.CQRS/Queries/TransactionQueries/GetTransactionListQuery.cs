@@ -3,5 +3,5 @@ using MediatR;
 
 namespace BudgetManager.CQRS.Queries.TransactionQueries
 {
-    public record GetTransactionListQuery() : IRequest<IEnumerable<TransactionResponse>>;
+    public record GetTransactionListQuery(Guid userId) : IRequest<IEnumerable<TransactionResponse>>;
 }
