@@ -21,8 +21,8 @@ namespace BudgetManager.Scheduler
 
             List<JobMetadata> jobMetadatas = new List<JobMetadata>();
             // https://crontab.guru/
-            // Every 10 seconds
-            // jobMetadatas.Add(new JobMetadata(Guid.NewGuid(), typeof(NotificationJob), "Notify Job", "0/10 * * * * ?"));
+            // Every 5 seconds
+            // jobMetadatas.Add(new JobMetadata(Guid.NewGuid(), typeof(NotificationJob), "Notify Job", "0/5 * * * * ?"));
 
             // Every day at 06 : 00 UTC
             // jobMetadatas.Add(new JobMetadata(Guid.NewGuid(), typeof(NotificationJob), "Notify Job", "0 6 * * * ?"));
