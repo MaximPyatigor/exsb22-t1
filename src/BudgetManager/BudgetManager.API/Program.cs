@@ -1,8 +1,10 @@
 using System.Text.Json.Serialization;
 using BudgetManager.API.Seeding;
+using BudgetManager.Authorization;
 using BudgetManager.CQRS.Mapping;
 using BudgetManager.DataAccess.MongoDbAccess.Repositories;
 using BudgetManager.Model;
+using BudgetManager.Model.AuthorizationModels;
 using BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation;
 using BudgetManager.Shared.DataAccess.MongoDB.DatabaseSettings;
 using BudgetManager.Shared.Utils.Helpers;
@@ -25,6 +27,10 @@ builder.Services.AddSingleton<IMongoClient, MongoClient>(sp =>
     return new MongoClient(mongoDbConfig.ConnectionString);
 });
 
+builder.Services.AddIdentity<ApplicationUser, ApplicationRole>()
+        .AddMongoDbStores<ApplicationUser, ApplicationRole, Guid>(
+            mongoDbConfig.ConnectionString, mongoDbConfig.DatabaseName);
+
 builder.Services.AddScoped<IBaseRepository<Category>, CategoryRepository>();
 builder.Services.AddScoped<IBaseRepository<User>, UserRepository>();
 builder.Services.AddScoped<IBaseRepository<Wallet>, WalletRepository>();
@@ -35,6 +41,8 @@ builder.Services.AddScoped<IBaseRepository<Currency>, CurrencyRepository>();
 builder.Services.AddScoped<IBaseRepository<DefaultCategory>, DefaultCategoryRepository>();
 
 builder.Services.AddScoped<ISeedingService, SeedingService>();
+
+builder.Services.AddScoped<IAuthorizationManager, AuthorizationManager>();
 
 builder.Services.AddMediatR(typeof(MappingProfile).Assembly);
 builder.Services.AddAutoMapper(typeof(MappingProfile));
@@ -76,6 +84,7 @@ app.UseCors();
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+app.UseAuthentication();
 
 app.MapControllers();
 
