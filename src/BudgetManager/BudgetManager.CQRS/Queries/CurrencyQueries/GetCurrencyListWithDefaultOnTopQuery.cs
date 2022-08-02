@@ -3,5 +3,5 @@ using MediatR;
 
 namespace BudgetManager.CQRS.Queries.CurrencyQueries
 {
-    public record GetCurrencyListQuery : IRequest<IEnumerable<CurrencyResponse>>;
+    public record GetCurrencyListWithDefaultOnTopQuery(Guid userId) : IRequest<IEnumerable<CurrencyResponse>>;
 }
