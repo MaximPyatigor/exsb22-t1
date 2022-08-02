@@ -8,5 +8,5 @@ using System.Threading.Tasks;
 
 namespace BudgetManager.CQRS.Queries.NotificationQueries
 {
-    public record GetNotificationByIdQuery(Guid Id) : IRequest<NotificationResponse>;
+    public record GetNotificationByIdQuery(Guid UserId, Guid Id) : IRequest<NotificationResponse>;
 }

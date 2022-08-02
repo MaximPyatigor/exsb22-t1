@@ -12,7 +12,7 @@ namespace BudgetManager.Model
     public class Notification : IModelBase
     {
         [BsonId]
-        public Guid Id { get; set; }
+        public Guid Id { get; set; } = Guid.NewGuid();
         [Required]
         public NotificationTypes NotificationType { get; set; }
         [Required]
