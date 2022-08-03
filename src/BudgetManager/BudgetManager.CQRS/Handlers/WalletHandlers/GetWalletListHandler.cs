@@ -26,11 +26,14 @@ namespace BudgetManager.CQRS.Handlers.WalletHandlers
             var response = await _userRepository.FilterBy<User>(filter, projection, cancellationToken);
             var user = response.FirstOrDefault();
 
-            if (user == null) { throw new KeyNotFoundException("UserId not found"); }
+            if (user == null) { throw new KeyNotFoundException("User not found"); }
+            if (user.Wallets == null) { throw new KeyNotFoundException("Wallets not found"); }
 
-            var usersWallets = user.Wallets;
-            var listOfResponseWallets = _mapper.Map<IEnumerable<WalletResponse>>(usersWallets);
+            var userWallets = user.Wallets.OrderByDescending(w => w.DateOfChange);
 
+            if (user.DefaultWallet is not null) { userWallets = userWallets.OrderBy(w => w.Id != user.DefaultWallet); }
+
+            var listOfResponseWallets = _mapper.Map<IEnumerable<WalletResponse>>(userWallets);
             return listOfResponseWallets;
         }
     }
