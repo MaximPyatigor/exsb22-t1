@@ -2,6 +2,7 @@
 using BudgetManager.Model;
 using BudgetManager.SDK.DTOs;
 using BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation;
+using BudgetManager.DataAccess.MongoDbAccess.Interfaces;
 using MediatR;
 using MongoDB.Driver;
 
@@ -10,9 +11,9 @@ namespace BudgetManager.CQRS.Handlers.WalletHandlers
     public class GetUserWalletTransactionsHandler : IRequestHandler<GetUserWalletTransactionsQuery, WalletTransactionsDTO>
     {
         private readonly IBaseRepository<User> _userRepository;
-        private readonly IBaseRepository<Transaction> _transactionRepository;
+        private readonly ITransactionRepository _transactionRepository;
 
-        public GetUserWalletTransactionsHandler(IBaseRepository<User> userRepository, IBaseRepository<Transaction> transactionRepository)
+        public GetUserWalletTransactionsHandler(IBaseRepository<User> userRepository, ITransactionRepository transactionRepository)
         {
             _userRepository = userRepository;
             _transactionRepository = transactionRepository;
