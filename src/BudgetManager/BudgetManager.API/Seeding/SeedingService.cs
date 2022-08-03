@@ -142,9 +142,14 @@ namespace BudgetManager.API.Seeding
                 }
 
                 Console.WriteLine("Seeding Users...");
-                foreach (var user in users)
+                var userIds = (await _mediator.Send(new AddManyUsersCommand(users))).ToList();
+                var listOfUsers = users.ToList();
+
+                for (int i = 0; i < userIds.Count(); i++)
                 {
-                    var userId = await _mediator.Send(new AddUserCommand(user));
+                    var userId = userIds[i];
+                    var user = listOfUsers[i];
+
                     await _authorizationManager.Register(user.Email, defaultPassword, userId);
                 }
 
