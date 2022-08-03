@@ -18,12 +18,13 @@ namespace BudgetManager.Model
         [Required]
         public Guid CategoryId { get; set; }
         [Required]
+        public string Payer { get; set; }
+        [Required]
         public DateTime DateOfTransaction { get; set; }
         [Required]
         public decimal Value { get; set; }
         [Required]
         public OperationType TransactionType { get; set; }
         public string Description { get; set; }
-        public string Payer { get; set; }
     }
 }
