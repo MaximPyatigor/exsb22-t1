@@ -5,6 +5,7 @@ using BudgetManager.CQRS.Mapping;
 using BudgetManager.DataAccess.MongoDbAccess.Interfaces;
 using BudgetManager.DataAccess.MongoDbAccess.Repositories;
 using BudgetManager.Model;
+using BudgetManager.Scheduler;
 using BudgetManager.Model.AuthorizationModels;
 using BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation;
 using BudgetManager.Shared.DataAccess.MongoDB.DatabaseSettings;
@@ -39,6 +40,7 @@ builder.Services.AddScoped<IBaseRepository<Notification>, NotificationRepository
 builder.Services.AddScoped<IBaseRepository<Country>, CountryRepository>();
 builder.Services.AddScoped<IBaseRepository<Currency>, CurrencyRepository>();
 builder.Services.AddScoped<IBaseRepository<DefaultCategory>, DefaultCategoryRepository>();
+builder.Services.AddScoped<IBaseRepository<CurrencyRates>, CurrencyRatesRepository>();
 builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
 
 builder.Services.AddScoped<ISeedingService, SeedingService>();
@@ -67,11 +69,13 @@ builder.Services.AddCors(opt =>
     });
 });
 
+SchedulerService.AddQuartz(builder.Services);
+
 var app = builder.Build();
 
 using var scope = app.Services.CreateScope();
-var someService = scope.ServiceProvider.GetRequiredService<ISeedingService>();
-someService.Seed();
+var seedingService = scope.ServiceProvider.GetRequiredService<ISeedingService>();
+seedingService.Seed();
 scope.Dispose();
 
 // Configure the HTTP request pipeline.

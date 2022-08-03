@@ -23,6 +23,7 @@ namespace BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation
         Task<TDocument> FindByIdAsync(Guid id, CancellationToken cancellationToken);
 
         Task<TDocument> ReplaceOneAsync(TDocument document, CancellationToken cancellationToken);
+        Task<TDocument> UpsertAsync(TDocument document, CancellationToken cancellationToken);
         Task<TDocument> UpdateOneAsync(Expression<Func<TDocument, bool>> filterExpression,
             UpdateDefinition<TDocument> updateDefinition, CancellationToken cancellationToken);
         Task<TDocument> UpdateOneAsync(FilterDefinition<TDocument> filterExpression,
@@ -30,6 +31,6 @@ namespace BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation
 
         Task<bool> DeleteByIdAsync(Guid id, CancellationToken cancellationToken);
 
-        Task<bool> DeleteOneAsync(Expression<Func<TDocument, bool>> filterExpression, CancellationToken cancellationToken);
+        Task<bool> DeleteOneAsync(FilterDefinition<TDocument> filterExpression, CancellationToken cancellationToken);
     }
 }

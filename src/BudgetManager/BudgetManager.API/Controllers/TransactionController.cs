@@ -21,14 +21,14 @@ namespace BudgetManager.API.Controllers
             return Ok(response);
         }
 
-        [HttpGet("{operationType}")]
+        [HttpGet("{operationType:alpha}")]
         public async Task<IActionResult> GetTransactionsByOperation(Guid userId, OperationType operationType, CancellationToken cancellationToken)
         {
             var response = await _mediator.Send(new GetTransactionListByOperationQuery(userId, operationType), cancellationToken);
             return response == null ? NotFound() : Ok(response);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id:guid}")]
         public async Task<IActionResult> GetTransactionById(Guid id, CancellationToken cancellationToken)
         {
             var response = await _mediator.Send(new GetTransactionByIdQuery(id), cancellationToken);
