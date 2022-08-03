@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\BudgetManager.Authorization\BudgetManager.Authorization.csproj" />
     <ProjectReference Include="..\BudgetManager.DataAccess\BudgetManager.DataAccess.csproj" />
     <ProjectReference Include="..\BudgetManager.SDK\BudgetManager.SDK.csproj" />
   </ItemGroup>
