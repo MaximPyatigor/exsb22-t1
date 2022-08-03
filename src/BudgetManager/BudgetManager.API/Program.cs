@@ -39,6 +39,7 @@ builder.Services.AddScoped<IBaseRepository<Notification>, NotificationRepository
 builder.Services.AddScoped<IBaseRepository<Country>, CountryRepository>();
 builder.Services.AddScoped<IBaseRepository<Currency>, CurrencyRepository>();
 builder.Services.AddScoped<IBaseRepository<DefaultCategory>, DefaultCategoryRepository>();
+builder.Services.AddScoped<IBaseRepository<CurrencyRates>, CurrencyRatesRepository>();
 builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
 
 builder.Services.AddScoped<ISeedingService, SeedingService>();

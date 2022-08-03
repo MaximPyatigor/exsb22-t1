@@ -76,6 +76,18 @@ namespace BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation
             return await _collection.FindOneAndReplaceAsync(filter, document, options, cancellationToken);
         }
 
+        public virtual async Task<TDocument> UpsertAsync(TDocument document, CancellationToken cancellationToken)
+        {
+            var options = new FindOneAndReplaceOptions<TDocument>
+            {
+                ReturnDocument = ReturnDocument.After,
+                IsUpsert = true,
+            };
+            var filter = Builders<TDocument>.Filter.Eq(doc => doc.Id, document.Id);
+
+            return await _collection.FindOneAndReplaceAsync(filter, document, options, cancellationToken);
+        }
+
         public virtual async Task<TDocument> UpdateOneAsync(Expression<Func<TDocument, bool>> filterExpression,
             UpdateDefinition<TDocument> updateDefinition, CancellationToken cancellationToken)
         {
@@ -98,7 +110,7 @@ namespace BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation
             return deleteResult is not null;
         }
 
-        public virtual async Task<bool> DeleteOneAsync(Expression<Func<TDocument, bool>> filterExpression, CancellationToken cancellationToken)
+        public virtual async Task<bool> DeleteOneAsync(FilterDefinition<TDocument> filterExpression, CancellationToken cancellationToken)
         {
             var deleteResult = await _collection.FindOneAndDeleteAsync(filterExpression, null, cancellationToken);
 
