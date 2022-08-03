@@ -63,9 +63,17 @@ namespace BudgetManager.API.Controllers
         [HttpGet("Payers")]
         public async Task<IActionResult> GetUserPayers(Guid userId, CancellationToken cancellationToken)
         {
-            var result = await _mediator.Send(new GetUserPayersQuery(id), cancellationToken);
+            var result = await _mediator.Send(new GetUserPayersQuery(userId), cancellationToken);
 
             return result is not null ? Ok(result) : NotFound();
+        }
+
+        [HttpPost("Payers")]
+        public async Task<IActionResult> AddUserPayer(Guid userId, string payerName, CancellationToken cancellationToken)
+        {
+            var result = await _mediator.Send(new AddUserPayerCommand(userId, payerName), cancellationToken);
+
+            return result is not null ? Ok() : BadRequest();
         }
     }
 }
