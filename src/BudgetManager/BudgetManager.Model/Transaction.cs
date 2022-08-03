@@ -24,5 +24,6 @@ namespace BudgetManager.Model
         [Required]
         public OperationType TransactionType { get; set; }
         public string Description { get; set; }
+        public string Payer { get; set; }
     }
 }

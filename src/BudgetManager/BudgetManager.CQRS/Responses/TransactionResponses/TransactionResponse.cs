@@ -15,5 +15,7 @@ namespace BudgetManager.CQRS.Responses.TransactionResponses
         public OperationType TransactionType { get; set; }
 
         public string Description { get; set; }
+
+        public string Payer { get; set; }
     }
 }

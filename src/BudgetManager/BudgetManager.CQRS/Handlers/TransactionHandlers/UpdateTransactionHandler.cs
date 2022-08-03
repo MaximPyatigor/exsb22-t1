@@ -27,7 +27,8 @@ namespace BudgetManager.CQRS.Handlers.TransactionHandlers
                 .Set(o => o.CategoryId, mappedTransaction.CategoryId)
                 .Set(o => o.DateOfTransaction, mappedTransaction.DateOfTransaction)
                 .Set(o => o.Value, mappedTransaction.Value)
-                .Set(o => o.Description, mappedTransaction.Description);
+                .Set(o => o.Description, mappedTransaction.Description)
+                .Set(o => o.Payer, mappedTransaction.Payer);
             var response = _mapper.Map<TransactionResponse>(await _dataAccess.UpdateOneAsync(filter, update, cancellationToken));
 
             return _mapper.Map<TransactionResponse>(response);

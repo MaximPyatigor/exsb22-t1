@@ -7,5 +7,6 @@
         public decimal Value { get; set; }
         public int TransactionType { get; set; }
         public string Description { get; set; }
+        public string Payer { get; set; }
     }
 }
