@@ -15,7 +15,7 @@ namespace BudgetManager.API.Controllers
             _mediator = mediator;
         }
 
-        [HttpGet("[action]")]
+        [HttpGet]
         public async Task<IActionResult> GetAllCurrencies(CancellationToken cancellationToken)
         {
             var result = await _mediator.Send(new GetCurrencyListQuery(), cancellationToken);
@@ -23,7 +23,7 @@ namespace BudgetManager.API.Controllers
             return result is not null ? Ok(result) : NotFound();
         }
 
-        [HttpGet("[action]")]
+        [HttpGet("UserCurrencies")]
         public async Task<IActionResult> GetAllCurrenciesWithDefaultOnTop(Guid userId, CancellationToken cancellationToken)
         {
             var result = await _mediator.Send(new GetCurrencyListWithDefaultOnTopQuery(userId), cancellationToken);
