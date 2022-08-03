@@ -27,13 +27,7 @@ namespace BudgetManager.Authorization
 
             var savedAppUser = await _userManager.CreateAsync(appUser, password);
 
-            if (savedAppUser.Succeeded)
-            {
-                return true;
-            } else
-            {
-                return false;
-            }
+            return savedAppUser.Succeeded;
         }
 
         public async Task<ApplicationUser> Login(string email, string password)
