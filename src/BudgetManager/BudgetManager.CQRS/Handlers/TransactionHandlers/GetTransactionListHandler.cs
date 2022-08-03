@@ -1,8 +1,7 @@
 ﻿using AutoMapper;
 using BudgetManager.CQRS.Queries.TransactionQueries;
 using BudgetManager.CQRS.Responses.TransactionResponses;
-using BudgetManager.Model;
-using BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation;
+using BudgetManager.DataAccess.MongoDbAccess.Interfaces;
 using MediatR;
 
 namespace BudgetManager.CQRS.Handlers.TransactionHandlers
@@ -10,9 +9,9 @@ namespace BudgetManager.CQRS.Handlers.TransactionHandlers
     public class GetTransactionListHandler : IRequestHandler<GetTransactionListQuery, IEnumerable<TransactionResponse>>
     {
         private readonly IMapper _mapper;
-        private readonly IBaseRepository<Transaction> _dataAccess;
+        private readonly ITransactionRepository _dataAccess;
 
-        public GetTransactionListHandler(IMapper mapper, IBaseRepository<Transaction> dataAccess)
+        public GetTransactionListHandler(IMapper mapper, ITransactionRepository dataAccess)
         {
             _mapper = mapper;
             _dataAccess = dataAccess;
@@ -20,7 +19,7 @@ namespace BudgetManager.CQRS.Handlers.TransactionHandlers
 
         public async Task<IEnumerable<TransactionResponse>> Handle(GetTransactionListQuery request, CancellationToken cancellationToken)
         {
-            var result = _mapper.Map<IEnumerable<TransactionResponse>>(await _dataAccess.GetAllAsync(cancellationToken));
+            var result = _mapper.Map<IEnumerable<TransactionResponse>>(await _dataAccess.GetListByUserIdAsync(request.userId, cancellationToken));
             return result;
         }
     }

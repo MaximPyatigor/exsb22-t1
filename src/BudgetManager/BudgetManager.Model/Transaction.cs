@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 using BudgetManager.Model.Enums;
 using BudgetManager.Shared.Models.MongoDB.Models.Interfaces;
 using MongoDB.Bson.Serialization.Attributes;

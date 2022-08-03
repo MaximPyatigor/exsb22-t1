@@ -1,6 +1,6 @@
 using BudgetManager.CQRS.Commands.TransactionCommands;
 using BudgetManager.CQRS.Queries.TransactionQueries;
-using BudgetManager.Model;
+using BudgetManager.Model.Enums;
 using BudgetManager.SDK.DTOs;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -15,10 +15,17 @@ namespace BudgetManager.API.Controllers
         public TransactionController(IMediator mediator) => _mediator = mediator;
 
         [HttpGet]
-        public async Task<IActionResult> GetTransactions(CancellationToken cancellationToken)
+        public async Task<IActionResult> GetTransactions(Guid userId, CancellationToken cancellationToken)
         {
-            var response = await _mediator.Send(new GetTransactionListQuery(), cancellationToken);
+            var response = await _mediator.Send(new GetTransactionListQuery(userId), cancellationToken);
             return Ok(response);
+        }
+
+        [HttpGet("{operationType}")]
+        public async Task<IActionResult> GetTransactionsByOperation(Guid userId, OperationType operationType, CancellationToken cancellationToken)
+        {
+            var response = await _mediator.Send(new GetTransactionListByOperationQuery(userId, operationType), cancellationToken);
+            return response == null ? NotFound() : Ok(response);
         }
 
         [HttpGet("{id}")]
