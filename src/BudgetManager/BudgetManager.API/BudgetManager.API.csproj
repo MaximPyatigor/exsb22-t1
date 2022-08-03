@@ -28,6 +28,7 @@
     <PackageReference Include="Microsoft.AspNet.WebApi.Cors" Version="5.2.9" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="Newtonsoft.Json.Bson" Version="1.0.2" />
+    <PackageReference Include="Quartz.AspNetCore" Version="3.4.0" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -39,6 +40,7 @@
     <ProjectReference Include="..\..\BudgetManager.Shared\BudgetManager.Shared.DataAccess.MongoDB\BudgetManager.Shared.DataAccess.MongoDB.csproj" />
     <ProjectReference Include="..\BudgetManager.Authorization\BudgetManager.Authorization.csproj" />
     <ProjectReference Include="..\BudgetManager.CQRS\BudgetManager.CQRS.csproj" />
+    <ProjectReference Include="..\BudgetManager.Scheduler\BudgetManager.Scheduler.csproj" />
   </ItemGroup>
 	
 </Project>
