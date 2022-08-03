@@ -4,24 +4,34 @@ using BudgetManager.CQRS.Responses.WalletResponses;
 using BudgetManager.Model;
 using BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation;
 using MediatR;
+using MongoDB.Driver;
 
 namespace BudgetManager.CQRS.Handlers.WalletHandlers
 {
     public class GetWalletListHandler : IRequestHandler<GetWalletListQuery, IEnumerable<WalletResponse>>
     {
+        private readonly IBaseRepository<User> _userRepository;
         private readonly IMapper _mapper;
-        private readonly IBaseRepository<Wallet> _dataAccess;
 
-        public GetWalletListHandler(IMapper mapper, IBaseRepository<Wallet> dataAccess)
+        public GetWalletListHandler(IBaseRepository<User> userRepository, IMapper mapper)
         {
+            _userRepository = userRepository;
             _mapper = mapper;
-            _dataAccess = dataAccess;
         }
 
         public async Task<IEnumerable<WalletResponse>> Handle(GetWalletListQuery request, CancellationToken cancellationToken)
         {
-            var result = _mapper.Map<IEnumerable<WalletResponse>>(await _dataAccess.GetAllAsync(cancellationToken));
-            return result;
+            var filter = Builders<User>.Filter.Eq(u => u.Id, request.userId);
+            var projection = Builders<User>.Projection.Exclude(u => u.Id).Include(u => u.DefaultWallet).Include(u => u.Wallets);
+            var response = await _userRepository.FilterBy<User>(filter, projection, cancellationToken);
+            var user = response.FirstOrDefault();
+
+            if (user == null) { throw new KeyNotFoundException("UserId not found"); }
+
+            var usersWallets = user.Wallets;
+            var listOfResponseWallets = _mapper.Map<IEnumerable<WalletResponse>>(usersWallets);
+
+            return listOfResponseWallets;
         }
     }
 }
