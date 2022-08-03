@@ -24,10 +24,13 @@ namespace BudgetManager.CQRS.Handlers.TransactionHandlers
             var mappedTransaction = _mapper.Map<Transaction>(request.transactionDTO);
             var filter = Builders<Transaction>.Filter.Eq(opt => opt.Id, mappedTransaction.Id);
             var update = Builders<Transaction>.Update
+                .Set(o => o.WalletId, mappedTransaction.WalletId)
                 .Set(o => o.CategoryId, mappedTransaction.CategoryId)
+                .Set(o => o.Payer, mappedTransaction.Payer)
                 .Set(o => o.DateOfTransaction, mappedTransaction.DateOfTransaction)
                 .Set(o => o.Value, mappedTransaction.Value)
                 .Set(o => o.Description, mappedTransaction.Description);
+
             var response = _mapper.Map<TransactionResponse>(await _dataAccess.UpdateOneAsync(filter, update, cancellationToken));
 
             return _mapper.Map<TransactionResponse>(response);
