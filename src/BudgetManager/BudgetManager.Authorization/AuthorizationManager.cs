@@ -50,5 +50,10 @@ namespace BudgetManager.Authorization
                 return null;
             }
         }
+
+        public async Task<IEnumerable<ApplicationUser>> GetApplicationUsersList()
+        {
+            return await Task.Run(() => _userManager.Users.ToList());
+        }
     }
 }

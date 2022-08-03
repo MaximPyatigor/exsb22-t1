@@ -1,4 +1,5 @@
-﻿using BudgetManager.CQRS.Commands.CountryCommands;
+﻿using BudgetManager.Authorization;
+using BudgetManager.CQRS.Commands.CountryCommands;
 using BudgetManager.CQRS.Commands.CurrencyCommands;
 using BudgetManager.CQRS.Commands.DefaultCategoryCommands;
 using BudgetManager.CQRS.Commands.NotificationCommands;
@@ -10,10 +11,12 @@ using BudgetManager.CQRS.Queries.DefaultCategoryQueries;
 using BudgetManager.CQRS.Queries.NotificationQueries;
 using BudgetManager.CQRS.Queries.UserQueries;
 using BudgetManager.Model;
+using BudgetManager.Model.AuthorizationModels;
 using BudgetManager.SDK.DTOs;
 using BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation;
 using BudgetManager.Shared.Models.MongoDB.Models.Interfaces;
 using MediatR;
+using Microsoft.AspNetCore.Identity;
 using Newtonsoft.Json;
 
 namespace BudgetManager.API.Seeding
@@ -21,10 +24,13 @@ namespace BudgetManager.API.Seeding
     public class SeedingService : ISeedingService
     {
         private readonly IMediator _mediator;
+        private readonly IAuthorizationManager _authorizationManager;
 
-        public SeedingService(IMediator mediator)
+        public SeedingService(IMediator mediator,
+            IAuthorizationManager authorizationManager)
         {
             _mediator = mediator;
+            _authorizationManager = authorizationManager;
         }
 
         public void Seed()
@@ -117,9 +123,11 @@ namespace BudgetManager.API.Seeding
         public async Task SeedUsers()
         {
             var usersList = await _mediator.Send(new GetUsersQuery());
+            var applicationUserList = await _authorizationManager.GetApplicationUsersList();
+            var defaultPassword = "Pass123!";
 
             // Check if null or empty
-            if (usersList == null || !usersList.Any())
+            if (usersList == null || !usersList.Any() || !applicationUserList.Any())
             {
                 Console.WriteLine("No users found in the database.");
 
@@ -134,7 +142,17 @@ namespace BudgetManager.API.Seeding
                 }
 
                 Console.WriteLine("Seeding Users...");
-                await _mediator.Send(new AddManyUsersCommand(users));
+                var userIds = (await _mediator.Send(new AddManyUsersCommand(users))).ToList();
+                var listOfUsers = users.ToList();
+
+                for (int i = 0; i < userIds.Count(); i++)
+                {
+                    var userId = userIds[i];
+                    var user = listOfUsers[i];
+
+                    await _authorizationManager.Register(user.Email, defaultPassword, userId);
+                }
+
                 Console.WriteLine("Seeding Users successful.");
             }
         }
