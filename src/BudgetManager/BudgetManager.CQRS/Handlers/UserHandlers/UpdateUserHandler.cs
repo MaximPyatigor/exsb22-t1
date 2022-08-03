@@ -31,7 +31,8 @@ namespace BudgetManager.CQRS.Handlers.UserHandlers
                 .Set(u => u.Wallets, updateUser.Wallets)
                 .Set(u => u.Notifications, updateUser.Notifications)
                 .Set(u => u.DefaultWallet, updateUser.DefaultWallet)
-                .Set(u => u.Country, updateUser.Country);
+                .Set(u => u.Country, updateUser.Country)
+                .Set(u => u.Payers, updateUser.Payers);
             var result = _mapper.Map<UserResponse>(await _userRepository.UpdateOneAsync(filter, update, cancellationToken));
 
             return result;

@@ -13,5 +13,6 @@ namespace BudgetManager.SDK.DTOs
         public List<Category>? Categories { get; set; }
         public List<Wallet>? Wallets { get; set; }
         public List<Notification>? Notifications { get; set; }
+        public List<string>? Payers { get; set; }
     }
 }
