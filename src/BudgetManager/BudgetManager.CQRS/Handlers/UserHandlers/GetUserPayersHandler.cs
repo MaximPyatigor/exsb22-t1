@@ -18,7 +18,7 @@ namespace BudgetManager.CQRS.Handlers.UserHandlers
         {
             var user = await _dataAccess.FindByIdAsync(request.userId, cancellationToken);
 
-            return user is not null ? user.Payers : null;
+            return user?.Payers;
         }
     }
 }
