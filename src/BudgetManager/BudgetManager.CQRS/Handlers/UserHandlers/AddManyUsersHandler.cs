@@ -10,12 +10,14 @@ namespace BudgetManager.CQRS.Handlers.UserHandlers
     public class AddManyUsersHandler : IRequestHandler<AddManyUsersCommand, IEnumerable<Guid>>
     {
         private readonly IBaseRepository<DefaultCategory> _defaultCategoryRepository;
+        private readonly IBaseRepository<Currency> _currencyRepository;
         private readonly IBaseRepository<User> _userRepository;
         private readonly IMapper _mapper;
 
-        public AddManyUsersHandler(IBaseRepository<DefaultCategory> defaultCategoryRepository, IBaseRepository<User> userRepository, IMapper mapper)
+        public AddManyUsersHandler(IBaseRepository<DefaultCategory> defaultCategoryRepository, IBaseRepository<Currency> currencyRepository, IBaseRepository<User> userRepository, IMapper mapper)
         {
             _defaultCategoryRepository = defaultCategoryRepository;
+            _currencyRepository = currencyRepository;
             _userRepository = userRepository;
             _mapper = mapper;
         }
@@ -27,8 +29,17 @@ namespace BudgetManager.CQRS.Handlers.UserHandlers
             var allDefaultCategories = await _defaultCategoryRepository.GetAllAsync(cancellationToken);
             var mappedDefaultCategories = _mapper.Map<IEnumerable<Category>>(allDefaultCategories);
 
-            foreach (var user in mappedUsers)
-                user.Categories.AddRange(mappedDefaultCategories);
+            var currencies = await _currencyRepository.GetAllAsync(cancellationToken);
+
+            foreach (var mappedUser in mappedUsers)
+            {
+                mappedUser.Categories.AddRange(mappedDefaultCategories);
+
+                if (mappedUser.DefaultCurrency is null && mappedUser.Country is not null)
+                {
+                    mappedUser.DefaultCurrency = currencies.Where(c => c.CurrencyCode == mappedUser.Country.CurrencyCode).FirstOrDefault();
+                }
+            }
 
             await _userRepository.InsertManyAsync(mappedUsers, cancellationToken);
             var listOfIds = _mapper.Map<IEnumerable<UserResponse>>(mappedUsers)
