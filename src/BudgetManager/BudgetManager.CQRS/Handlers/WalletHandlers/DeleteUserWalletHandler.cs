@@ -18,12 +18,11 @@ namespace BudgetManager.CQRS.Handlers.WalletHandlers
         public async Task<bool> Handle(DeleteUserWalletCommand request, CancellationToken cancellationToken)
         {
             var user = await _userRepository.FindByIdAsync(request.userId, cancellationToken);
-            user?.Wallets?.RemoveAll(w => w.Id == request.walletId);
-            var wallets = user?.Wallets;
 
             var filter = Builders<User>.Filter.Eq(u => u.Id, request.userId);
-            var update = Builders<User>.Update.Set(u => u.Wallets, wallets);
-            if (request.walletId == user?.DefaultWallet)
+            var update = Builders<User>.Update.PullFilter(u => u.Wallets, w => w.Id == request.walletId);
+
+            if (user?.DefaultWallet == request.walletId)
             {
                 update.Set(u => u.DefaultWallet, Guid.Empty);
             }
