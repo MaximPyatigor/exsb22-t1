@@ -42,6 +42,13 @@ namespace BudgetManager.API.Controllers
             return response == Guid.Empty ? BadRequest() : Ok(response);
         }
 
+        [HttpPost("Expense")]
+        public async Task<IActionResult> AddExpenseTransaction([FromBody] AddExpenseTransactionDTO expenseTransaction, CancellationToken cancellationToken)
+        {
+            var response = await _mediator.Send(new AddExpenseTransactionCommand(expenseTransaction), cancellationToken);
+            return response == Guid.Empty ? BadRequest() : Ok(response);
+        }
+
         [HttpPut]
         public async Task<IActionResult> UpdateTransaction([FromBody] UpdateTransactionDTO updateTransaction, CancellationToken cancellationToken)
         {
