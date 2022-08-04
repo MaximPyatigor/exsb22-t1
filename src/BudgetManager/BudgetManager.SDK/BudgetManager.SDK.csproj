@@ -10,7 +10,7 @@
 	<CodeAnalysisRuleSet>..\StyleCop.ruleset</CodeAnalysisRuleSet>
 	<GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
-	
+
   <ItemGroup>
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
       <PrivateAssets>all</PrivateAssets>
