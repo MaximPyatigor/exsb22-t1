@@ -30,7 +30,6 @@ namespace BudgetManager.CQRS.Mapping
             CreateMap<AddWalletDTO, Wallet>();
             CreateMap<UpdateWalletDTO, Wallet>(); 
             CreateMap<Transaction, TransactionResponse>();
-            CreateMap<AddTransactionDTO, Transaction>();
             CreateMap<UpdateTransactionDTO, Transaction>();
             CreateMap<AddNotificationDto, Notification>();
             CreateMap<Notification, NotificationResponse>();
@@ -39,6 +38,9 @@ namespace BudgetManager.CQRS.Mapping
                 .ForMember(o => o.CategoryType, p => p.MapFrom(b => b.CategoryType));
             CreateMap<DefaultCategory, Category>();
             CreateMap<Currency, CurrencyResponse>();
+            CreateMap<AddExpenseTransactionDTO, Transaction>()
+                .ForMember(o => o.TransactionType, p => p.MapFrom(b => OperationType.Expense));
+            CreateMap<Transaction, ExpenseTransactionResponse>();
             CreateMap<AddIncomeTransactionDTO, Transaction>()
                 .ForMember(o => o.TransactionType, p => p.MapFrom(b => OperationType.Income));
             CreateMap<Transaction, IncomeTransactionResponse>();
