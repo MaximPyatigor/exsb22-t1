@@ -47,7 +47,7 @@ namespace BudgetManager.CQRS.Handlers.WalletHandlers
                 result = await _dataAccess.UpdateOneAsync(filter, updateDefaultWallet, cancellationToken);
             }
 
-            return result is not null ? wallet.Id : Guid.Empty;
+            return wallet.Id;
         }
     }
 }
