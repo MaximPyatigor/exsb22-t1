@@ -25,12 +25,15 @@ namespace BudgetManager.API.Seeding
     {
         private readonly IMediator _mediator;
         private readonly IAuthorizationManager _authorizationManager;
+        private readonly RoleManager<ApplicationRole> _roleManager;
 
         public SeedingService(IMediator mediator,
-            IAuthorizationManager authorizationManager)
+            IAuthorizationManager authorizationManager,
+            RoleManager<ApplicationRole> roleManager)
         {
             _mediator = mediator;
             _authorizationManager = authorizationManager;
+            _roleManager = roleManager;
         }
 
         public void Seed()
@@ -38,11 +41,12 @@ namespace BudgetManager.API.Seeding
             var task1 = SeedCountries();
             var task2 = SeedCurrencies();
             var task3 = SeedCategories();
-            var task4 = SeedUsers();
+            var task4 = SeedRoles();
+            var task5 = SeedUsers();
 
             // Wait for all of the seeding functions to finish before moving on. This way program doesn't start
             // before making sure, that every needed document is seeded and in place.
-            Task.WaitAll(task1, task2, task3, task4);
+            Task.WaitAll(task1, task2, task3, task4, task5);
         }
 
         public async Task SeedCountries()
@@ -117,6 +121,32 @@ namespace BudgetManager.API.Seeding
                 Console.WriteLine("Seeding Categories...");
                 await _mediator.Send(new AddManyDefaultCategoriesCommand(categories));
                 Console.WriteLine("Seeding Categories successful.");
+            }
+        }
+
+        public async Task SeedRoles()
+        {
+            var rolesList = _roleManager.Roles.ToList();
+
+            if (rolesList == null || !rolesList.Any())
+            {
+                var rolesPath = ".\\Seeding\\Seeds\\roles.json";
+                string rolesString = File.ReadAllText(rolesPath);
+
+                var roles = JsonConvert.DeserializeObject<IEnumerable<ApplicationRole>>(rolesString);
+                if (roles == null)
+                {
+                    Console.WriteLine("No default roles to seed found");
+                    return;
+                }
+
+                Console.WriteLine("Seeding Roles...");
+                foreach (var role in roles)
+                {
+                    await _roleManager.CreateAsync(role);
+                }
+
+                Console.WriteLine("Seeding Roles successful.");
             }
         }
 
