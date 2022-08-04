@@ -36,6 +36,11 @@ namespace BudgetManager.CQRS.Handlers.WalletHandlers
 
             var result = await _dataAccess.UpdateOneAsync(filter, update, cancellationToken);
 
+            if (result is null)
+            {
+                throw new KeyNotFoundException("User not found");
+            }
+
             if (result.Wallets.Count == 1)
             {
                 var updateDefaultWallet = Builders<User>.Update.Set(u => u.DefaultWallet, wallet.Id);
