@@ -1,17 +1,22 @@
+using System.Text;
 using System.Text.Json.Serialization;
 using BudgetManager.API.Seeding;
 using BudgetManager.Authorization;
+using BudgetManager.Authorization.TokenService;
 using BudgetManager.CQRS.Mapping;
 using BudgetManager.DataAccess.MongoDbAccess.Interfaces;
 using BudgetManager.DataAccess.MongoDbAccess.Repositories;
 using BudgetManager.Model;
-using BudgetManager.Scheduler;
 using BudgetManager.Model.AuthorizationModels;
+using BudgetManager.Scheduler;
 using BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation;
 using BudgetManager.Shared.DataAccess.MongoDB.DatabaseSettings;
 using BudgetManager.Shared.Utils.Helpers;
 using MediatR;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
@@ -45,6 +50,8 @@ builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
 
 builder.Services.AddScoped<ISeedingService, SeedingService>();
 
+builder.Services.AddSingleton<ITokenSettings, TokenSettings>();
+builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
 builder.Services.AddScoped<IAuthorizationManager, AuthorizationManager>();
 
 builder.Services.AddMediatR(typeof(MappingProfile).Assembly);
@@ -67,6 +74,37 @@ builder.Services.AddCors(opt =>
         .AllowAnyMethod()
         .AllowAnyHeader();
     });
+});
+
+var tokenOptions = builder.Configuration.GetSection("TokenSettings");
+var tokenSettings = tokenOptions.Get<TokenSettings>();
+
+builder.Services.Configure<TokenSettings>(tokenOptions);
+
+builder.Services.AddAuthentication(x =>
+{
+    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(x =>
+{
+    x.RequireHttpsMetadata = false;
+    x.SaveToken = true;
+    x.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(tokenSettings.JwtKey.ToString())),
+        ValidateIssuer = false,
+        ValidateAudience = false,
+    };
+});
+
+builder.Services.AddAuthorization(options =>
+{
+    var defaultAuthorizationPolicyBuilder = new AuthorizationPolicyBuilder(
+        JwtBearerDefaults.AuthenticationScheme);
+    defaultAuthorizationPolicyBuilder =
+        defaultAuthorizationPolicyBuilder.RequireAuthenticatedUser();
+    options.DefaultPolicy = defaultAuthorizationPolicyBuilder.Build();
 });
 
 SchedulerService.AddQuartz(builder.Services);
