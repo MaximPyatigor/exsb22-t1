@@ -36,7 +36,5 @@ namespace BudgetManager.DataAccess.MongoDbAccess.Repositories
             var result = await _collection.Find(filter).SortBy(x => x.DateOfTransaction).ToListAsync(cancellationToken);
             return result;
         }
-
-
     }
 }
