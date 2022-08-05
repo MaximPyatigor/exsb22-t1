@@ -64,10 +64,19 @@ namespace BudgetManager.Authorization
                 var userRoles = await _userManager.GetRolesAsync(appUser);
 
                 var token = _tokenService.CreateUserToken(appUser, userRoles);
-
+                var responseUser = new UserAuthorizationObject
+                {
+                    Id = user.Id,
+                    DOB = user.DOB,
+                    Country = user.Country,
+                    DefaultCurrency = user.DefaultCurrency,
+                    DefaultWallet = user.DefaultWallet,
+                    Email = user.Email,
+                    FullName = user.FullName,
+                };
                 var response = new AuthorizationResponse
                 {
-                    User = user,
+                    User = responseUser,
                     Token = token
                 };
                 return response;

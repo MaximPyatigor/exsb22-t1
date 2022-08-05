@@ -5,6 +5,6 @@ namespace BudgetManager.Authorization
     public class AuthorizationResponse
     {
         public string Token { get; set; }
-        public UserResponse User { get; set; }
+        public UserAuthorizationObject User { get; set; }
     }
 }
