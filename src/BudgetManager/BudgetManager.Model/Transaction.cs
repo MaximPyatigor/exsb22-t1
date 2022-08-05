@@ -17,6 +17,7 @@ namespace BudgetManager.Model
         public Guid WalletId { get; set; }
         [Required]
         public Guid CategoryId { get; set; }
+        public Guid SubCategoryId { get; set; }
         public string? Payer { get; set; }
         [Required]
         public DateTime DateOfTransaction { get; set; }
