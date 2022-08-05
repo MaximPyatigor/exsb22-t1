@@ -37,10 +37,10 @@
   </ItemGroup>
 	
   <ItemGroup>
+    <ProjectReference Include="..\..\BudgetManager.Scheduler\BudgetManager.Scheduler.csproj" />
     <ProjectReference Include="..\..\BudgetManager.Shared\BudgetManager.Shared.DataAccess.MongoDB\BudgetManager.Shared.DataAccess.MongoDB.csproj" />
     <ProjectReference Include="..\BudgetManager.Authorization\BudgetManager.Authorization.csproj" />
     <ProjectReference Include="..\BudgetManager.CQRS\BudgetManager.CQRS.csproj" />
-    <ProjectReference Include="..\BudgetManager.Scheduler\BudgetManager.Scheduler.csproj" />
   </ItemGroup>
 	
 </Project>

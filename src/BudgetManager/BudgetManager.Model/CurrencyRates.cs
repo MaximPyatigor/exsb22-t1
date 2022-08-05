@@ -17,7 +17,7 @@ namespace BudgetManager.Model
         public Guid Id { get; set; } = new Guid("66c05d55-dc7a-4d91-a965-a037db973b06");
 
         [JsonProperty("date")]
-        public DateTimeOffset Date { get; set; }
+        public string Date { get; set; }
 
         // Eur is used as a base for currency rates
         [JsonProperty("eur")]

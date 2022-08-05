@@ -17,15 +17,12 @@ namespace BudgetManager.Scheduler
         {
             services.AddSingleton<IJobFactory, MyJobFactory>();
             services.AddSingleton<ISchedulerFactory, StdSchedulerFactory>();
-            services.AddSingleton<NotificationJob>();
+            services.AddSingleton<UpdateCurrencyRatesJob>();
 
             List<JobMetadata> jobMetadatas = new List<JobMetadata>();
-            // https://crontab.guru/
-            // Every 5 seconds
-            // jobMetadatas.Add(new JobMetadata(Guid.NewGuid(), typeof(NotificationJob), "Notify Job", "0/5 * * * * ?"));
 
-            // Every day at 06 : 00 UTC
-            // jobMetadatas.Add(new JobMetadata(Guid.NewGuid(), typeof(NotificationJob), "Notify Job", "0 6 * * * ?"));
+            // Update currencies every day at 12:00PM UTC
+            jobMetadatas.Add(new JobMetadata(Guid.NewGuid(), typeof(UpdateCurrencyRatesJob), "Update Currency Rates Job", "00 12 * * * ?"));
 
             services.AddSingleton(jobMetadatas);
             services.AddHostedService<MyScheduler>();
