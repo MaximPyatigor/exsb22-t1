@@ -1,10 +1,11 @@
 ﻿using BudgetManager.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace BudgetManager.API.Controllers
+namespace BudgetManager.API.Controllers.V1
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/v{version:ApiVersion}/[controller]")]
+    [ApiVersion("1.0")]
     public class AuthController : Controller
     {
         private readonly IAuthorizationManager _authorizationManager;
