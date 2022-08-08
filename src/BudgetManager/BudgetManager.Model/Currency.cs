@@ -12,7 +12,16 @@ namespace BudgetManager.Model
         [BsonId]
         public Guid Id { get; set; }
         [Required]
-        [JsonProperty("currencyCode")]
+        [JsonProperty("code")]
         public string CurrencyCode { get; set; }
+        [Required]
+        [JsonProperty("symbol")]
+        public string Symbol { get; set; }
+        [Required]
+        [JsonProperty("name")]
+        public string Name { get; set; }
+        [Required]
+        [JsonProperty("name_plural")]
+        public string NamePlural { get; set; }
     }
 }
