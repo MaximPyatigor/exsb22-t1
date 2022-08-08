@@ -20,6 +20,7 @@ namespace BudgetManager.CQRS.Mapping
         {
             //CreateMap<ItemDto, Item>();
             CreateMap<AddCategoryDTO, Category>();
+            CreateMap<AddSubCategoryDTO, Category>();
             CreateMap<Category, CategoryResponse>();
             CreateMap<UpdateCategoryDTO, Category>();
             CreateMap<AddUserDTO, User>()
