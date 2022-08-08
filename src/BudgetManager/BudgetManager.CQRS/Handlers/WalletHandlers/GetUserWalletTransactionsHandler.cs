@@ -1,14 +1,14 @@
 ﻿using BudgetManager.CQRS.Queries.WalletQueries;
 using BudgetManager.Model;
-using BudgetManager.SDK.DTOs;
 using BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation;
 using BudgetManager.DataAccess.MongoDbAccess.Interfaces;
 using MediatR;
 using MongoDB.Driver;
+using BudgetManager.CQRS.Responses.WalletResponses;
 
 namespace BudgetManager.CQRS.Handlers.WalletHandlers
 {
-    public class GetUserWalletTransactionsHandler : IRequestHandler<GetUserWalletTransactionsQuery, WalletTransactionsDTO>
+    public class GetUserWalletTransactionsHandler : IRequestHandler<GetUserWalletTransactionsQuery, WalletTransactionsResponse>
     {
         private readonly IBaseRepository<User> _userRepository;
         private readonly ITransactionRepository _transactionRepository;
@@ -19,16 +19,16 @@ namespace BudgetManager.CQRS.Handlers.WalletHandlers
             _transactionRepository = transactionRepository;
         }
 
-        public async Task<WalletTransactionsDTO> Handle(GetUserWalletTransactionsQuery request, CancellationToken cancellationToken)
+        public async Task<WalletTransactionsResponse> Handle(GetUserWalletTransactionsQuery request, CancellationToken cancellationToken)
         {
             User user = await _userRepository.FindByIdAsync(request.userId, cancellationToken);
-            Wallet wallet = user.Wallets.Find(w => w.Id == request.walletId);
+            Wallet? wallet = user?.Wallets?.Find(w => w.Id == request.walletId);
 
             var builder = Builders<Transaction>.Filter;
             var transactionFilter = builder.Eq(t => t.UserId, request.userId) & builder.Eq(t => t.WalletId, request.walletId);
             var userWalletTransactions = await _transactionRepository.FilterBy(transactionFilter, cancellationToken);
 
-            WalletTransactionsDTO walletTransactions = new WalletTransactionsDTO
+            WalletTransactionsResponse walletTransactions = new WalletTransactionsResponse
             {
                 Wallet = wallet,
                 IsDefaultWallet = wallet?.Id == request.walletId,

@@ -42,15 +42,8 @@ namespace BudgetManager.Authorization
             {
                 await _userManager.AddToRoleAsync(appUser, "User");
             }
-
-            if (savedAppUser.Succeeded)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            
+            return savedAppUser.Succeeded;
         }
 
         public async Task<AuthorizationResponse> Login(string email, string password)
