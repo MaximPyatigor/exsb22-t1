@@ -3,6 +3,7 @@ using BudgetManager.CQRS.Queries.TransactionQueries;
 using BudgetManager.Model.Enums;
 using BudgetManager.SDK.DTOs;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BudgetManager.API.Controllers.V1
@@ -22,17 +23,28 @@ namespace BudgetManager.API.Controllers.V1
             return Ok(response);
         }
 
-        [HttpGet("{operationType:alpha}")]
-        public async Task<IActionResult> GetTransactionsByOperation(Guid userId, OperationType operationType, CancellationToken cancellationToken)
-        {
-            var response = await _mediator.Send(new GetTransactionListByOperationQuery(userId, operationType), cancellationToken);
-            return response == null ? NotFound() : Ok(response);
-        }
-
         [HttpGet("{id:guid}")]
         public async Task<IActionResult> GetTransactionById(Guid id, CancellationToken cancellationToken)
         {
             var response = await _mediator.Send(new GetTransactionByIdQuery(id), cancellationToken);
+            return response == null ? NotFound() : Ok(response);
+        }
+
+        [Authorize]
+        [HttpGet("Expense")]
+        public async Task<IActionResult> GetExpenseTransactionList(CancellationToken cancellationToken)
+        {
+            var userId = Guid.Parse(User.FindFirst("UserId").Value);
+            var response = await _mediator.Send(new GetExpenseTransactionListQuery(userId), cancellationToken);
+            return response == null ? NotFound() : Ok(response);
+        }
+
+        [Authorize]
+        [HttpGet("Income")]
+        public async Task<IActionResult> GetIncomeTransactionList(CancellationToken cancellationToken)
+        {
+            var userId = Guid.Parse(User.FindFirst("UserId").Value);
+            var response = await _mediator.Send(new GetIncomeTransactionListQuery(userId), cancellationToken);
             return response == null ? NotFound() : Ok(response);
         }
 
