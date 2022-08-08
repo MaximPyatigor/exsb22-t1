@@ -57,10 +57,12 @@ namespace BudgetManager.API.Controllers.V1
             return response == Guid.Empty ? BadRequest() : Ok(response);
         }
 
+        [Authorize]
         [HttpPost("Income")]
         public async Task<IActionResult> AddIncomeTransaction([FromBody] AddIncomeTransactionDTO incomeTransaction, CancellationToken cancellationToken)
         {
-            var response = await _mediator.Send(new AddIncomeTransactionCommand(incomeTransaction), cancellationToken);
+            var userId = Guid.Parse(User.FindFirst("UserId").Value);
+            var response = await _mediator.Send(new AddIncomeTransactionCommand(userId, incomeTransaction), cancellationToken);
             return response == Guid.Empty ? BadRequest() : Ok(response);
         }
 
