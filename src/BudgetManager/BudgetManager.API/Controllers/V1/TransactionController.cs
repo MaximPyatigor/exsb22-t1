@@ -47,6 +47,15 @@ namespace BudgetManager.API.Controllers.V1
             return response == null ? NotFound() : Ok(response);
         }
 
+        [Authorize]
+        [HttpGet("Income")]
+        public async Task<IActionResult> GetIncomeTransactionList(CancellationToken cancellationToken)
+        {
+            var userId = Guid.Parse(User.FindFirst("UserId").Value);
+            var response = await _mediator.Send(new GetIncomeTransactionListQuery(userId), cancellationToken);
+            return response == null ? NotFound() : Ok(response);
+        }
+
         [HttpPost("Expense")]
         public async Task<IActionResult> AddExpenseTransaction([FromBody] AddExpenseTransactionDTO expenseTransaction, CancellationToken cancellationToken)
         {
