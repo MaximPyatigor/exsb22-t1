@@ -23,6 +23,7 @@ namespace BudgetManager.CQRS.Handlers.TransactionHandlers
         public async Task<Guid> Handle(AddIncomeTransactionCommand request, CancellationToken cancellationToken)
         {
             var incomeTransaction = _mapper.Map<Transaction>(request.addIncomeDTO);
+            incomeTransaction.UserId = request.userId;
             await _dataAccess.InsertOneAsync(incomeTransaction, cancellationToken);
 
             await _mediator.Send(new UpdateWalletDateOfChangeCommand(incomeTransaction.UserId, incomeTransaction.WalletId, DateTime.UtcNow), cancellationToken);
