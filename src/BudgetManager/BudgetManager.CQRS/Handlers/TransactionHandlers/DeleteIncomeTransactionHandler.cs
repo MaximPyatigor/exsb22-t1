@@ -18,7 +18,10 @@ namespace BudgetManager.CQRS.Handlers.TransactionHandlers
         public async Task<bool> Handle(DeleteIncomeTransactionCommand request, CancellationToken cancellationToken)
         {
             var builder = Builders<Transaction>.Filter;
-            var filter = builder.And(builder.Eq(t => t.Id, request.transactionId), builder.Eq(t => t.UserId, request.userId));
+            var filter = builder.And(
+                builder.Eq(t => t.UserId, request.userId),
+                builder.Eq(t => t.Id, request.transactionId),
+                builder.Eq(t => t.TransactionType, Model.Enums.OperationType.Income));
             bool result = await _transactionRepository.DeleteOneAsync(filter, cancellationToken);
 
             return result;
