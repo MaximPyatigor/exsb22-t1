@@ -7,11 +7,13 @@ using BudgetManager.CQRS.Commands.UserCommands;
 using BudgetManager.CQRS.Queries.CategoryQueries;
 using BudgetManager.CQRS.Queries.CountryQueries;
 using BudgetManager.CQRS.Queries.CurrencyQueries;
+using BudgetManager.CQRS.Queries.CurrencyRatesQueries;
 using BudgetManager.CQRS.Queries.DefaultCategoryQueries;
 using BudgetManager.CQRS.Queries.NotificationQueries;
 using BudgetManager.CQRS.Queries.UserQueries;
 using BudgetManager.Model;
 using BudgetManager.Model.AuthorizationModels;
+using BudgetManager.Scheduler.Jobs;
 using BudgetManager.SDK.DTOs;
 using BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation;
 using BudgetManager.Shared.Models.MongoDB.Models.Interfaces;
@@ -26,14 +28,17 @@ namespace BudgetManager.API.Seeding
         private readonly IMediator _mediator;
         private readonly IAuthorizationManager _authorizationManager;
         private readonly RoleManager<ApplicationRole> _roleManager;
+        private readonly IUpdateCurrencyRatesJob _currencyRatesJob;
 
         public SeedingService(IMediator mediator,
             IAuthorizationManager authorizationManager,
-            RoleManager<ApplicationRole> roleManager)
+            RoleManager<ApplicationRole> roleManager,
+            IUpdateCurrencyRatesJob currencyRatesJob)
         {
             _mediator = mediator;
             _authorizationManager = authorizationManager;
             _roleManager = roleManager;
+            _currencyRatesJob = currencyRatesJob;
         }
 
         public void Seed()
@@ -43,10 +48,11 @@ namespace BudgetManager.API.Seeding
             var task3 = SeedCategories();
             var task4 = SeedRoles();
             var task5 = SeedUsers();
+            var task6 = SeedCurrencyRates();
 
             // Wait for all of the seeding functions to finish before moving on. This way program doesn't start
             // before making sure, that every needed document is seeded and in place.
-            Task.WaitAll(task1, task2, task3, task4, task5);
+            Task.WaitAll(task1, task2, task3, task4, task5, task6);
         }
 
         public async Task SeedCountries()
@@ -190,6 +196,17 @@ namespace BudgetManager.API.Seeding
                 }
 
                 Console.WriteLine("Seeding Users successful.");
+            }
+        }
+
+        public async Task SeedCurrencyRates()
+        {
+            var currencyRates = await _mediator.Send(new GetCurrencyRatesQuery());
+
+            // Check if null
+            if (currencyRates == null)
+            {
+                _currencyRatesJob.UpdateCurrencyRates();
             }
         }
     }

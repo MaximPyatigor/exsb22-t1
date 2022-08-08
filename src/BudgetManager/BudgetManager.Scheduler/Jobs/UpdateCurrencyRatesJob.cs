@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace BudgetManager.Scheduler.Jobs
 {
-    class UpdateCurrencyRatesJob : IJob
+    public class UpdateCurrencyRatesJob : IJob, IUpdateCurrencyRatesJob
     {
         private readonly ILogger<UpdateCurrencyRatesJob> _logger;
         private readonly IMediator _mediator;
@@ -25,6 +25,11 @@ namespace BudgetManager.Scheduler.Jobs
         }
 
         public async Task Execute(IJobExecutionContext context)
+        {
+            UpdateCurrencyRates();
+        }
+
+        public async Task UpdateCurrencyRates()
         {
             _logger.LogInformation($"Update currency rates job: Job start at {DateTime.Now}");
 
