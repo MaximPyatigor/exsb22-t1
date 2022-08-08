@@ -17,11 +17,5 @@ namespace BudgetManager.Model
         [Required]
         [JsonProperty("symbol")]
         public string Symbol { get; set; }
-        [Required]
-        [JsonProperty("name")]
-        public string Name { get; set; }
-        [Required]
-        [JsonProperty("name_plural")]
-        public string NamePlural { get; set; }
     }
 }
