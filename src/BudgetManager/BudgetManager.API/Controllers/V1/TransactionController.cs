@@ -23,21 +23,13 @@ namespace BudgetManager.API.Controllers.V1
             return Ok(response);
         }
 
-/*
-        [HttpGet("{operationType:alpha}")]
-        public async Task<IActionResult> GetTransactionsByOperation(Guid userId, OperationType operationType, CancellationToken cancellationToken)
-        {
-            var response = await _mediator.Send(new GetTransactionListByOperationQuery(userId, operationType), cancellationToken);
-            return response == null ? NotFound() : Ok(response);
-        }
-
         [HttpGet("{id:guid}")]
         public async Task<IActionResult> GetTransactionById(Guid id, CancellationToken cancellationToken)
         {
             var response = await _mediator.Send(new GetTransactionByIdQuery(id), cancellationToken);
             return response == null ? NotFound() : Ok(response);
         }
-*/
+
         [Authorize]
         [HttpGet("Expense")]
         public async Task<IActionResult> GetExpenseTransactionList(CancellationToken cancellationToken)
