@@ -4,10 +4,11 @@ using BudgetManager.Model;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace BudgetManager.API.Controllers
+namespace BudgetManager.API.Controllers.V1
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/v{version:ApiVersion}/[controller]")]
+    [ApiVersion("1.0")]
     public class DefaultCategoryController : Controller
     {
         private readonly IMediator _mediatr;
