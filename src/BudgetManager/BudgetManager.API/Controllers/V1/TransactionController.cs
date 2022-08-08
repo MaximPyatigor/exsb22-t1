@@ -62,6 +62,16 @@ namespace BudgetManager.API.Controllers.V1
             return response == Guid.Empty ? BadRequest() : Ok(response);
         }
 
+        [Authorize]
+        [HttpDelete("Income")]
+        public async Task<IActionResult> DeleteIncome(Guid incomeId, CancellationToken cancellationToken)
+        {
+            var userId = Guid.Parse(User.FindFirst("UserId").Value);
+            var result = await _mediator.Send(new DeleteIncomeTransactionCommand(userId, incomeId), cancellationToken);
+
+            return result ? Ok() : BadRequest();
+        }
+
         [HttpPut]
         public async Task<IActionResult> UpdateTransaction([FromBody] UpdateTransactionDTO updateTransaction, CancellationToken cancellationToken)
         {
