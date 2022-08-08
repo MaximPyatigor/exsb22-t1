@@ -63,7 +63,7 @@ namespace BudgetManager.API.Controllers.V1
         }
 
         [Authorize]
-        [HttpDelete("Income")]
+        [HttpDelete("Expense")]
         public async Task<IActionResult> DeleteExpenseTransaction(Guid expenseId, CancellationToken cancellationToken)
         {
             var userId = Guid.Parse(User.FindFirst("UserId").Value);
