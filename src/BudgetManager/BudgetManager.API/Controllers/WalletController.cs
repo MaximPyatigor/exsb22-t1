@@ -56,5 +56,13 @@ namespace BudgetManager.API.Controllers
 
             return result ? Ok() : NotFound();
         }
+
+        [HttpDelete("{userId}/{walletId}")]
+        public async Task<IActionResult> DeleteUserWallet(Guid userId, Guid walletId, CancellationToken cancellationToken)
+        {
+            var result = await _mediator.Send(new DeleteUserWalletCommand(userId, walletId), cancellationToken);
+
+            return result ? Ok() : BadRequest();
+        }
     }
 }
