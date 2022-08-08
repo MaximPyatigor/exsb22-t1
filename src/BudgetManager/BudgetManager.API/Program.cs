@@ -105,12 +105,12 @@ builder.Services.AddSwaggerGen(options =>
             {
                 Reference = new OpenApiReference
                 {
-                    Type=ReferenceType.SecurityScheme,
-                    Id="Bearer",
-                }
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer",
+                },
             },
-            new string[]{}
-        }
+            new string[] { }
+        },
     });
 });
 
