@@ -84,6 +84,16 @@ namespace BudgetManager.API.Controllers.V1
             return result is not null ? Ok(result) : NotFound();
         }
 
+        [Authorize]
+        [HttpPut("Expense")]
+        public async Task<IActionResult> UpdateExpenseTransaction([FromBody] UpdateExpenseTransactionDTO updateExpenseTransaction, CancellationToken cancellationToken)
+        {
+            var userId = Guid.Parse(User.FindFirst("UserId").Value);
+            var result = await _mediator.Send(new UpdateExpenseTransactionCommand(userId, updateExpenseTransaction), cancellationToken);
+
+            return result is not null ? Ok(result) : NotFound();
+        }
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteTransaction(Guid id, CancellationToken cancellationToken)
         {
