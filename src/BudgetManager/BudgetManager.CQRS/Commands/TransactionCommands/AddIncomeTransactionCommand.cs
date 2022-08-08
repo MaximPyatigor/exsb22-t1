@@ -4,5 +4,5 @@ using MediatR;
 
 namespace BudgetManager.CQRS.Commands.TransactionCommands
 {
-    public record AddIncomeTransactionCommand(AddIncomeTransactionDTO addIncomeDTO) : IRequest<Guid>;
+    public record AddIncomeTransactionCommand(Guid userId, AddIncomeTransactionDTO addIncomeDTO) : IRequest<Guid>;
 }

@@ -2,8 +2,6 @@
 {
     public class AddExpenseTransactionDTO
     {
-        public Guid UserId { get; set; }
-
         public Guid WalletId { get; set; }
 
         public Guid CategoryId { get; set; }
