@@ -9,6 +9,7 @@ using BudgetManager.DataAccess.MongoDbAccess.Repositories;
 using BudgetManager.Model;
 using BudgetManager.Model.AuthorizationModels;
 using BudgetManager.Scheduler;
+using BudgetManager.Scheduler.Jobs;
 using BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation;
 using BudgetManager.Shared.DataAccess.MongoDB.DatabaseSettings;
 using BudgetManager.Shared.Utils.Helpers;
@@ -48,6 +49,7 @@ builder.Services.AddScoped<IBaseRepository<DefaultCategory>, DefaultCategoryRepo
 builder.Services.AddSingleton<IBaseRepository<CurrencyRates>, CurrencyRatesRepository>();
 builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
 
+builder.Services.AddScoped<IUpdateCurrencyRatesJob, UpdateCurrencyRatesJob>();
 builder.Services.AddScoped<ISeedingService, SeedingService>();
 
 builder.Services.AddSingleton<ITokenSettings, TokenSettings>();
