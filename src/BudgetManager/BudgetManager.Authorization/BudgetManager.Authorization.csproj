@@ -7,6 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.22.0" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.22.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\BudgetManager.CQRS\BudgetManager.CQRS.csproj" />
     <ProjectReference Include="..\BudgetManager.DataAccess\BudgetManager.DataAccess.csproj" />
   </ItemGroup>

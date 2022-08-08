@@ -1,7 +1,7 @@
-﻿using BudgetManager.CQRS.Queries.UserQueries;
-using BudgetManager.Model;
+﻿using BudgetManager.Authorization.TokenService;
+using BudgetManager.CQRS.Queries.UserQueries;
 using BudgetManager.Model.AuthorizationModels;
-using BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation;
+using BudgetManager.Shared.Utils.Helpers;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 
@@ -11,37 +11,72 @@ namespace BudgetManager.Authorization
     {
         private readonly IMediator _mediator;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IJwtTokenService _tokenService;
 
         public AuthorizationManager(UserManager<ApplicationUser> userManager,
-            IMediator mediator)
+            IMediator mediator,
+            IJwtTokenService tokenService)
         {
             _userManager = userManager;
             _mediator = mediator;
+            _tokenService = tokenService;
         }
 
-        public async Task<bool> Register(string email, string password, Guid userId)
+        public async Task<bool> Register(string email, string password, Guid userId,
+            bool isAdmin)
         {
-            var appUser = new ApplicationUser { UserName = email,
+            var appUser = new ApplicationUser
+            {
+                UserName = email,
                 Email = email,
-                UserId = userId };
+                UserId = userId
+            };
 
             var savedAppUser = await _userManager.CreateAsync(appUser, password);
 
+            if (isAdmin)
+            {
+                await _userManager.AddToRolesAsync(appUser, new string[] { "Admin", "User" });
+            }
+            else
+            {
+                await _userManager.AddToRoleAsync(appUser, "User");
+            }
+            
             return savedAppUser.Succeeded;
         }
 
-        public async Task<ApplicationUser> Login(string email, string password)
+        public async Task<AuthorizationResponse> Login(string email, string password)
         {
             var appUser = await _userManager.FindByEmailAsync(email);
-            var user = await _mediator.Send(new GetUserByIdQuery(appUser.Id));
+            var user = await _mediator.Send(new GetUserByIdQuery(appUser.UserId));
 
             if (appUser != null & await _userManager.CheckPasswordAsync(appUser, password)
                 & user != null)
             {
-                return appUser;
-            } else
+                var userRoles = await _userManager.GetRolesAsync(appUser);
+
+                var token = _tokenService.CreateUserToken(appUser, userRoles);
+                var responseUser = new UserAuthorizationObject
+                {
+                    Id = user.Id,
+                    DOB = user.DOB,
+                    Country = user.Country,
+                    DefaultCurrency = user.DefaultCurrency,
+                    DefaultWallet = user.DefaultWallet,
+                    Email = user.Email,
+                    FullName = user.FullName,
+                };
+                var response = new AuthorizationResponse
+                {
+                    User = responseUser,
+                    Token = token
+                };
+                return response;
+            }
+            else
             {
-                return null;
+                throw new KeyNotFoundException("User not found or password is not correct");
             }
         }
 

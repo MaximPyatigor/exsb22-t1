@@ -180,7 +180,13 @@ namespace BudgetManager.API.Seeding
                     var userId = userIds[i];
                     var user = listOfUsers[i];
 
-                    await _authorizationManager.Register(user.Email, defaultPassword, userId);
+                    if (i == userIds.Count() - 1)
+                    {
+                        await _authorizationManager.Register(user.Email, defaultPassword, userId, true);
+                        break;
+                    }
+
+                    await _authorizationManager.Register(user.Email, defaultPassword, userId, false);
                 }
 
                 Console.WriteLine("Seeding Users successful.");
