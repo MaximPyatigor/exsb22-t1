@@ -4,5 +4,5 @@ using MediatR;
 
 namespace BudgetManager.CQRS.Commands.CategoryCommands
 {
-    public record UpdateCategoryCommand(UpdateCategoryDTO updateCategoryObject) : IRequest<CategoryResponse>;
+    public record UpdateCategoryCommand(Guid userId, UpdateCategoryDTO updateCategoryObject) : IRequest<CategoryResponse>;
 }
