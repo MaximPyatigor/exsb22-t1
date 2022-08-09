@@ -76,6 +76,16 @@ namespace BudgetManager.API.Controllers.V1
         }
 
         [Authorize]
+        [HttpDelete("Expense")]
+        public async Task<IActionResult> DeleteExpenseTransaction(Guid expenseId, CancellationToken cancellationToken)
+        {
+            var userId = Guid.Parse(User.FindFirst("UserId").Value);
+            var result = await _mediator.Send(new DeleteExpenseTransactionCommand(userId, expenseId), cancellationToken);
+
+            return result ? Ok() : BadRequest();
+        }
+
+        [Authorize]
         [HttpDelete("Income")]
         public async Task<IActionResult> DeleteIncome(Guid incomeId, CancellationToken cancellationToken)
         {
