@@ -2,6 +2,7 @@
 using BudgetManager.CQRS.Queries.WalletQueries;
 using BudgetManager.SDK.DTOs;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BudgetManager.API.Controllers.V1
@@ -26,9 +27,11 @@ namespace BudgetManager.API.Controllers.V1
             return result is not null ? Ok(result) : NotFound();
         }
 
+        [Authorize]
         [HttpGet]
-        public async Task<IActionResult> GetWallets(Guid userId, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetWallets(CancellationToken cancellationToken)
         {
+            var userId = Guid.Parse(User.FindFirst("UserId").Value);
             var result = await _mediator.Send(new GetWalletListQuery(userId), cancellationToken);
 
             return result is not null ? Ok(result) : NotFound();
