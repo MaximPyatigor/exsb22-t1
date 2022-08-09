@@ -37,6 +37,7 @@ namespace BudgetManager.CQRS.Handlers.TransactionHandlers
             var update = Builders<Transaction>.Update
                 .Set(t => t.WalletId, request.updateIncomeDTO.WalletId)
                 .Set(t => t.CategoryId, request.updateIncomeDTO.CategoryId)
+                .Set(t => t.SubCategoryId, request.updateIncomeDTO.SubCategoryId)
                 .Set(t => t.DateOfTransaction, request.updateIncomeDTO.DateOfTransaction)
                 .Set(t => t.Value, request.updateIncomeDTO.Value)
                 .Set(t => t.Description, request.updateIncomeDTO.Description);
