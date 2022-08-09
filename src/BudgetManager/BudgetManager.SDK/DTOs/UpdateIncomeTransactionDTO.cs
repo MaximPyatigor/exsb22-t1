@@ -8,8 +8,6 @@
 
         public Guid CategoryId { get; set; }
 
-        public Guid SubCategoryId { get; set; }
-
         public DateTime DateOfTransaction { get; set; }
 
         public decimal Value { get; set; }
