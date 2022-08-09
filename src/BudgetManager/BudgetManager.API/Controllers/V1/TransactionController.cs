@@ -10,19 +10,12 @@ namespace BudgetManager.API.Controllers.V1
     [ApiController]
     [Route("api/v{version:ApiVersion}/[controller]")]
     [ApiVersion("1.0")]
+    [Authorize]
     public class TransactionController : ControllerBase
     {
         private readonly IMediator _mediator;
         public TransactionController(IMediator mediator) => _mediator = mediator;
 
-        [HttpGet]
-        public async Task<IActionResult> GetTransactions(Guid userId, CancellationToken cancellationToken)
-        {
-            var response = await _mediator.Send(new GetTransactionListQuery(userId), cancellationToken);
-            return Ok(response);
-        }
-
-        [Authorize]
         [HttpGet("Expense")]
         public async Task<IActionResult> GetExpenseTransactionList(CancellationToken cancellationToken)
         {
@@ -31,7 +24,6 @@ namespace BudgetManager.API.Controllers.V1
             return response == null ? NotFound() : Ok(response);
         }
 
-        [Authorize]
         [HttpGet("Income")]
         public async Task<IActionResult> GetIncomeTransactionList(CancellationToken cancellationToken)
         {
@@ -40,7 +32,6 @@ namespace BudgetManager.API.Controllers.V1
             return response == null ? NotFound() : Ok(response);
         }
 
-        [Authorize]
         [HttpPost("Expense")]
         public async Task<IActionResult> AddExpenseTransaction([FromBody] AddExpenseTransactionDTO expenseTransaction, CancellationToken cancellationToken)
         {
@@ -49,7 +40,6 @@ namespace BudgetManager.API.Controllers.V1
             return response == Guid.Empty ? BadRequest() : Ok(response);
         }
 
-        [Authorize]
         [HttpPost("Income")]
         public async Task<IActionResult> AddIncomeTransaction([FromBody] AddIncomeTransactionDTO incomeTransaction, CancellationToken cancellationToken)
         {
@@ -58,7 +48,6 @@ namespace BudgetManager.API.Controllers.V1
             return response == Guid.Empty ? BadRequest() : Ok(response);
         }
 
-        [Authorize]
         [HttpPut("Income")]
         public async Task<IActionResult> UpdateIncomeTransaction([FromBody] UpdateIncomeTransactionDTO incomeTransaction, CancellationToken cancellationToken)
         {
@@ -67,7 +56,6 @@ namespace BudgetManager.API.Controllers.V1
             return response is not null ? Ok(response) : NotFound();
         }
 
-        [Authorize]
         [HttpPut("Expense")]
         public async Task<IActionResult> UpdateExpenseTransaction([FromBody] UpdateExpenseTransactionDTO updateExpenseTransaction, CancellationToken cancellationToken)
         {
@@ -77,7 +65,6 @@ namespace BudgetManager.API.Controllers.V1
             return result is not null ? Ok(result) : NotFound();
         }
 
-        [Authorize]
         [HttpDelete("Expense")]
         public async Task<IActionResult> DeleteExpenseTransaction(Guid expenseId, CancellationToken cancellationToken)
         {
@@ -87,7 +74,6 @@ namespace BudgetManager.API.Controllers.V1
             return result ? Ok() : BadRequest();
         }
 
-        [Authorize]
         [HttpDelete("Income")]
         public async Task<IActionResult> DeleteIncome(Guid incomeId, CancellationToken cancellationToken)
         {
