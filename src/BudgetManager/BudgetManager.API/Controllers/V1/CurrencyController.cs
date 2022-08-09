@@ -24,7 +24,7 @@ namespace BudgetManager.API.Controllers.V1
             return result is not null ? Ok(result) : NotFound();
         }
 
-        [HttpGet("UserCurrencies")]
+        [HttpGet("CurrenciesWithDefaultOnTop")]
         public async Task<IActionResult> GetAllCurrenciesWithDefaultOnTop(Guid userId, CancellationToken cancellationToken)
         {
             var result = await _mediator.Send(new GetCurrencyListWithDefaultOnTopQuery(userId), cancellationToken);
