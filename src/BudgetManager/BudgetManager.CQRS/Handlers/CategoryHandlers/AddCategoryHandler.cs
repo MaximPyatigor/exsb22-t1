@@ -21,7 +21,7 @@ namespace BudgetManager.CQRS.Handlers.CategoryHandlers
 
         public async Task<Guid> Handle(AddCategoryCommand request, CancellationToken cancellationToken)
         {
-            Guid userId = request.category.UserId;
+            Guid userId = request.userId;
             AddCategoryDTO requestCategory = request.category;
             Category mappedCategory = _mapper.Map<Category>(requestCategory);
 
