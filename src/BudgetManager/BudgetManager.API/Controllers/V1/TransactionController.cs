@@ -1,6 +1,5 @@
 using BudgetManager.CQRS.Commands.TransactionCommands;
 using BudgetManager.CQRS.Queries.TransactionQueries;
-using BudgetManager.Model.Enums;
 using BudgetManager.SDK.DTOs;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -21,13 +20,6 @@ namespace BudgetManager.API.Controllers.V1
         {
             var response = await _mediator.Send(new GetTransactionListQuery(userId), cancellationToken);
             return Ok(response);
-        }
-
-        [HttpGet("{id:guid}")]
-        public async Task<IActionResult> GetTransactionById(Guid id, CancellationToken cancellationToken)
-        {
-            var response = await _mediator.Send(new GetTransactionByIdQuery(id), cancellationToken);
-            return response == null ? NotFound() : Ok(response);
         }
 
         [Authorize]
@@ -76,6 +68,16 @@ namespace BudgetManager.API.Controllers.V1
         }
 
         [Authorize]
+        [HttpPut("Expense")]
+        public async Task<IActionResult> UpdateExpenseTransaction([FromBody] UpdateExpenseTransactionDTO updateExpenseTransaction, CancellationToken cancellationToken)
+        {
+            var userId = Guid.Parse(User.FindFirst("UserId").Value);
+            var result = await _mediator.Send(new UpdateExpenseTransactionCommand(userId, updateExpenseTransaction), cancellationToken);
+
+            return result is not null ? Ok(result) : NotFound();
+        }
+
+        [Authorize]
         [HttpDelete("Expense")]
         public async Task<IActionResult> DeleteExpenseTransaction(Guid expenseId, CancellationToken cancellationToken)
         {
@@ -93,31 +95,6 @@ namespace BudgetManager.API.Controllers.V1
             var result = await _mediator.Send(new DeleteIncomeTransactionCommand(userId, incomeId), cancellationToken);
 
             return result ? Ok() : BadRequest();
-        }
-
-        [HttpPut]
-        public async Task<IActionResult> UpdateTransaction([FromBody] UpdateTransactionDTO updateTransaction, CancellationToken cancellationToken)
-        {
-            var result = await _mediator.Send(new UpdateTransactionCommand(updateTransaction), cancellationToken);
-
-            return result is not null ? Ok(result) : NotFound();
-        }
-
-        [Authorize]
-        [HttpPut("Expense")]
-        public async Task<IActionResult> UpdateExpenseTransaction([FromBody] UpdateExpenseTransactionDTO updateExpenseTransaction, CancellationToken cancellationToken)
-        {
-            var userId = Guid.Parse(User.FindFirst("UserId").Value);
-            var result = await _mediator.Send(new UpdateExpenseTransactionCommand(userId, updateExpenseTransaction), cancellationToken);
-
-            return result is not null ? Ok(result) : NotFound();
-        }
-
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteTransaction(Guid id, CancellationToken cancellationToken)
-        {
-            var response = await _mediator.Send(new DeleteTransactionCommand(id), cancellationToken);
-            return response ? Ok() : NotFound();
         }
     }
 }
