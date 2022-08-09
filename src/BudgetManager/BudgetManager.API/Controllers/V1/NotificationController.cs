@@ -4,6 +4,7 @@ using BudgetManager.Model;
 using BudgetManager.SDK;
 using BudgetManager.SDK.DTOs;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BudgetManager.API.Controllers.V1
@@ -11,43 +12,50 @@ namespace BudgetManager.API.Controllers.V1
     [ApiController]
     [Route("api/v{version:ApiVersion}/[controller]")]
     [ApiVersion("1.0")]
+    [Authorize]
     public class NotificationController : ControllerBase
     {
         private readonly IMediator _mediator;
+        private string _userIdString = "UserId";
         public NotificationController(IMediator mediator) => _mediator = mediator;
 
         [HttpGet]
-        public async Task<IActionResult> GetNotifications(Guid userId, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetNotifications(CancellationToken cancellationToken)
         {
+            var userId = Guid.Parse(User.FindFirst(_userIdString).Value);
             var response = await _mediator.Send(new GetNotificationListQuery(userId), cancellationToken);
             return Ok(response);
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetNotificationById(Guid userId, Guid id, CancellationToken cancellationToken)
+        [HttpGet("{notificationId}")]
+        public async Task<IActionResult> GetNotificationById(Guid notificationId, CancellationToken cancellationToken)
         {
-            var response = await _mediator.Send(new GetNotificationByIdQuery(userId, id), cancellationToken);
+            var userId = Guid.Parse(User.FindFirst(_userIdString).Value);
+            var response = await _mediator.Send(new GetNotificationByIdQuery(userId, notificationId), cancellationToken);
             return Ok(response);
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddNotification(Guid userId, [FromBody] AddNotificationDto notification, CancellationToken cancellationToken)
+        public async Task<IActionResult> AddNotification([FromBody] AddNotificationDto notification, CancellationToken cancellationToken)
         {
+            var userId = Guid.Parse(User.FindFirst(_userIdString).Value);
             var response = await _mediator.Send(new AddNotificationCommand(userId, notification), cancellationToken);
             return Ok(response);
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateNotificationReadStatus(Guid userId, Guid id, bool isRead, CancellationToken cancellationToken)
+        [HttpPut("{notificationId}")]
+        public async Task<IActionResult> UpdateNotificationReadStatus(Guid notificationId, bool isRead, CancellationToken cancellationToken)
         {
-            var response = await _mediator.Send(new UpdateNotificationReadStatusCommand(userId, id, isRead), cancellationToken);
+            var userId = Guid.Parse(User.FindFirst(_userIdString).Value);
+            var response = await _mediator.Send(new UpdateNotificationReadStatusCommand(userId, notificationId, isRead), cancellationToken);
             return Ok(response);
         }
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteNotification(Guid userId, Guid id, CancellationToken cancellationToken)
+        [HttpDelete("{notificationId}")]
+        public async Task<IActionResult> DeleteNotification(Guid notificationId, CancellationToken cancellationToken)
         {
-            await _mediator.Send(new DeleteNotificationCommand(userId, id), cancellationToken);
+            var userId = Guid.Parse(User.FindFirst(_userIdString).Value);
+            await _mediator.Send(new DeleteNotificationCommand(userId, notificationId), cancellationToken);
             return Ok();
         }
     }
