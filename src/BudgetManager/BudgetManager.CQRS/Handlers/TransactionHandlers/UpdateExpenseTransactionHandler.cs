@@ -30,9 +30,9 @@ namespace BudgetManager.CQRS.Handlers.TransactionHandlers
                 builder.Eq(t => t.TransactionType, Model.Enums.OperationType.Expense));
 
             var projection = Builders<Transaction>.Projection.Include(t => t.WalletId);
-            var oldIncomeTransaction = (await _dataAccess.FilterBy<Transaction>(filter, projection, cancellationToken)).FirstOrDefault();
-            if (oldIncomeTransaction == null) { throw new KeyNotFoundException("Transaction not found"); }
-            bool walletChanged = oldIncomeTransaction.WalletId != request.updateExpenseDto.WalletId;
+            var oldExpenseTransaction = (await _dataAccess.FilterBy<Transaction>(filter, projection, cancellationToken)).FirstOrDefault();
+            if (oldExpenseTransaction == null) { throw new KeyNotFoundException("Transaction not found"); }
+            bool walletChanged = oldExpenseTransaction.WalletId != request.updateExpenseDto.WalletId;
 
             var update = Builders<Transaction>.Update
                 .Set(o => o.WalletId, request.updateExpenseDto.WalletId)
@@ -47,7 +47,7 @@ namespace BudgetManager.CQRS.Handlers.TransactionHandlers
             if (response == null) { throw new KeyNotFoundException("Transaction not found"); }
 
             await _mediator.Send(new UpdateWalletDateOfChangeCommand(request.userId, response.WalletId, DateTime.UtcNow), cancellationToken);
-            if (walletChanged) { await _mediator.Send(new UpdateWalletDateOfChangeCommand(request.userId, oldIncomeTransaction.WalletId, DateTime.UtcNow), cancellationToken); }
+            if (walletChanged) { await _mediator.Send(new UpdateWalletDateOfChangeCommand(request.userId, oldExpenseTransaction.WalletId, DateTime.UtcNow), cancellationToken); }
 
             return _mapper.Map<ExpenseTransactionResponse>(response);
         }
