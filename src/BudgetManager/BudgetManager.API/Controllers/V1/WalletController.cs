@@ -37,14 +37,6 @@ namespace BudgetManager.API.Controllers.V1
             return result is not null ? Ok(result) : NotFound();
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetWalletById(Guid id, CancellationToken cancellationToken)
-        {
-            var result = await _mediator.Send(new GetWalletByIdQuery(id), cancellationToken);
-
-            return result is not null ? Ok(result) : NotFound();
-        }
-
         [Authorize]
         [HttpPost]
         public async Task<IActionResult> CreateWallet([FromBody] AddWalletDTO walletDTO, CancellationToken cancellationToken)
@@ -55,6 +47,7 @@ namespace BudgetManager.API.Controllers.V1
             return result == Guid.Empty ? BadRequest() : Ok(result);
         }
 
+        // D
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteWallet(Guid id, CancellationToken cancellationToken)
         {
