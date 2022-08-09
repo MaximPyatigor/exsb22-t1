@@ -45,10 +45,12 @@ namespace BudgetManager.API.Controllers.V1
             return result is not null ? Ok(result) : NotFound();
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> CreateWallet([FromBody] AddWalletDTO walletDTO, CancellationToken cancellationToken)
         {
-            var result = await _mediator.Send(new AddWalletCommand(walletDTO), cancellationToken);
+            var userId = Guid.Parse(User.FindFirst("UserId").Value);
+            var result = await _mediator.Send(new AddWalletCommand(userId, walletDTO), cancellationToken);
 
             return result == Guid.Empty ? BadRequest() : Ok(result);
         }
