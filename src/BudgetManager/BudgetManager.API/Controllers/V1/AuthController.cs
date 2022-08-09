@@ -1,4 +1,5 @@
 ﻿using BudgetManager.Authorization;
+using BudgetManager.SDK.DTOs;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BudgetManager.API.Controllers.V1
@@ -15,9 +16,9 @@ namespace BudgetManager.API.Controllers.V1
         }
 
         [HttpPost("[action]")]
-        public async Task<IActionResult> Login(string email, string password)
+        public async Task<IActionResult> Login([FromBody] LoginDTO loginData)
         {
-            var result = await _authorizationManager.Login(email, password);
+            var result = await _authorizationManager.Login(loginData.Email, loginData.Password);
             return Ok(result);
         }
     }
