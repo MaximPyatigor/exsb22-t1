@@ -48,36 +48,44 @@ namespace BudgetManager.Authorization
 
         public async Task<AuthorizationResponse> Login(string email, string password)
         {
-            var appUser = await _userManager.FindByEmailAsync(email);
-            var user = await _mediator.Send(new GetUserByIdQuery(appUser.UserId));
-
-            if (appUser != null & await _userManager.CheckPasswordAsync(appUser, password)
-                & user != null)
+            try
             {
-                var userRoles = await _userManager.GetRolesAsync(appUser);
+                var appUser = await _userManager.FindByEmailAsync(email);
 
-                var token = _tokenService.CreateUserToken(appUser, userRoles);
-                var responseUser = new UserAuthorizationObject
+                var user = await _mediator.Send(new GetUserByIdQuery(appUser.UserId));
+
+                if (appUser != null & await _userManager.CheckPasswordAsync(appUser, password)
+                    & user != null)
                 {
-                    Id = user.Id,
-                    DOB = user.DOB,
-                    Country = user.Country,
-                    DefaultCurrency = user.DefaultCurrency,
-                    DefaultWallet = user.DefaultWallet,
-                    Email = user.Email,
-                    FullName = user.FullName,
-                };
-                var response = new AuthorizationResponse
+                    var userRoles = await _userManager.GetRolesAsync(appUser);
+
+                    var token = _tokenService.CreateUserToken(appUser, userRoles);
+                    var responseUser = new UserAuthorizationObject
+                    {
+                        Id = user.Id,
+                        DOB = user.DOB,
+                        Country = user.Country,
+                        DefaultCurrency = user.DefaultCurrency,
+                        DefaultWallet = user.DefaultWallet,
+                        Email = user.Email,
+                        FullName = user.FullName,
+                    };
+                    var response = new AuthorizationResponse
+                    {
+                        User = responseUser,
+                        Token = token
+                    };
+                    return response;
+                } else
                 {
-                    User = responseUser,
-                    Token = token
-                };
-                return response;
+                    throw new UnauthorizedAccessException("User not found or password is not correct");
+                }
             }
-            else
+            catch (Exception)
             {
-                throw new KeyNotFoundException("User not found or password is not correct");
+                throw new UnauthorizedAccessException("User not found or password is not correct");
             }
+
         }
 
         public async Task<IEnumerable<ApplicationUser>> GetApplicationUsersList()

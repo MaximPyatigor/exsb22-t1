@@ -2,6 +2,7 @@
 using BudgetManager.CQRS.Queries.WalletQueries;
 using BudgetManager.SDK.DTOs;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BudgetManager.API.Controllers.V1
@@ -26,41 +27,31 @@ namespace BudgetManager.API.Controllers.V1
             return result is not null ? Ok(result) : NotFound();
         }
 
+        [Authorize]
         [HttpGet]
-        public async Task<IActionResult> GetWallets(Guid userId, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetWallets(CancellationToken cancellationToken)
         {
+            var userId = Guid.Parse(User.FindFirst("UserId").Value);
             var result = await _mediator.Send(new GetWalletListQuery(userId), cancellationToken);
 
             return result is not null ? Ok(result) : NotFound();
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetWalletById(Guid id, CancellationToken cancellationToken)
-        {
-            var result = await _mediator.Send(new GetWalletByIdQuery(id), cancellationToken);
-
-            return result is not null ? Ok(result) : NotFound();
-        }
-
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> CreateWallet([FromBody] AddWalletDTO walletDTO, CancellationToken cancellationToken)
         {
-            var result = await _mediator.Send(new AddWalletCommand(walletDTO), cancellationToken);
+            var userId = Guid.Parse(User.FindFirst("UserId").Value);
+            var result = await _mediator.Send(new AddWalletCommand(userId, walletDTO), cancellationToken);
 
             return result == Guid.Empty ? BadRequest() : Ok(result);
         }
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteWallet(Guid id, CancellationToken cancellationToken)
+        [Authorize]
+        [HttpDelete("{walletId}")]
+        public async Task<IActionResult> DeleteUserWallet(Guid walletId, CancellationToken cancellationToken)
         {
-            var result = await _mediator.Send(new DeleteWalletCommand(id), cancellationToken);
-
-            return result ? Ok() : NotFound();
-        }
-
-        [HttpDelete("{userId}/{walletId}")]
-        public async Task<IActionResult> DeleteUserWallet(Guid userId, Guid walletId, CancellationToken cancellationToken)
-        {
+            var userId = Guid.Parse(User.FindFirst("UserId").Value);
             var result = await _mediator.Send(new DeleteUserWalletCommand(userId, walletId), cancellationToken);
 
             return result ? Ok() : BadRequest();

@@ -2,6 +2,7 @@
 using BudgetManager.CQRS.Queries.UserQueries;
 using BudgetManager.SDK.DTOs;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BudgetManager.API.Controllers.V1
@@ -18,60 +19,51 @@ namespace BudgetManager.API.Controllers.V1
             _mediator = mediator;
         }
 
-        // GET: api/<UserController>
+        [Authorize]
         [HttpGet]
-        public async Task<IActionResult> GetAllUsers(CancellationToken cancellationToken)
+        public async Task<IActionResult> GetUser(CancellationToken cancellationToken)
         {
-            var users = await _mediator.Send(new GetUsersQuery(), cancellationToken);
-
-            return users is not null ? Ok(users) : NotFound();
-        }
-
-        // GET api/<UserController>/5
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetUserById(Guid id, CancellationToken cancellationToken)
-        {
-            var user = await _mediator.Send(new GetUserByIdQuery(id), cancellationToken);
+            var userId = Guid.Parse(User.FindFirst("UserId").Value);
+            var user = await _mediator.Send(new GetUserByIdQuery(userId), cancellationToken);
 
             return user is not null ? Ok(user) : NotFound();
         }
 
-        // POST api/<UserController>
-        [HttpPost]
-        public async Task<IActionResult> AddNewUser([FromBody] AddUserDTO userDTO, CancellationToken cancellationToken)
-        {
-            var user = await _mediator.Send(new AddUserCommand(userDTO), cancellationToken);
-
-            return user == Guid.Empty ? BadRequest() : Ok(user);
-        }
-
         // PUT api/<UserController>/5
+        [Authorize]
         [HttpPut]
         public async Task<IActionResult> UpdateUser([FromBody] UpdateUserDTO updateUser, CancellationToken cancellationToken)
         {
-            var result = await _mediator.Send(new UpdateUserCommand(updateUser), cancellationToken);
+            var userId = Guid.Parse(User.FindFirst("UserId").Value);
+            var result = await _mediator.Send(new UpdateUserCommand(userId, updateUser), cancellationToken);
 
             return result is not null ? Ok(result) : NotFound();
         }
 
         // DELETE api/<UserController>/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
+        [Authorize]
+        [HttpDelete]
+        public async Task<IActionResult> Delete(CancellationToken cancellationToken)
         {
-            return await _mediator.Send(new DeleteUserCommand(id), cancellationToken) ? Ok() : NotFound();
+            var userId = Guid.Parse(User.FindFirst("UserId").Value);
+            return await _mediator.Send(new DeleteUserCommand(userId), cancellationToken) ? Ok() : NotFound();
         }
 
+        [Authorize]
         [HttpGet("Payers")]
-        public async Task<IActionResult> GetUserPayers(Guid userId, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetUserPayers(CancellationToken cancellationToken)
         {
+            var userId = Guid.Parse(User.FindFirst("UserId").Value);
             var result = await _mediator.Send(new GetUserPayersQuery(userId), cancellationToken);
 
             return result is not null ? Ok(result) : NotFound();
         }
 
+        [Authorize]
         [HttpPost("Payers")]
-        public async Task<IActionResult> AddUserPayer(Guid userId, string payerName, CancellationToken cancellationToken)
+        public async Task<IActionResult> AddUserPayer(string payerName, CancellationToken cancellationToken)
         {
+            var userId = Guid.Parse(User.FindFirst("UserId").Value);
             var result = await _mediator.Send(new AddUserPayerCommand(userId, payerName), cancellationToken);
 
             return result is not null ? Ok() : BadRequest();

@@ -20,7 +20,7 @@ namespace BudgetManager.CQRS.Handlers.WalletHandlers
 
         public async Task<Guid> Handle(AddWalletCommand request, CancellationToken cancellationToken)
         {
-            var userId = request.addWalletDTO.UserId;
+            var userId = request.userId;
             var setDefault = request.addWalletDTO.SetDefault;
             var wallet = _mapper.Map<Wallet>(request.addWalletDTO);
 

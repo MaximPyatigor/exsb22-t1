@@ -22,7 +22,7 @@ namespace BudgetManager.CQRS.Handlers.UserHandlers
         public async Task<UserResponse> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
         {
             var updateUser = _mapper.Map<User>(request.updateUser);
-            var filter = Builders<User>.Filter.Eq(u => u.Id, updateUser.Id);
+            var filter = Builders<User>.Filter.Eq(u => u.Id, request.userId);
             var update = Builders<User>.Update
                 .Set(u => u.FullName, updateUser.FullName)
                 .Set(u => u.DOB, updateUser.DOB)
