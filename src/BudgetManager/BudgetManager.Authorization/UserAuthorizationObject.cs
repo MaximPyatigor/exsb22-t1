@@ -17,5 +17,7 @@ namespace BudgetManager.Authorization
         public Guid DefaultWallet { get; set; }
 
         public Country Country { get; set; }
+
+        public bool IsAdmin { get; set; }
     }
 }
