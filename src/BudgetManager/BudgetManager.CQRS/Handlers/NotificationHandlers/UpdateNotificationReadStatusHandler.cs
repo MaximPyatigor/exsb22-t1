@@ -38,7 +38,7 @@ namespace BudgetManager.CQRS.Handlers.NotificationHandlers
 
             if (updatedUser == null) { throw new KeyNotFoundException("UserId or notificationId not found"); }
 
-            var result = _mapper.Map<NotificationResponse>(updatedUser.Notifications.FirstOrDefault());
+            var result = _mapper.Map<NotificationResponse>(updatedUser.Notifications.Where(n => n.Id == request.Id).FirstOrDefault());
             return result;
         }
     }
