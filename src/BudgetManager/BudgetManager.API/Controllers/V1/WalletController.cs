@@ -13,6 +13,7 @@ namespace BudgetManager.API.Controllers.V1
     public class WalletController : ControllerBase
     {
         private readonly IMediator _mediator;
+        private string _userIdString = "UserId";
 
         public WalletController(IMediator mediator)
         {
@@ -22,7 +23,8 @@ namespace BudgetManager.API.Controllers.V1
         [HttpPut]
         public async Task<IActionResult> UpdateWallet([FromBody] UpdateWalletDTO updateWallet, CancellationToken cancellationToken)
         {
-            var result = await _mediator.Send(new UpdateWalletCommand(updateWallet), cancellationToken);
+            var userId = Guid.Parse(User.FindFirst(_userIdString).Value);
+            var result = await _mediator.Send(new UpdateWalletCommand(userId, updateWallet), cancellationToken);
 
             return result is not null ? Ok(result) : NotFound();
         }

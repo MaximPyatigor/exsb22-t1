@@ -11,9 +11,9 @@ namespace BudgetManager.CQRS.Handlers.WalletHandlers
     public class UpdateWalletHandler : IRequestHandler<UpdateWalletCommand, WalletResponse>
     {
         private readonly IMapper _mapper;
-        private readonly IBaseRepository<Wallet> _dataAccess;
+        private readonly IBaseRepository<User> _dataAccess;
 
-        public UpdateWalletHandler(IBaseRepository<Wallet> dataAccess, IMapper mapper)
+        public UpdateWalletHandler(IBaseRepository<User> dataAccess, IMapper mapper)
         {
             _dataAccess = dataAccess;
             _mapper = mapper;
@@ -21,16 +21,21 @@ namespace BudgetManager.CQRS.Handlers.WalletHandlers
 
         public async Task<WalletResponse> Handle(UpdateWalletCommand request, CancellationToken cancellationToken)
         {
-            var updateWallet = _mapper.Map<Wallet>(request.walletDTO);
-            var filter = Builders<Wallet>.Filter.Eq(opt => opt.Id, updateWallet.Id);
-            var update = Builders<Wallet>.Update
-                .Set(o => o.Name, updateWallet.Name)
-                .Set(o => o.Currency, updateWallet.Currency)
-                .Set(o => o.Balance, updateWallet.Balance)
-                .Set(o => o.DateOfChange, updateWallet.DateOfChange);
-            var result = _mapper.Map<WalletResponse>(await _dataAccess.UpdateOneAsync(filter, update, cancellationToken));
+            var updateWallet = _mapper.Map<Wallet>(request.WalletDTO);
+            var userId = request.UserId;
 
-            return result;
+            var walletFilter = Builders<Wallet>.Filter.Eq(w => w.Id, updateWallet.Id);
+            var filter = Builders<User>.Filter.Eq(u => u.Id, userId)
+                & Builders<User>.Filter.ElemMatch(u => u.Wallets, walletFilter);
+
+            var update = Builders<User>.Update
+                .Set(u => u.Wallets[-1].Name, updateWallet.Name)
+                .Set(u => u.Wallets[-1].Currency, updateWallet.Currency)
+                .Set(u => u.Wallets[-1].Balance, updateWallet.Balance)
+                .Set(u => u.Wallets[-1].DateOfChange, updateWallet.DateOfChange);
+
+            var result = await _dataAccess.UpdateOneAsync(filter, update, cancellationToken);
+            return result is null ? null : _mapper.Map<WalletResponse>(updateWallet);
         }
     }
 }

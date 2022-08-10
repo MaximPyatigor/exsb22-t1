@@ -4,5 +4,5 @@ using MediatR;
 
 namespace BudgetManager.CQRS.Commands.WalletCommands
 {
-    public record UpdateWalletCommand(UpdateWalletDTO walletDTO) : IRequest<WalletResponse>;
+    public record UpdateWalletCommand(Guid UserId, UpdateWalletDTO WalletDTO) : IRequest<WalletResponse>;
 }
