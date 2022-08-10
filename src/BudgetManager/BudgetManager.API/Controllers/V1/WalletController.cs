@@ -48,7 +48,7 @@ namespace BudgetManager.API.Controllers.V1
         }
 
         [Authorize]
-        [HttpDelete("{userId}/{walletId}")]
+        [HttpDelete("{walletId}")]
         public async Task<IActionResult> DeleteUserWallet(Guid walletId, CancellationToken cancellationToken)
         {
             var userId = Guid.Parse(User.FindFirst("UserId").Value);

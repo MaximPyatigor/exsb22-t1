@@ -9,7 +9,7 @@ using MongoDB.Driver;
 
 namespace BudgetManager.CQRS.Handlers.TransactionHandlers
 {
-    public class UpdateExpenseTransactionHandler
+    public class UpdateExpenseTransactionHandler : IRequestHandler<UpdateExpenseTransactionCommand, ExpenseTransactionResponse>
     {
         private readonly IMapper _mapper;
         private readonly IMediator _mediator;
