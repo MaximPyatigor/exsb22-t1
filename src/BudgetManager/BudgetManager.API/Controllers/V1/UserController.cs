@@ -19,6 +19,16 @@ namespace BudgetManager.API.Controllers.V1
             _mediator = mediator;
         }
 
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> GetUser(CancellationToken cancellationToken)
+        {
+            var userId = Guid.Parse(User.FindFirst("UserId").Value);
+            var user = await _mediator.Send(new GetUserByIdQuery(userId), cancellationToken);
+
+            return user is not null ? Ok(user) : NotFound();
+        }
+
         // PUT api/<UserController>/5
         [Authorize]
         [HttpPut]
