@@ -38,6 +38,16 @@ namespace BudgetManager.API.Controllers.V1
         }
 
         [Authorize]
+        [HttpGet("{walletId}")]
+        public async Task<IActionResult> GetWalletById(Guid walletId, CancellationToken cancellationToken)
+        {
+            var userId = Guid.Parse(User.FindFirst("UserId").Value);
+            var result = await _mediator.Send(new GetWalletByIdQuery(userId, walletId), cancellationToken);
+
+            return result is not null ? Ok(result) : NotFound();
+        }
+
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> CreateWallet([FromBody] AddWalletDTO walletDTO, CancellationToken cancellationToken)
         {
