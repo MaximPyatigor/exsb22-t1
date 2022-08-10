@@ -59,6 +59,8 @@ namespace BudgetManager.CQRS.Handlers.WalletHandlers
             {
                 throw new KeyNotFoundException("WalletId not found");
             }
+
+            // We return this instead of updateWallet in case updateWallet tried to change currency when it was not allowed.
             var updatedWallet = result.Wallets.Where(w => w.Id == walletId).FirstOrDefault();
             return _mapper.Map<WalletResponse>(updatedWallet);
         }
