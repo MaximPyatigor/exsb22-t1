@@ -21,6 +21,6 @@ namespace BudgetManager.Model
 
         // Eur is used as a base for currency rates
         [JsonProperty("eur")]
-        public Dictionary<string, double> Eur { get; set; }
+        public Dictionary<string, decimal> Eur { get; set; }
     }
 }
