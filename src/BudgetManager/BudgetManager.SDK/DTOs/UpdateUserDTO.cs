@@ -4,7 +4,6 @@ namespace BudgetManager.SDK.DTOs
 {
     public class UpdateUserDTO
     {
-        public Guid Id { get; set; }
         public string FullName { get; set; }
         public DateTime DOB { get; set; }
         public Currency DefaultCurrency { get; set; }

@@ -24,7 +24,8 @@ namespace BudgetManager.API.Controllers.V1
         [HttpPut]
         public async Task<IActionResult> UpdateUser([FromBody] UpdateUserDTO updateUser, CancellationToken cancellationToken)
         {
-            var result = await _mediator.Send(new UpdateUserCommand(updateUser), cancellationToken);
+            var userId = Guid.Parse(User.FindFirst("UserId").Value);
+            var result = await _mediator.Send(new UpdateUserCommand(userId, updateUser), cancellationToken);
 
             return result is not null ? Ok(result) : NotFound();
         }
