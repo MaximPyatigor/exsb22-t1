@@ -2,6 +2,7 @@
 using BudgetManager.CQRS.Commands.WalletCommands;
 using BudgetManager.CQRS.Queries.CurrencyQueries;
 using BudgetManager.CQRS.Queries.TransactionQueries;
+using BudgetManager.CQRS.Queries.UserQueries;
 using BudgetManager.CQRS.Queries.WalletQueries;
 using BudgetManager.CQRS.Responses.WalletResponses;
 using BudgetManager.Model;
@@ -36,25 +37,36 @@ namespace BudgetManager.CQRS.Handlers.WalletHandlers
             var filter = Builders<User>.Filter.Eq(u => u.Id, userId)
                 & Builders<User>.Filter.ElemMatch(u => u.Wallets, walletFilter);
 
+            // Used to add update definitions.
+            var updList = new List<UpdateDefinition<User>>();
+
             // If the wallet already has some transactions, currency can not be changed.
-            UpdateDefinition<User> update;
+            var defaultUpdate = Builders<User>.Update
+                    .Set(u => u.Wallets[-1].Name, updateWallet.Name)
+                    .Set(u => u.Wallets[-1].Balance, updateWallet.Balance)
+                    .Set(u => u.Wallets[-1].DateOfChange, updateWallet.DateOfChange);
+
+            updList.Add(defaultUpdate);
+
             var transactions = await _mediator.Send(new GetTransactionListByWalletQuery(walletId), cancellationToken);
             if (transactions == null || !transactions.Any())
             {
-                update = Builders<User>.Update
-                    .Set(u => u.Wallets[-1].Name, updateWallet.Name)
-                    .Set(u => u.Wallets[-1].Currency, updateWallet.Currency)
-                    .Set(u => u.Wallets[-1].Balance, updateWallet.Balance)
-                    .Set(u => u.Wallets[-1].DateOfChange, updateWallet.DateOfChange);
-            } else
-            {
-                update = Builders<User>.Update
-                    .Set(u => u.Wallets[-1].Name, updateWallet.Name)
-                    .Set(u => u.Wallets[-1].Balance, updateWallet.Balance)
-                    .Set(u => u.Wallets[-1].DateOfChange, updateWallet.DateOfChange);
+                var updateWalletCurrency = Builders<User>.Update
+                    .Set(u => u.Wallets[-1].Currency, updateWallet.Currency);
+
+                updList.Add(updateWalletCurrency);
             }
 
-            var result = await _dataAccess.UpdateOneAsync(filter, update, cancellationToken);
+            if(request.isDefault)
+            {
+                var defaultWalletUpdate = Builders<User>.Update
+                    .Set(u => u.DefaultWallet, walletId);
+
+                updList.Add(defaultWalletUpdate);
+            }
+
+            var finalUpdate = Builders<User>.Update.Combine(updList);
+            var result = await _dataAccess.UpdateOneAsync(filter, finalUpdate, cancellationToken);
             if(result is null)
             {
                 throw new KeyNotFoundException("WalletId not found");

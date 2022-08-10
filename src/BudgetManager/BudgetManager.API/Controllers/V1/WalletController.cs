@@ -21,10 +21,10 @@ namespace BudgetManager.API.Controllers.V1
         }
 
         [HttpPut]
-        public async Task<IActionResult> UpdateWallet([FromBody] UpdateWalletDTO updateWallet, CancellationToken cancellationToken)
+        public async Task<IActionResult> UpdateWallet([FromBody] UpdateWalletDTO updateWallet, bool isDefault, CancellationToken cancellationToken)
         {
             var userId = Guid.Parse(User.FindFirst(_userIdString).Value);
-            var result = await _mediator.Send(new UpdateWalletCommand(userId, updateWallet), cancellationToken);
+            var result = await _mediator.Send(new UpdateWalletCommand(userId, isDefault, updateWallet), cancellationToken);
 
             return result is not null ? Ok(result) : NotFound();
         }
