@@ -10,12 +10,14 @@ namespace BudgetManager.CQRS.Handlers.CountryHandlers
 {
     public class UpdateCountryHandler : IRequestHandler<UpdateCountryCommand, CountryResponse>
     {
+        private readonly IBaseRepository<Currency> _currencyRepository;
         private readonly IBaseRepository<Country> _countryRepository;
         private readonly IBaseRepository<User> _userRepository;
         private readonly IMapper _mapper;
 
-        public UpdateCountryHandler(IBaseRepository<Country> countryRepository, IBaseRepository<User> userRepository, IMapper mapper)
+        public UpdateCountryHandler(IBaseRepository<Currency> currencyRepository, IBaseRepository<Country> countryRepository, IBaseRepository<User> userRepository, IMapper mapper)
         {
+            _currencyRepository = currencyRepository;
             _countryRepository = countryRepository;
             _userRepository = userRepository;
             _mapper = mapper;
@@ -28,6 +30,14 @@ namespace BudgetManager.CQRS.Handlers.CountryHandlers
 
             var filter = Builders<User>.Filter.Eq(u => u.Id, request.userId);
             var update = Builders<User>.Update.Set(u => u.Country, country);
+
+            if (request.updateCountryDTO.SetDefaultCurrency)
+            {
+                var currencyFilter = Builders<Currency>.Filter.Eq(c => c.CurrencyCode, country.CurrencyCode);
+                var currency = (await _currencyRepository.FilterBy(currencyFilter, cancellationToken)).FirstOrDefault();
+                if (currency == null) { throw new KeyNotFoundException("Currency not found"); }
+                update = update.Set(u => u.DefaultCurrency, currency);
+            }
 
             var updatedUser = await _userRepository.UpdateOneAsync(filter, update, cancellationToken);
             if (updatedUser == null) { throw new KeyNotFoundException("User not found"); }
