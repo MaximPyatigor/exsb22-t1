@@ -36,5 +36,12 @@ namespace BudgetManager.DataAccess.MongoDbAccess.Repositories
             var result = await _collection.Find(filter).SortBy(x => x.DateOfTransaction).ToListAsync(cancellationToken);
             return result;
         }
+
+        public async Task<IEnumerable<Transaction>> GetListByWalletIdAsync(Guid walletId, CancellationToken cancellationToken)
+        {
+            var filter = Builders<Transaction>.Filter.Eq(x => x.WalletId, walletId);
+            var result = await _collection.Find(filter).SortBy(x => x.DateOfTransaction).ToListAsync(cancellationToken);
+            return result;
+        }
     }
 }
