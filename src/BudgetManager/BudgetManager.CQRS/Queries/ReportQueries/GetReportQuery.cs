@@ -8,5 +8,5 @@ using System.Threading.Tasks;
 
 namespace BudgetManager.CQRS.Queries.ReportQueries
 {
-    public record GetReportQuery(ReportRequest ReportRequestInfo) : IRequest<Report>;
+    public record GetReportQuery(Guid UserId, ReportRequest ReportRequestInfo) : IRequest<Report>;
 }
