@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace BudgetManager.Model.ReportModels
 {
-    internal class IncomeCategoryReport
+    public class IncomeCategoryReport
     {
+        public string CategoryName { get; set; }
+        public double TransactionSum { get; set; }
     }
 }

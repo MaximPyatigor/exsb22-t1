@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BudgetManager.Model.ReportModels
 {
-    public class ReportModel
+    public class Report
     {
         public List<IncomeCategoryReport>? IncomeReports { get; set; }
         public List<ExpenseCategoryReport>? ExpenseReports { get; set; }

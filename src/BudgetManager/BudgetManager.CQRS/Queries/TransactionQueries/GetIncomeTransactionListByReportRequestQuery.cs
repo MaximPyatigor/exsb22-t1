@@ -9,5 +9,5 @@ using System.Threading.Tasks;
 
 namespace BudgetManager.CQRS.Queries.TransactionQueries
 {
-    public record GetIncomeTransactionListByReportRequest(ReportRequest ReportRequestInfo) : IRequest<IEnumerable<Transaction>>;
+    public record GetIncomeTransactionListByReportRequestQuery(Guid UserId, ReportRequest ReportRequestInfo) : IRequest<IEnumerable<Transaction>>;
 }

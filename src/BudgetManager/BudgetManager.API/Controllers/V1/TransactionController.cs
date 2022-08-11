@@ -1,5 +1,6 @@
 using BudgetManager.CQRS.Commands.TransactionCommands;
 using BudgetManager.CQRS.Queries.TransactionQueries;
+using BudgetManager.Model.ReportModels;
 using BudgetManager.SDK.DTOs;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -15,12 +16,19 @@ namespace BudgetManager.API.Controllers.V1
     {
         private readonly IMediator _mediator;
         public TransactionController(IMediator mediator) => _mediator = mediator;
-
         [HttpGet]
         public async Task<IActionResult> GetTransactionListByWallet(Guid walletId, CancellationToken cancellationToken)
         {
             var userId = Guid.Parse(User.FindFirst("UserId").Value);
             var response = await _mediator.Send(new GetTransactionListByWalletQuery(walletId), cancellationToken);
+            return response == null ? NotFound() : Ok(response);
+        }
+
+        [HttpGet("test")]
+        public async Task<IActionResult> GetTransactionListByReport([FromQuery] ReportRequest reportRequest, CancellationToken cancellationToken)
+        {
+            var userId = Guid.Parse(User.FindFirst("UserId").Value);
+            var response = await _mediator.Send(new GetIncomeTransactionListByReportRequestQuery(userId, reportRequest), cancellationToken);
             return response == null ? NotFound() : Ok(response);
         }
 

@@ -52,7 +52,7 @@ namespace BudgetManager.API.Seeding
 
             // Wait for all of the seeding functions to finish before moving on. This way program doesn't start
             // before making sure, that every needed document is seeded and in place.
-            Task.WaitAll(task1, task2, task3, task4, task5, task6);
+            // Task.WaitAll(task1, task2, task3, task4, task5, task6);
         }
 
         public async Task SeedCountries()

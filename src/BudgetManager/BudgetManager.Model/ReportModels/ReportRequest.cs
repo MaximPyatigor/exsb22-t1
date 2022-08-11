@@ -12,9 +12,9 @@ namespace BudgetManager.Model.ReportModels
         [Required]
         public Guid WalletId { get; set; }
         [Required]
-        public DateOnly DateFrom { get; set; }
+        public DateTime DateFrom { get; set; }
         [Required]
-        public DateOnly DateTo { get; set; }
+        public DateTime DateTo { get; set; }
         [Required]
         public List<Guid> IncomeCategoryIds { get; set; }
         [Required]
