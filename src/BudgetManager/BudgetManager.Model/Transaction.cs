@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using BudgetManager.Model.Enums;
 using BudgetManager.Shared.Models.MongoDB.Models.Interfaces;
+using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDbGenericRepository.Attributes;
 
@@ -22,6 +23,7 @@ namespace BudgetManager.Model
         [Required]
         public DateTime DateOfTransaction { get; set; }
         [Required]
+        [BsonRepresentation(BsonType.Decimal128)]
         public decimal Value { get; set; }
         [Required]
         public OperationType TransactionType { get; set; }

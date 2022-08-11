@@ -33,10 +33,10 @@ namespace BudgetManager.API.Controllers.V1
         }
 
         [HttpGet("Income")]
-        public async Task<IActionResult> GetIncomeTransactionList(CancellationToken cancellationToken)
+        public async Task<IActionResult> GetIncomeTransactionList([FromQuery] IncomesPageDTO incomesPageDto, CancellationToken cancellationToken)
         {
             var userId = Guid.Parse(User.FindFirst("UserId").Value);
-            var response = await _mediator.Send(new GetIncomeTransactionListQuery(userId), cancellationToken);
+            var response = await _mediator.Send(new GetIncomeTransactionListQuery(userId, incomesPageDto), cancellationToken);
             return response == null ? NotFound() : Ok(response);
         }
 
