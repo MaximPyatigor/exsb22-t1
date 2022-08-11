@@ -24,14 +24,6 @@ namespace BudgetManager.API.Controllers.V1
             return response == null ? NotFound() : Ok(response);
         }
 
-        [HttpGet("test")]
-        public async Task<IActionResult> GetTransactionListByReport([FromQuery] ReportRequest reportRequest, CancellationToken cancellationToken)
-        {
-            var userId = Guid.Parse(User.FindFirst("UserId").Value);
-            var response = await _mediator.Send(new GetIncomeTransactionListByReportRequestQuery(userId, reportRequest), cancellationToken);
-            return response == null ? NotFound() : Ok(response);
-        }
-
         [HttpGet("Expense")]
         public async Task<IActionResult> GetExpenseTransactionList(CancellationToken cancellationToken)
         {
