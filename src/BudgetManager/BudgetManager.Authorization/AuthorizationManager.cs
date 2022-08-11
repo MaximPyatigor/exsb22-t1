@@ -69,6 +69,7 @@ namespace BudgetManager.Authorization
                         DefaultWallet = user.DefaultWallet,
                         Email = user.Email,
                         FullName = user.FullName,
+                        IsAdmin = await _userManager.IsInRoleAsync(appUser, "Admin")
                     };
                     var response = new AuthorizationResponse
                     {
