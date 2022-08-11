@@ -31,7 +31,7 @@ namespace BudgetManager.CQRS.Handlers.ReportHandlers
             // For each requested income categoryId, sum transaction value.
             decimal incomeCategoryTotal;
             decimal incomeCategoriesGrandTotal = 0;
-            foreach (var incomeCategoryId in request.ReportRequestInfo.IncomeCategoryIds)
+            foreach (var incomeCategoryId in request.ReportRequestInfo.IncomeCategoryIds.Distinct())
             {
                 var category = await _mediator.Send(new GetOneCategoryQuery(request.UserId, incomeCategoryId), cancellationToken);
                 // Check if null and category type incase expense category is passed.
