@@ -70,7 +70,7 @@ namespace BudgetManager.API.Controllers.V1
         }
 
         [Authorize]
-        [HttpGet]
+        [HttpGet("[action]")]
         public async Task<IActionResult> GetTotalBalance(string currencyCode, CancellationToken cancellationToken)
         {
             var userId = Guid.Parse(User.FindFirst("UserId").Value);
