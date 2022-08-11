@@ -25,10 +25,10 @@ namespace BudgetManager.API.Controllers.V1
         }
 
         [HttpGet("Expense")]
-        public async Task<IActionResult> GetExpenseTransactionList(CancellationToken cancellationToken)
+        public async Task<IActionResult> GetExpenseTransactionList([FromQuery] ExpensesPageDTO expensePageDto, CancellationToken cancellationToken)
         {
             var userId = Guid.Parse(User.FindFirst("UserId").Value);
-            var response = await _mediator.Send(new GetExpenseTransactionListQuery(userId), cancellationToken);
+            var response = await _mediator.Send(new GetExpenseTransactionListQuery(userId, expensePageDto), cancellationToken);
             return response == null ? NotFound() : Ok(response);
         }
 
