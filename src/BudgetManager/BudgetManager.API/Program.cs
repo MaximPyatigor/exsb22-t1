@@ -6,6 +6,7 @@ using BudgetManager.API.Seeding;
 using BudgetManager.Authorization;
 using BudgetManager.Authorization.TokenService;
 using BudgetManager.CQRS.Mapping;
+using BudgetManager.CQRS.Validators;
 using BudgetManager.DataAccess.MongoDbAccess.Interfaces;
 using BudgetManager.DataAccess.MongoDbAccess.Repositories;
 using BudgetManager.Model;
@@ -15,6 +16,7 @@ using BudgetManager.Scheduler.Jobs;
 using BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation;
 using BudgetManager.Shared.DataAccess.MongoDB.DatabaseSettings;
 using BudgetManager.Shared.Utils.Helpers;
+using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -64,6 +66,8 @@ builder.Services.AddTransient<IConfigureOptions<SwaggerGenOptions>, SwaggerConfi
 
 builder.Services.AddMediatR(typeof(MappingProfile).Assembly);
 builder.Services.AddAutoMapper(typeof(MappingProfile));
+
+builder.Services.AddValidatorsFromAssemblyContaining<CategoryValidator>();
 
 builder.Services.AddControllers().AddJsonOptions(x =>
 {

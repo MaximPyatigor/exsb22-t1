@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using BudgetManager.CQRS.Commands.CategoryCommands;
 using BudgetManager.Model;
-using BudgetManager.SDK.DTOs.CategoryDTOs;
+using BudgetManager.SDK.DTOs;
 using BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation;
 using MediatR;
 using MongoDB.Driver;
@@ -22,7 +22,7 @@ namespace BudgetManager.CQRS.Handlers.CategoryHandlers
         public async Task<Guid> Handle(AddCategoryCommand request, CancellationToken cancellationToken)
         {
             Guid userId = request.userId;
-            AddCategoryDTO requestCategory = request.category;
+            CategoryDTO requestCategory = request.category;
             Category mappedCategory = _mapper.Map<Category>(requestCategory);
 
             var filter = Builders<User>.Filter.Eq(u => u.Id, userId);

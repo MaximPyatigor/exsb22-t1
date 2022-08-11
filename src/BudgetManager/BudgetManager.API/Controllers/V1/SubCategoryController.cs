@@ -1,7 +1,6 @@
 ﻿using BudgetManager.CQRS.Commands.SubCategoryCommands;
 using BudgetManager.CQRS.Queries.SubCategoryQueries;
 using BudgetManager.SDK.DTOs;
-using BudgetManager.SDK.DTOs.CategoryDTOs;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

@@ -1,7 +1,7 @@
-﻿using BudgetManager.SDK.DTOs.CategoryDTOs;
+﻿using BudgetManager.SDK.DTOs;
 using MediatR;
 
 namespace BudgetManager.CQRS.Commands.CategoryCommands
 {
-    public record AddCategoryCommand(Guid userId, AddCategoryDTO category) : IRequest<Guid>;
+    public record AddCategoryCommand(Guid userId, CategoryDTO category) : IRequest<Guid>;
 }

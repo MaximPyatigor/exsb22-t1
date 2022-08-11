@@ -24,7 +24,7 @@ namespace BudgetManager.CQRS.Handlers.CategoryHandlers
             var updateCategoryObject = request.updateCategoryObject;
             var userId = request.userId;
 
-            var categoryFilter = Builders<Category>.Filter.Eq(u => u.Id, updateCategoryObject.CategoryId);
+            var categoryFilter = Builders<Category>.Filter.Eq(u => u.Id, request.categoryId);
             var filter = Builders<User>.Filter.Eq(u => u.Id, userId)
                 & Builders<User>.Filter.ElemMatch(u => u.Categories, categoryFilter);
 
