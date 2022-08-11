@@ -20,13 +20,32 @@ namespace BudgetManager.CQRS.Handlers.WalletHandlers
         {
             var user = await _userRepository.FindByIdAsync(request.userId, cancellationToken);
 
-            if (request.walletId == user?.DefaultWallet)
+            if (user is null)
+            {
+                throw new KeyNotFoundException("User not found");
+            }
+
+            if (request.walletId == user.DefaultWallet)
             {
                 throw new AppException("Default wallet cannot be deleted");
             }
 
             var filter = Builders<User>.Filter.Eq(u => u.Id, request.userId);
-            var update = Builders<User>.Update.PullFilter(u => u.Wallets, w => w.Id == request.walletId);
+            var newWallets = new List<Wallet>();
+            if (user.Wallets is not null)
+            {
+                foreach (var wallet in user.Wallets)
+                {
+                    if (wallet.Id == request.walletId)
+                    {
+                        wallet.IsActive = false;
+                    }
+
+                    newWallets.Add(wallet);
+                }
+            }
+
+            var update = Builders<User>.Update.Set(w => w.Wallets, newWallets);
             var result = await _userRepository.UpdateOneAsync(filter, update, cancellationToken);
 
             return result is not null;

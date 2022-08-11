@@ -17,5 +17,7 @@ namespace BudgetManager.Model
         [Required]
         public decimal Balance { get; set; }
         public DateTime DateOfChange { get; set; }
+        [Required]
+        public bool IsActive { get; set; } = true;
     }
 }
