@@ -26,6 +26,8 @@ namespace BudgetManager.CQRS.Handlers.TransactionHandlers
             expenseTransaction.UserId = request.userId;
             await _dataAccess.InsertOneAsync(expenseTransaction, cancellationToken);
 
+            await _mediator.Send(new ChangeTotalBalanceOfWalletCommand(expenseTransaction), cancellationToken);
+
             await _mediator.Send(new UpdateWalletDateOfChangeCommand(expenseTransaction.UserId, expenseTransaction.WalletId, DateTime.UtcNow), cancellationToken);
 
             return expenseTransaction.Id;

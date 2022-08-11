@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BudgetManager.CQRS.Commands.WalletCommands;
+using BudgetManager.CQRS.Queries.CurrencyQueries;
 using BudgetManager.Model;
 using BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation;
 using MediatR;
@@ -11,11 +12,13 @@ namespace BudgetManager.CQRS.Handlers.WalletHandlers
     {
         private readonly IMapper _mapper;
         private readonly IBaseRepository<User> _dataAccess;
+        private readonly IMediator _mediator;
 
-        public AddWalletHandler(IMapper mapper ,IBaseRepository<User> dataAccess)
+        public AddWalletHandler(IMapper mapper ,IBaseRepository<User> dataAccess, IMediator mediator)
         {
             _mapper = mapper;
             _dataAccess = dataAccess;
+            _mediator = mediator;
         }
 
         public async Task<Guid> Handle(AddWalletCommand request, CancellationToken cancellationToken)
@@ -23,6 +26,8 @@ namespace BudgetManager.CQRS.Handlers.WalletHandlers
             var userId = request.userId;
             var setDefault = request.addWalletDTO.SetDefault;
             var wallet = _mapper.Map<Wallet>(request.addWalletDTO);
+
+            wallet.Currency = await _mediator.Send(new GetCurrencyByIdQuery(request.addWalletDTO.CurrencyId), cancellationToken);
 
             wallet.DateOfChange = DateTime.UtcNow;
 

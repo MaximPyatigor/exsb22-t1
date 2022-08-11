@@ -18,12 +18,10 @@ namespace BudgetManager.Scheduler
             services.AddSingleton<IJobFactory, MyJobFactory>();
             services.AddSingleton<ISchedulerFactory, StdSchedulerFactory>();
             services.AddSingleton<UpdateCurrencyRatesJob>();
-
             List<JobMetadata> jobMetadatas = new List<JobMetadata>();
 
             // Update currencies every day at 12:00PM UTC
             jobMetadatas.Add(new JobMetadata(Guid.NewGuid(), typeof(UpdateCurrencyRatesJob), "Update Currency Rates Job", "00 12 * * * ?"));
-
             services.AddSingleton(jobMetadatas);
             services.AddHostedService<MyScheduler>();
         }

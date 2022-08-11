@@ -6,7 +6,8 @@ namespace BudgetManager.SDK.DTOs
     {
         public string Name { get; set; }
 
-        public Currency Currency { get; set; }
+        public Guid CurrencyId { get; set; }
+
         public bool SetDefault { get; set; }
     }
 }
