@@ -29,7 +29,7 @@ namespace BudgetManager.CQRS.Handlers.WalletHandlers
             if (user == null) { throw new KeyNotFoundException("User not found"); }
             if (user.Wallets == null) { throw new KeyNotFoundException("Wallets not found"); }
 
-            var userWallets = user.Wallets.OrderByDescending(w => w.DateOfChange);
+            var userWallets = user.Wallets.Where(w => w.IsActive).OrderByDescending(w => w.DateOfChange);
 
             if (user.DefaultWallet is not null) { userWallets = userWallets.OrderBy(w => w.Id != user.DefaultWallet); }
 
