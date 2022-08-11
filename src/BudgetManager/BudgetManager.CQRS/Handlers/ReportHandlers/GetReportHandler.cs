@@ -34,7 +34,8 @@ namespace BudgetManager.CQRS.Handlers.ReportHandlers
             foreach (var incomeCategoryId in request.ReportRequestInfo.IncomeCategoryIds)
             {
                 var category = await _mediator.Send(new GetOneCategoryQuery(request.UserId, incomeCategoryId), cancellationToken);
-                // Check incase expense category is passed.
+                // Check if null and category type incase expense category is passed.
+                if (category == null) { continue; }
                 if (category.CategoryType == OperationType.Expense) { continue; }
 
                 incomeCategoryTotal = incomeTransactions.Where(t => t.CategoryId == incomeCategoryId).Sum(t => t.Value);
