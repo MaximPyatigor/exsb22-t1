@@ -1,6 +1,7 @@
 ﻿using BudgetManager.CQRS.Queries.CategoryQueries;
 using BudgetManager.CQRS.Queries.ReportQueries;
 using BudgetManager.CQRS.Queries.TransactionQueries;
+using BudgetManager.Model.Enums;
 using BudgetManager.Model.ReportModels;
 using MediatR;
 using System;
@@ -32,9 +33,11 @@ namespace BudgetManager.CQRS.Handlers.ReportHandlers
             decimal incomeCategoriesGrandTotal = 0;
             foreach (var incomeCategoryId in request.ReportRequestInfo.IncomeCategoryIds)
             {
-                incomeCategoryTotal = incomeTransactions.Where(t => t.CategoryId == incomeCategoryId).Sum(t => t.Value);
-
                 var category = await _mediator.Send(new GetOneCategoryQuery(request.UserId, incomeCategoryId), cancellationToken);
+                // Check incase expense category is passed.
+                if (category.CategoryType == OperationType.Expense) { continue; }
+
+                incomeCategoryTotal = incomeTransactions.Where(t => t.CategoryId == incomeCategoryId).Sum(t => t.Value);
 
                 var incomeReport = new IncomeCategoryReport()
                 {
