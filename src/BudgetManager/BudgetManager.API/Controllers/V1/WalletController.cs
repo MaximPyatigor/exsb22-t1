@@ -20,6 +20,7 @@ namespace BudgetManager.API.Controllers.V1
             _mediator = mediator;
         }
 
+        [Authorize]
         [HttpPut]
         public async Task<IActionResult> UpdateWallet([FromBody] UpdateWalletDTO updateWallet, bool isDefault, CancellationToken cancellationToken)
         {
@@ -45,6 +46,16 @@ namespace BudgetManager.API.Controllers.V1
         {
             var userId = Guid.Parse(User.FindFirst("UserId").Value);
             var result = await _mediator.Send(new GetWalletByIdQuery(userId, walletId), cancellationToken);
+
+            return result is not null ? Ok(result) : NotFound();
+        }
+
+        [Authorize]
+        [HttpGet("Info")]
+        public async Task<IActionResult> GetWalletInfo(Guid walletId, CancellationToken cancellationToken)
+        {
+            var userId = Guid.Parse(User.FindFirst("UserId").Value);
+            var result = await _mediator.Send(new GetWalletInfoQuery(userId, walletId), cancellationToken);
 
             return result is not null ? Ok(result) : NotFound();
         }
