@@ -21,6 +21,12 @@ namespace BudgetManager.DataAccess.MongoDbAccess.Repositories
             return result is not null;
         }
 
+        public async Task<bool> DeleteManyAsync(FilterDefinition<Transaction> filterDefinition, CancellationToken cancellationToken)
+        {
+            var result = await _collection.DeleteManyAsync(filterDefinition, cancellationToken);
+            return result is not null;
+        }
+
         public async Task<IEnumerable<Transaction>> GetListByOperationAsync(Guid userId, OperationType operationType, CancellationToken cancellationToken)
         {
             var filterUser = Builders<Transaction>.Filter.Eq(x => x.UserId, userId);

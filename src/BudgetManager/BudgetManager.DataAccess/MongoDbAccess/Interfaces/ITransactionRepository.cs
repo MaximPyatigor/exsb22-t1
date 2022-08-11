@@ -13,5 +13,6 @@ namespace BudgetManager.DataAccess.MongoDbAccess.Interfaces
         Task<bool> DeleteManyByUserIdAsync(Guid userId, CancellationToken cancellationToken);
         Task<(IEnumerable<Transaction>, long)> GetPageListAsync(FilterDefinition<Transaction> filterDefinition,
             SortDefinition<Transaction> sortDefinition, int page, int pageSize, CancellationToken cancellationToken);
+        Task<bool> DeleteManyAsync(FilterDefinition<Transaction> filterDefinition, CancellationToken cancellationToken);
     }
 }
