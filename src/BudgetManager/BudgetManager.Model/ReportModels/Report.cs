@@ -1,16 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace BudgetManager.Model.ReportModels
 {
     public class Report
     {
-        public List<IncomeCategoryReport>? IncomeReports { get; set; }
-        public List<ExpenseCategoryReport>? ExpenseReports { get; set; }
-        public double? TotalIncome { get; set; }
-        public double? TotalExpense { get; set; }
+        public List<IncomeCategoryReport> IncomeReports { get; set; } = new List<IncomeCategoryReport>();
+        public List<ExpenseCategoryReport> ExpenseReports { get; set; } = new List<ExpenseCategoryReport>();
+        [BsonRepresentation(BsonType.Decimal128)]
+        public decimal? TotalIncome { get; set; }
+        [BsonRepresentation(BsonType.Decimal128)]
+        public decimal? TotalExpense { get; set; }
     }
 }

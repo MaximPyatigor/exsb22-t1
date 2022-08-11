@@ -1,4 +1,5 @@
-﻿using BudgetManager.CQRS.Queries.ReportQueries;
+﻿using BudgetManager.CQRS.Queries.CategoryQueries;
+using BudgetManager.CQRS.Queries.ReportQueries;
 using BudgetManager.CQRS.Queries.TransactionQueries;
 using BudgetManager.Model.ReportModels;
 using MediatR;
@@ -21,10 +22,32 @@ namespace BudgetManager.CQRS.Handlers.ReportHandlers
 
         public async Task<Report> Handle(GetReportQuery request, CancellationToken cancellationToken)
         {
-            var incomeTransactions = await _mediator
-                .Send(new GetIncomeTransactionListByReportRequestQuery(request.UserId, request.ReportRequestInfo), cancellationToken);
+            Report report = new Report();
+            var incomeTransactions = (await _mediator
+                .Send(new GetIncomeTransactionListByReportRequestQuery(request.UserId, request.ReportRequestInfo), cancellationToken))
+                .ToList();
 
-            return new Report();
+            // For each requested income categoryId, sum transaction value.
+            decimal incomeCategoryTotal;
+            decimal incomeCategoriesGrandTotal = 0;
+            foreach (var incomeCategoryId in request.ReportRequestInfo.IncomeCategoryIds)
+            {
+                incomeCategoryTotal = incomeTransactions.Where(t => t.CategoryId == incomeCategoryId).Sum(t => t.Value);
+
+                var category = await _mediator.Send(new GetOneCategoryQuery(request.UserId, incomeCategoryId), cancellationToken);
+
+                var incomeReport = new IncomeCategoryReport()
+                {
+                    CategoryName = category.Name,
+                    TransactionSum = Math.Round(incomeCategoryTotal, 2),
+                };
+
+                report.IncomeReports.Add(incomeReport);
+                incomeCategoriesGrandTotal += incomeCategoryTotal;
+            }
+            report.TotalIncome = incomeCategoriesGrandTotal;
+
+            return report;
         }
     }
 }

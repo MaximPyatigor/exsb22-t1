@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace BudgetManager.Model.ReportModels
 {
     public class IncomeCategoryReport
     {
         public string CategoryName { get; set; }
-        public double TransactionSum { get; set; }
+        [BsonRepresentation(BsonType.Decimal128)]
+        public decimal? TransactionSum { get; set; }
     }
 }
