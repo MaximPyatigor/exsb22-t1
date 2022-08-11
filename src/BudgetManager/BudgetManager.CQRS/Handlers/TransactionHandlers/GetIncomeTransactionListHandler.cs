@@ -22,7 +22,7 @@ namespace BudgetManager.CQRS.Handlers.TransactionHandlers
 
         public async Task<IncomePageResponse> Handle(GetIncomeTransactionListQuery request, CancellationToken cancellationToken)
         {
-            var pageSize = 15;
+            var pageSize = 10;
             long count;
             IEnumerable<Transaction> incomeTransactions;
 
