@@ -36,7 +36,7 @@ namespace BudgetManager.CQRS.Handlers.WalletHandlers
                 WalletId = userWallet.Id,
                 WalletName = userWallet.Name,
                 Balance = userWallet.Balance,
-                CurrencyCode = userWallet.Currency.CurrencyCode,
+                Currency = userWallet.Currency,
                 IsDefault = userWallet.Id == user.DefaultWallet,
             };
 

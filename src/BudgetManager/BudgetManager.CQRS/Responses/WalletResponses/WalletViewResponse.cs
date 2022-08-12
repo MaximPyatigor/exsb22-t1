@@ -1,4 +1,6 @@
-﻿namespace BudgetManager.CQRS.Responses.WalletResponses
+﻿using BudgetManager.Model;
+
+namespace BudgetManager.CQRS.Responses.WalletResponses
 {
     public class WalletViewResponse
     {
@@ -8,7 +10,7 @@
 
         public decimal Balance { get; set; }
 
-        public string CurrencyCode { get; set; }
+        public Currency Currency { get; set; }
 
         public bool IsDefault { get; set; } = false;
     }
