@@ -24,6 +24,15 @@ namespace BudgetManager.CQRS.Handlers.ReportHandlers
         public async Task<Report> Handle(GetReportQuery request, CancellationToken cancellationToken)
         {
             Report report = new Report();
+
+            await UpdateReportWithIncome(report, request, cancellationToken);
+            await UpdateReportWithExpense(report, request, cancellationToken);
+
+            return report;
+        }
+
+        public async Task UpdateReportWithIncome(Report report, GetReportQuery request, CancellationToken cancellationToken)
+        {
             var incomeTransactions = (await _mediator
                 .Send(new GetIncomeTransactionListByReportRequestQuery(request.UserId, request.ReportRequestInfo), cancellationToken))
                 .ToList();
@@ -49,8 +58,12 @@ namespace BudgetManager.CQRS.Handlers.ReportHandlers
                 report.IncomeReports.Add(incomeReport);
                 incomeCategoriesGrandTotal += incomeCategoryTotal;
             }
-            report.TotalIncome = incomeCategoriesGrandTotal;
 
+            report.TotalIncome = incomeCategoriesGrandTotal;
+        }
+
+        public async Task UpdateReportWithExpense(Report report, GetReportQuery request, CancellationToken cancellationToken)
+        {
             var expenseTransactions = (await _mediator
                 .Send(new GetExpenseTransactionListByReportRequestQuery(request.UserId, request.ReportRequestInfo), cancellationToken))
                 .ToList();
@@ -86,10 +99,7 @@ namespace BudgetManager.CQRS.Handlers.ReportHandlers
                 }
             }
 
-            report.TotalIncome = incomeCategoriesGrandTotal;
             report.TotalExpense = expenseCategoriesGrandTotal;
-
-            return report;
         }
     }
 }
