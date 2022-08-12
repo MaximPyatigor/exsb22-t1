@@ -2,7 +2,7 @@
 
 namespace BudgetManager.SDK.DTOs
 {
-    public class CategoryDTO
+    public class AddCategoryDTO
     {
         public string Name { get; set; }
 

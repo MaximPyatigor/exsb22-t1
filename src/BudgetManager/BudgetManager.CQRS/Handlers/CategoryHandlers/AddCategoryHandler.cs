@@ -22,7 +22,7 @@ namespace BudgetManager.CQRS.Handlers.CategoryHandlers
         public async Task<Guid> Handle(AddCategoryCommand request, CancellationToken cancellationToken)
         {
             Guid userId = request.userId;
-            CategoryDTO requestCategory = request.category;
+            AddCategoryDTO requestCategory = request.category;
             Category mappedCategory = _mapper.Map<Category>(requestCategory);
 
             var filter = Builders<User>.Filter.Eq(u => u.Id, userId);

@@ -67,7 +67,8 @@ builder.Services.AddTransient<IConfigureOptions<SwaggerGenOptions>, SwaggerConfi
 builder.Services.AddMediatR(typeof(MappingProfile).Assembly);
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 
-builder.Services.AddValidatorsFromAssemblyContaining<CategoryValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<AddCategoryValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<UpdateCategoryValidator>();
 
 builder.Services.AddControllers().AddJsonOptions(x =>
 {

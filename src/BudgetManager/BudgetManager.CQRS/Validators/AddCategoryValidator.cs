@@ -10,12 +10,12 @@ using System.Threading.Tasks;
 
 namespace BudgetManager.CQRS.Validators
 {
-    public class CategoryValidator : AbstractValidator<CategoryDTO>
+    public class AddCategoryValidator : AbstractValidator<AddCategoryDTO>
     {
         private readonly IBaseRepository<User> _repository;
         private List<Category> categories;
 
-        public CategoryValidator(IBaseRepository<User> repository)
+        public AddCategoryValidator(IBaseRepository<User> repository)
         {
             RuleFor(x => x.Name).NotEmpty()
                 .Must(IsNameUnique).WithMessage($"Category with this 'Name' already exists")
@@ -33,9 +33,9 @@ namespace BudgetManager.CQRS.Validators
             this.categories = _repository.FindByIdAsync(userId, cancellationToken).Result.Categories;
         }
 
-        public bool IsNameUnique(CategoryDTO category, string newValue)
+        public bool IsNameUnique(AddCategoryDTO category, string newValue)
         {
-            if (categories.Count == 0)
+            if (!categories.Any())
             {
                 return true;
             }

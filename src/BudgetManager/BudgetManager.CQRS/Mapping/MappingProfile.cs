@@ -19,7 +19,8 @@ namespace BudgetManager.CQRS.Mapping
         public MappingProfile()
         {
             //CreateMap<ItemDto, Item>();
-            CreateMap<CategoryDTO, Category>();
+            CreateMap<AddCategoryDTO, Category>();
+            CreateMap<UpdateCategoryDTO, Category>();
             CreateMap<AddSubCategoryDTO, Category>();
             CreateMap<Category, CategoryResponse>();
             CreateMap<AddUserDTO, User>()

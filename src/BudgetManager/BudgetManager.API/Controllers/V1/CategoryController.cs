@@ -15,12 +15,14 @@ namespace BudgetManager.API.Controllers.V1
     public class CategoryController : Controller
     {
         private readonly IMediator _mediator;
-        private readonly CategoryValidator _validator;
+        private readonly AddCategoryValidator _addValidator;
+        private readonly UpdateCategoryValidator _updateValidator;
         private string _userIdString = "UserId";
-        public CategoryController(IMediator mediator, CategoryValidator validator)
+        public CategoryController(IMediator mediator, AddCategoryValidator addValidator, UpdateCategoryValidator updateValidator)
         {
             _mediator = mediator;
-            _validator = validator;
+            _addValidator = addValidator;
+            _updateValidator = updateValidator;
         }
 
         [HttpGet]
@@ -40,11 +42,11 @@ namespace BudgetManager.API.Controllers.V1
         }
 
         [HttpPost]
-        public async Task<IActionResult> InsertOne([FromBody] CategoryDTO category, CancellationToken cancellationToken)
+        public async Task<IActionResult> InsertOne([FromBody] AddCategoryDTO category, CancellationToken cancellationToken)
         {
             var userId = Guid.Parse(User.FindFirst(_userIdString).Value);
-            _validator.SetUser(userId, cancellationToken);
-            var validationResult = await _validator.ValidateAsync(category);
+            _addValidator.SetUser(userId, cancellationToken);
+            var validationResult = await _addValidator.ValidateAsync(category);
             if (!validationResult.IsValid)
             {
                 var result = ValidatorService.GetErrorMessage(validationResult);
@@ -56,11 +58,11 @@ namespace BudgetManager.API.Controllers.V1
         }
 
         [HttpPut("{categoryId}")]
-        public async Task<IActionResult> UpdateOne(Guid categoryId, [FromBody] CategoryDTO category, CancellationToken cancellationToken)
+        public async Task<IActionResult> UpdateOne(Guid categoryId, [FromBody] UpdateCategoryDTO category, CancellationToken cancellationToken)
         {
             var userId = Guid.Parse(User.FindFirst(_userIdString).Value);
-            _validator.SetUser(userId, cancellationToken);
-            var validationResult = await _validator.ValidateAsync(category);
+            _updateValidator.SetUser(userId, cancellationToken);
+            var validationResult = await _updateValidator.ValidateAsync(category);
             if (!validationResult.IsValid)
             {
                 var result = ValidatorService.GetErrorMessage(validationResult);
