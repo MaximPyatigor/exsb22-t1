@@ -1,6 +1,9 @@
 ﻿using BudgetManager.CQRS.Commands.SubCategoryCommands;
+using BudgetManager.DataAccess.MongoDbAccess.Interfaces;
+using BudgetManager.DataAccess.MongoDbAccess.Repositories;
 using BudgetManager.Model;
 using BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation;
+using BudgetManager.Shared.Utils.Helpers;
 using MediatR;
 using MongoDB.Driver;
 
@@ -8,15 +11,20 @@ namespace BudgetManager.CQRS.Handlers.SubCategoryHandlers
 {
     public class DeleteSubCategoryHandler : IRequestHandler<DeleteSubCategoryCommand, bool>
     {
+        private readonly ITransactionRepository _transactionRepository;
         private readonly IBaseRepository<User> _userRepository;
 
-        public DeleteSubCategoryHandler(IBaseRepository<User> userRepository)
+        public DeleteSubCategoryHandler(ITransactionRepository transactionRepository, IBaseRepository<User> userRepository)
         {
+            _transactionRepository = transactionRepository;
             _userRepository = userRepository;
         }
 
         public async Task<bool> Handle(DeleteSubCategoryCommand request, CancellationToken cancellationToken)
         {
+            var transactions = await _transactionRepository.GetListByUserIdAndSubCategoryIdAsync(request.userId, request.subCategoryId, cancellationToken);
+            if (transactions.Count() > 0) { throw new AppException("SubCategories with transactions cannot be deleted"); }
+
             var subCategoryFilter = Builders<Category>.Filter.Eq(c => c.Id, request.subCategoryId);
 
             var categoryFilter = Builders<Category>.Filter.Eq(c => c.Id, request.categoryId)
