@@ -24,7 +24,7 @@ namespace BudgetManager.CQRS.Handlers.CategoryHandlers
             var updateCategoryObject = request.updateCategoryObject;
             var userId = request.userId;
 
-            var categoryFilter = Builders<Category>.Filter.Eq(u => u.Id, updateCategoryObject.CategoryId);
+            var categoryFilter = Builders<Category>.Filter.Eq(u => u.Id, request.categoryId);
             var filter = Builders<User>.Filter.Eq(u => u.Id, userId)
                 & Builders<User>.Filter.ElemMatch(u => u.Categories, categoryFilter);
 
@@ -32,14 +32,14 @@ namespace BudgetManager.CQRS.Handlers.CategoryHandlers
 
             var update = Builders<User>.Update
                 .Set(u => u.Categories[-1].Name, mappedCategory.Name)
-                .Set(u => u.Categories[-1].CategoryType, mappedCategory.CategoryType)
                 .Set(u => u.Categories[-1].Color, mappedCategory.Color)
                 .Set(u => u.Categories[-1].LimitPeriod, mappedCategory.LimitPeriod)
                 .Set(u => u.Categories[-1].Limit, mappedCategory.Limit);
 
-            var result = await _userRepository.UpdateOneAsync(filter, update, cancellationToken);
+            var result = _userRepository.UpdateOneAsync(filter, update, cancellationToken)
+                .Result.Categories.FirstOrDefault(x => x.Id == request.categoryId);
 
-            return result is null ? null : _mapper.Map<CategoryResponse>(mappedCategory);
+            return result is null ? null : _mapper.Map<CategoryResponse>(result);
         }
     }
 }
