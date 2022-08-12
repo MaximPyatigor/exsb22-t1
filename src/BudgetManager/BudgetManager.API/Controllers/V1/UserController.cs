@@ -68,5 +68,14 @@ namespace BudgetManager.API.Controllers.V1
 
             return result is not null ? Ok() : BadRequest();
         }
+
+        [Authorize]
+        [HttpGet("[action]")]
+        public async Task<IActionResult> GetTotalBalance(string currencyCode, CancellationToken cancellationToken)
+        {
+            var userId = Guid.Parse(User.FindFirst("UserId").Value);
+            var result = await _mediator.Send(new CalculateUserTotalBalanceQuery(userId, currencyCode), cancellationToken);
+            return Ok(result);
+        }
     }
 }
