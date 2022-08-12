@@ -1,6 +1,7 @@
 ﻿using BudgetManager.CQRS.Commands.WalletCommands;
 using BudgetManager.CQRS.Queries.TransactionQueries;
 using BudgetManager.CQRS.Queries.WalletQueries;
+using BudgetManager.Model.Enums;
 using BudgetManager.SDK.DTOs;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -76,6 +77,16 @@ namespace BudgetManager.API.Controllers.V1
         {
             var userId = Guid.Parse(User.FindFirst("UserId").Value);
             var result = await _mediator.Send(new GetWalletRecentTransactionsQuery(userId, recentTransactionsPageDTO), cancellationToken);
+
+            return result is not null ? Ok(result) : NotFound();
+        }
+
+        [Authorize]
+        [HttpGet("Categories")]
+        public async Task<IActionResult> GetWalletCategories([FromQuery] WalletCategoriesDTO walletCategoriesDTO, CancellationToken cancellationToken)
+        {
+            var userId = Guid.Parse(User.FindFirst("UserId").Value);
+            var result = await _mediator.Send(new GetWalletCategoriesListQuery(userId, walletCategoriesDTO), cancellationToken);
 
             return result is not null ? Ok(result) : NotFound();
         }

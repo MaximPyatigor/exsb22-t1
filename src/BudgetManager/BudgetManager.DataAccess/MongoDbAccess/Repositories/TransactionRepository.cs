@@ -4,6 +4,7 @@ using BudgetManager.Model.Enums;
 using BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation;
 using BudgetManager.Shared.DataAccess.MongoDB.DatabaseSettings;
 using MongoDB.Driver;
+using System.Linq.Expressions;
 
 namespace BudgetManager.DataAccess.MongoDbAccess.Repositories
 {
@@ -53,6 +54,13 @@ namespace BudgetManager.DataAccess.MongoDbAccess.Repositories
         {
             var filter = Builders<Transaction>.Filter.Eq(x => x.WalletId, walletId);
             var result = await _collection.Find(filter).SortBy(x => x.DateOfTransaction).ToListAsync(cancellationToken);
+            return result;
+        }
+
+        public async Task<IEnumerable<Guid>> GetWalletDistinctCategoryIdListAsync(FilterDefinition<Transaction> filterDefinition,
+            CancellationToken cancellationToken)
+        {
+            var result = await _collection.Distinct(x => x.CategoryId, filterDefinition, null, cancellationToken).ToListAsync();
             return result;
         }
     }

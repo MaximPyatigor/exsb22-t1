@@ -2,6 +2,7 @@
 using BudgetManager.Model.Enums;
 using BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation;
 using MongoDB.Driver;
+using System.Linq.Expressions;
 
 namespace BudgetManager.DataAccess.MongoDbAccess.Interfaces
 {
@@ -13,5 +14,7 @@ namespace BudgetManager.DataAccess.MongoDbAccess.Interfaces
         Task<bool> DeleteManyByUserIdAsync(Guid userId, CancellationToken cancellationToken);
         Task<(IEnumerable<Transaction>, long)> GetPageListAsync(FilterDefinition<Transaction> filterDefinition,
             SortDefinition<Transaction> sortDefinition, int page, int pageSize, CancellationToken cancellationToken);
+        Task<IEnumerable<Guid>> GetWalletDistinctCategoryIdListAsync(FilterDefinition<Transaction> filterDefinition,
+            CancellationToken cancellationToken);
     }
 }
