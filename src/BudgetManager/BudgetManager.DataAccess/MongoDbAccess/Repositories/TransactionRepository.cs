@@ -4,7 +4,6 @@ using BudgetManager.Model.Enums;
 using BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation;
 using BudgetManager.Shared.DataAccess.MongoDB.DatabaseSettings;
 using MongoDB.Driver;
-using System.Linq.Expressions;
 
 namespace BudgetManager.DataAccess.MongoDbAccess.Repositories
 {

@@ -49,6 +49,7 @@ namespace BudgetManager.CQRS.Mapping
             CreateMap<Transaction, RecentTransactionResponse>()
                 .ForMember(o => o.Value, p => p.MapFrom(b => b.TransactionType == OperationType.Income ? b.Value : -b.Value))
                 .ForMember(o => o.DateOfTransaction, p => p.MapFrom(b => b.DateOfTransaction.Date));
+            CreateMap<CategoryResponse, WalletCategoryResponse>();
         }
     }
 }
