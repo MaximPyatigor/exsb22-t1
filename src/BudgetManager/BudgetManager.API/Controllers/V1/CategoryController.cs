@@ -45,7 +45,7 @@ namespace BudgetManager.API.Controllers.V1
         public async Task<IActionResult> InsertOne([FromBody] AddCategoryDTO category, CancellationToken cancellationToken)
         {
             var userId = Guid.Parse(User.FindFirst(_userIdString).Value);
-            _addValidator.SetUser(userId, cancellationToken);
+            _addValidator.SetUser(userId, category.CategoryType, cancellationToken);
             var validationResult = await _addValidator.ValidateAsync(category);
             if (!validationResult.IsValid)
             {
@@ -61,7 +61,7 @@ namespace BudgetManager.API.Controllers.V1
         public async Task<IActionResult> UpdateOne(Guid categoryId, [FromBody] UpdateCategoryDTO category, CancellationToken cancellationToken)
         {
             var userId = Guid.Parse(User.FindFirst(_userIdString).Value);
-            _updateValidator.SetUser(userId, cancellationToken);
+            _updateValidator.SetUserAsync(userId, categoryId, cancellationToken);
             var validationResult = await _updateValidator.ValidateAsync(category);
             if (!validationResult.IsValid)
             {

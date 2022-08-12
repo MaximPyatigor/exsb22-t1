@@ -1,7 +1,9 @@
-﻿using BudgetManager.Model;
+﻿using BudgetManager.CQRS.Queries.CategoryQueries;
+using BudgetManager.Model;
 using BudgetManager.SDK.DTOs;
 using BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation;
 using FluentValidation;
+using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,8 +16,9 @@ namespace BudgetManager.CQRS.Validators
     {
         private readonly IBaseRepository<User> _repository;
         private List<Category> categories;
+        private Category oldCategory;
 
-        public UpdateCategoryValidator(IBaseRepository<User> repository)
+        public UpdateCategoryValidator(IBaseRepository<User> repository, IMediator mediator)
         {
             RuleFor(x => x.Name).NotEmpty()
                 .Must(IsNameUnique).WithMessage($"Category with this 'Name' already exists")
@@ -26,13 +29,17 @@ namespace BudgetManager.CQRS.Validators
             _repository = repository;
         }
 
-        public void SetUser(Guid userId, CancellationToken cancellationToken)
+        public async Task SetUserAsync(Guid userId, Guid categoryId, CancellationToken cancellationToken)
         {
-            this.categories = _repository.FindByIdAsync(userId, cancellationToken).Result.Categories;
+            categories = _repository.FindByIdAsync(userId, cancellationToken).Result.Categories;
+            oldCategory = categories.FirstOrDefault(x => x.Id == categoryId);
+            categories = categories.Where(x => x.CategoryType == oldCategory.CategoryType).ToList();
         }
 
         public bool IsNameUnique(UpdateCategoryDTO category, string newValue)
         {
+            if (oldCategory.Name.ToLower() == newValue.ToLower())
+                return true;
             return categories.All(ca =>
               ca.Equals(category) || ca.Name.ToLower() != newValue.ToLower());
         }
