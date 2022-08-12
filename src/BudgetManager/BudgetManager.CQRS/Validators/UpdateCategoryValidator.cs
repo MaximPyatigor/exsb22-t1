@@ -18,7 +18,7 @@ namespace BudgetManager.CQRS.Validators
         private List<Category> categories;
         private Category oldCategory;
 
-        public UpdateCategoryValidator(IBaseRepository<User> repository, IMediator mediator)
+        public UpdateCategoryValidator(IBaseRepository<User> repository)
         {
             RuleFor(x => x.Name).NotEmpty()
                 .Must(IsNameUnique).WithMessage($"Category with this 'Name' already exists")
