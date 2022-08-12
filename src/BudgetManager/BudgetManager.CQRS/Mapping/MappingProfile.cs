@@ -19,7 +19,6 @@ namespace BudgetManager.CQRS.Mapping
     {
         public MappingProfile()
         {
-            //CreateMap<ItemDto, Item>();
             CreateMap<AddCategoryDTO, Category>();
             CreateMap<AddSubCategoryDTO, Category>();
             CreateMap<Category, CategoryResponse>();
@@ -47,6 +46,9 @@ namespace BudgetManager.CQRS.Mapping
                 .ForMember(o => o.TransactionType, p => p.MapFrom(b => OperationType.Income));
             CreateMap<Transaction, IncomeTransactionResponse>();
             CreateMap<Category, SubCategoryResponse>();
+            CreateMap<Transaction, RecentTransactionResponse>()
+                .ForMember(o => o.Value, p => p.MapFrom(b => b.TransactionType == OperationType.Income ? b.Value : -b.Value))
+                .ForMember(o => o.DateOfTransaction, p => p.MapFrom(b => b.DateOfTransaction.Date));
         }
     }
 }
