@@ -25,5 +25,7 @@ namespace BudgetManager.CQRS.Responses.UserResponses
         public List<Notification>? Notifications { get; set; }
 
         public List<string>? Payers { get; set; }
+
+        public bool IsAdmin { get; set; }
     }
 }
