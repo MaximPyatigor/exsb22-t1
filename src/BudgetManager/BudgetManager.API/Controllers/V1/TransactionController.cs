@@ -16,6 +16,15 @@ namespace BudgetManager.API.Controllers.V1
         private readonly IMediator _mediator;
         public TransactionController(IMediator mediator) => _mediator = mediator;
 
+        [HttpGet("Homepage")]
+        public async Task<IActionResult> GetTenRecentTransactions(CancellationToken cancellationToken)
+        {
+            var userId = Guid.Parse(User.FindFirst("UserId").Value);
+            var response = await _mediator.Send(new GetRecentTransactionsQuery(userId), cancellationToken);
+
+            return response is not null ? Ok(response) : NotFound();
+        }
+
         [HttpGet("Expense")]
         public async Task<IActionResult> GetExpenseTransactionList([FromQuery] ExpensesPageDTO expensePageDto, CancellationToken cancellationToken)
         {
