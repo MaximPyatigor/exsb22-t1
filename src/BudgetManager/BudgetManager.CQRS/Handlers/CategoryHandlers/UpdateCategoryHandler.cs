@@ -32,7 +32,6 @@ namespace BudgetManager.CQRS.Handlers.CategoryHandlers
 
             var update = Builders<User>.Update
                 .Set(u => u.Categories[-1].Name, mappedCategory.Name)
-                .Set(u => u.Categories[-1].CategoryType, mappedCategory.CategoryType)
                 .Set(u => u.Categories[-1].Color, mappedCategory.Color)
                 .Set(u => u.Categories[-1].LimitPeriod, mappedCategory.LimitPeriod)
                 .Set(u => u.Categories[-1].Limit, mappedCategory.Limit);
