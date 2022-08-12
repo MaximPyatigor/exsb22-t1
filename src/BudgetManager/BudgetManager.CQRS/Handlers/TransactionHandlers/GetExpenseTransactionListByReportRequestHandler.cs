@@ -26,7 +26,7 @@ namespace BudgetManager.CQRS.Handlers.TransactionHandlers
             var walletFilter = Builders<Transaction>.Filter.Eq(t => t.WalletId, request.ReportRequestInfo.WalletId);
             var dateFromFilter = Builders<Transaction>.Filter.Gte(t => t.DateOfTransaction, request.ReportRequestInfo.DateFrom);
             var dateToFilter = Builders<Transaction>.Filter.Lte(t => t.DateOfTransaction, request.ReportRequestInfo.DateTo);
-            var categoriesFilter = Builders<Transaction>.Filter.In(t => t.CategoryId, request.ReportRequestInfo.IncomeCategoryIds);
+            var categoriesFilter = Builders<Transaction>.Filter.In(t => t.CategoryId, request.ReportRequestInfo.ExpenseCategoryIds);
             var transactionTypeFilter = Builders<Transaction>.Filter.Eq(t => t.TransactionType, OperationType.Expense);
             var payerFilter = Builders<Transaction>.Filter.In(t => t.Payer, request.ReportRequestInfo.Payers);
 

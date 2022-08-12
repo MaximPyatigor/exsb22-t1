@@ -51,6 +51,44 @@ namespace BudgetManager.CQRS.Handlers.ReportHandlers
             }
             report.TotalIncome = incomeCategoriesGrandTotal;
 
+            var expenseTransactions = (await _mediator
+                .Send(new GetExpenseTransactionListByReportRequestQuery(request.UserId, request.ReportRequestInfo), cancellationToken))
+                .ToList();
+
+            decimal expenseCategoryTotal;
+            decimal expenseCategoriesGrandTotal = 0;
+            foreach (var payerName in request.ReportRequestInfo.Payers.Distinct())
+            {
+                var expenseCategoryIds = expenseTransactions.Where(t => t.Payer == payerName)
+                    .DistinctBy(t => t.CategoryId)
+                    .Select(t => t.CategoryId);
+
+                foreach (var expenseCategoryId in expenseCategoryIds)
+                {
+                    var category = await _mediator.Send(new GetOneCategoryQuery(request.UserId, expenseCategoryId), cancellationToken);
+
+                    if (category == null) { continue; }
+                    if (category.CategoryType == OperationType.Income) { continue; }
+
+                    expenseCategoryTotal = expenseTransactions.Where(t => t.CategoryId == expenseCategoryId)
+                        .Where(t => t.Payer == payerName)
+                        .Sum(t => t.Value);
+
+                    var expenseReport = new ExpenseCategoryReport()
+                    {
+                        CategoryName = category.Name,
+                        TransactionSum = Math.Round(expenseCategoryTotal, 2),
+                        Payer = payerName,
+                    };
+
+                    report.ExpenseReports.Add(expenseReport);
+                    expenseCategoriesGrandTotal += expenseCategoryTotal;
+                }
+            }
+
+            report.TotalIncome = incomeCategoriesGrandTotal;
+            report.TotalExpense = expenseCategoriesGrandTotal;
+
             return report;
         }
     }
