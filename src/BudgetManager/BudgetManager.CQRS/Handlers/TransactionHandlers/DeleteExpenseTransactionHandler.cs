@@ -1,4 +1,5 @@
 ﻿using BudgetManager.CQRS.Commands.TransactionCommands;
+using BudgetManager.CQRS.Commands.WalletCommands;
 using BudgetManager.DataAccess.MongoDbAccess.Interfaces;
 using BudgetManager.Model;
 using MediatR;
@@ -9,10 +10,13 @@ namespace BudgetManager.CQRS.Handlers.TransactionHandlers
     public class DeleteExpenseTransactionHandler : IRequestHandler<DeleteExpenseTransactionCommand, bool>
     {
         private readonly ITransactionRepository _transactionRepository;
+        private readonly IMediator _mediator;
 
-        public DeleteExpenseTransactionHandler(ITransactionRepository transactionRepository)
+        public DeleteExpenseTransactionHandler(ITransactionRepository transactionRepository,
+            IMediator mediator)
         {
             _transactionRepository = transactionRepository;
+            _mediator = mediator;
         }
 
         public async Task<bool> Handle(DeleteExpenseTransactionCommand request, CancellationToken cancellationToken)
@@ -22,6 +26,9 @@ namespace BudgetManager.CQRS.Handlers.TransactionHandlers
                 builder.Eq(t => t.UserId, request.userId),
                 builder.Eq(t => t.Id, request.expenseId),
                 builder.Eq(t => t.TransactionType, Model.Enums.OperationType.Expense));
+            var transaction = (await _transactionRepository.FilterBy(filter, cancellationToken)).FirstOrDefault();
+
+            await _mediator.Send(new ChangeTotalBalanceOfWalletOnDeleteCommand(transaction), cancellationToken);
             bool result = await _transactionRepository.DeleteOneAsync(filter, cancellationToken);
 
             return result;
