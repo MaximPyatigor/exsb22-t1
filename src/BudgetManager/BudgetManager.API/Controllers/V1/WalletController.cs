@@ -1,4 +1,5 @@
 ﻿using BudgetManager.CQRS.Commands.WalletCommands;
+using BudgetManager.CQRS.Queries.TransactionQueries;
 using BudgetManager.CQRS.Queries.WalletQueries;
 using BudgetManager.SDK.DTOs;
 using MediatR;
@@ -20,6 +21,7 @@ namespace BudgetManager.API.Controllers.V1
             _mediator = mediator;
         }
 
+        [Authorize]
         [HttpPut]
         public async Task<IActionResult> UpdateWallet([FromBody] UpdateWalletDTO updateWallet, bool isDefault, CancellationToken cancellationToken)
         {
@@ -50,6 +52,16 @@ namespace BudgetManager.API.Controllers.V1
         }
 
         [Authorize]
+        [HttpGet("Info")]
+        public async Task<IActionResult> GetWalletInfo(Guid walletId, CancellationToken cancellationToken)
+        {
+            var userId = Guid.Parse(User.FindFirst("UserId").Value);
+            var result = await _mediator.Send(new GetWalletInfoQuery(userId, walletId), cancellationToken);
+
+            return result is not null ? Ok(result) : NotFound();
+        }
+
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> CreateWallet([FromBody] AddWalletDTO walletDTO, CancellationToken cancellationToken)
         {
@@ -67,6 +79,16 @@ namespace BudgetManager.API.Controllers.V1
             var result = await _mediator.Send(new DeleteUserWalletCommand(userId, walletId), cancellationToken);
 
             return result ? Ok() : BadRequest();
+        }
+
+        [Authorize]
+        [HttpGet("RecentTransactions")]
+        public async Task<IActionResult> GetWalletRecentTransactions([FromQuery] WalletRecentTransactionsPageDTO recentTransactionsPageDTO, CancellationToken cancellationToken)
+        {
+            var userId = Guid.Parse(User.FindFirst("UserId").Value);
+            var result = await _mediator.Send(new GetWalletRecentTransactionsQuery(userId, recentTransactionsPageDTO), cancellationToken);
+
+            return result is not null ? Ok(result) : NotFound();
         }
     }
 }

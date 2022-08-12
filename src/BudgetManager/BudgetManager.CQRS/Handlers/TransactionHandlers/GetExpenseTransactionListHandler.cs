@@ -2,12 +2,14 @@
 using BudgetManager.CQRS.Queries.TransactionQueries;
 using BudgetManager.CQRS.Responses.TransactionResponses;
 using BudgetManager.DataAccess.MongoDbAccess.Interfaces;
+using BudgetManager.Model;
 using BudgetManager.Model.Enums;
 using MediatR;
+using MongoDB.Driver;
 
 namespace BudgetManager.CQRS.Handlers.TransactionHandlers
 {
-    public class GetExpenseTransactionListHandler : IRequestHandler<GetExpenseTransactionListQuery, IEnumerable<ExpenseTransactionResponse>>
+    public class GetExpenseTransactionListHandler : IRequestHandler<GetExpenseTransactionListQuery, ExpensePageResponse>
     {
         private readonly IMapper _mapper;
         private readonly ITransactionRepository _dataAccess;
@@ -18,9 +20,69 @@ namespace BudgetManager.CQRS.Handlers.TransactionHandlers
             _dataAccess = dataAccess;
         }
 
-        public async Task<IEnumerable<ExpenseTransactionResponse>> Handle(GetExpenseTransactionListQuery request, CancellationToken cancellationToken)
+        public async Task<ExpensePageResponse> Handle(GetExpenseTransactionListQuery request, CancellationToken cancellationToken)
         {
-            var result = _mapper.Map<IEnumerable<ExpenseTransactionResponse>>(await _dataAccess.GetListByOperationAsync(request.userId, OperationType.Expense, cancellationToken));
+            var pageSize = request.expensesPageDto.PageSize;
+            long count;
+            IEnumerable<Transaction> expenseTransactions;
+
+            FilterDefinitionBuilder<Transaction>? filterBuilder = Builders<Transaction>.Filter;
+            FilterDefinition<Transaction>? filter = filterBuilder.Eq(x => x.UserId, request.userId) & filterBuilder.Eq(x => x.TransactionType, OperationType.Expense);
+
+            SortDefinitionBuilder<Transaction> sortBuilder = Builders<Transaction>.Sort;
+            SortDefinition<Transaction>? sort;
+
+            if (request.expensesPageDto.DateFilter is not null)
+            {
+                filter &= filterBuilder.Eq(x => x.DateOfTransaction.Date, request.expensesPageDto.DateFilter);
+            }
+
+            if (request.expensesPageDto.CategoryIdFilter != Guid.Empty)
+            {
+                filter &= filterBuilder.Eq(x => x.CategoryId, request.expensesPageDto.CategoryIdFilter);
+            }
+
+            if (request.expensesPageDto.WalletIdFilter != Guid.Empty)
+            {
+                filter &= filterBuilder.Eq(x => x.WalletId, request.expensesPageDto.WalletIdFilter);
+            }
+
+            if (request.expensesPageDto.PayerFilter is not null)
+            {
+                filter &= filterBuilder.Eq(x => x.Payer, request.expensesPageDto.PayerFilter);
+            }
+
+            if (request.expensesPageDto.IsSortByAmount && !request.expensesPageDto.IsSortByDate)
+            {
+                if (request.expensesPageDto.IsSortDescending)
+                {
+                    sort = sortBuilder.Descending(x => x.Value);
+                }
+                else
+                {
+                    sort = sortBuilder.Ascending(x => x.Value);
+                }
+            }
+            else
+            {
+                if (request.expensesPageDto.IsSortDescending)
+                {
+                    sort = sortBuilder.Descending(x => x.DateOfTransaction);
+                }
+                else
+                {
+                    sort = sortBuilder.Ascending(x => x.DateOfTransaction);
+                }
+            }
+
+            (expenseTransactions, count) = await _dataAccess.GetPageListAsync(filter, sort, request.expensesPageDto.PageNumber, pageSize, cancellationToken);
+
+            var result = new ExpensePageResponse()
+            {
+                Expenses = _mapper.Map<IEnumerable<ExpenseTransactionResponse>>(expenseTransactions),
+                PageInfo = new Pagination.PageInfo(count, request.expensesPageDto.PageNumber, pageSize),
+            };
+
             return result;
         }
     }

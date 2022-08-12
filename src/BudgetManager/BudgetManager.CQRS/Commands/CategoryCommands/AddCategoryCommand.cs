@@ -1,4 +1,4 @@
-﻿using BudgetManager.SDK.DTOs.CategoryDTOs;
+﻿using BudgetManager.SDK.DTOs;
 using MediatR;
 
 namespace BudgetManager.CQRS.Commands.CategoryCommands

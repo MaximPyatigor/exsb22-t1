@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using BudgetManager.CQRS.Responses.CategoryResponses;
 using BudgetManager.Model;
-using BudgetManager.SDK.DTOs.CategoryDTOs;
 using BudgetManager.CQRS.Responses.NotificationResponses;
 using BudgetManager.CQRS.Responses.WalletResponses;
 using BudgetManager.CQRS.Responses.TransactionResponses;
@@ -19,11 +18,10 @@ namespace BudgetManager.CQRS.Mapping
     {
         public MappingProfile()
         {
-            //CreateMap<ItemDto, Item>();
             CreateMap<AddCategoryDTO, Category>();
+            CreateMap<UpdateCategoryDTO, Category>();
             CreateMap<AddSubCategoryDTO, Category>();
             CreateMap<Category, CategoryResponse>();
-            CreateMap<UpdateCategoryDTO, Category>();
             CreateMap<AddUserDTO, User>()
                 .ForMember(o => o.Payers, p => p.MapFrom(b => new List<string>() { b.FullName }));
             CreateMap<User, UserResponse>();
@@ -47,6 +45,9 @@ namespace BudgetManager.CQRS.Mapping
                 .ForMember(o => o.TransactionType, p => p.MapFrom(b => OperationType.Income));
             CreateMap<Transaction, IncomeTransactionResponse>();
             CreateMap<Category, SubCategoryResponse>();
+            CreateMap<Transaction, RecentTransactionResponse>()
+                .ForMember(o => o.Value, p => p.MapFrom(b => b.TransactionType == OperationType.Income ? b.Value : -b.Value))
+                .ForMember(o => o.DateOfTransaction, p => p.MapFrom(b => b.DateOfTransaction.Date));
         }
     }
 }

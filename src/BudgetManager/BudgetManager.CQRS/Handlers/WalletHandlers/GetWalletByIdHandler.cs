@@ -30,7 +30,7 @@ namespace BudgetManager.CQRS.Handlers.WalletHandlers
             var walletId = request.walletId;
 
             var filter = Builders<User>.Filter.Eq(u => u.Id, userId)
-                & Builders<User>.Filter.ElemMatch(u => u.Wallets, c => c.Id == walletId);
+                & Builders<User>.Filter.ElemMatch(u => u.Wallets, c => c.Id == walletId && c.IsActive == true);
             var projection = Builders<User>.Projection.Include(u => u.Wallets)
                 .ElemMatch(u => u.Wallets, c => c.Id == walletId);
 

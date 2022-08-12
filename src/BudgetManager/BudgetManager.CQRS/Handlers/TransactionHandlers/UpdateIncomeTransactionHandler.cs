@@ -29,7 +29,7 @@ namespace BudgetManager.CQRS.Handlers.TransactionHandlers
                 Builders<Transaction>.Filter.Eq(t => t.Id, request.updateIncomeDTO.Id),
                 Builders<Transaction>.Filter.Eq(t => t.TransactionType, Model.Enums.OperationType.Income));
 
-            var projection = Builders<Transaction>.Projection.Include(t => t.WalletId);
+            var projection = Builders<Transaction>.Projection.Include(t => t.WalletId).Include(t => t.Value);
             var oldIncomeTransaction = (await _dataAccess.FilterBy<Transaction>(filter, projection, cancellationToken)).FirstOrDefault();
             if (oldIncomeTransaction == null) { throw new KeyNotFoundException("Transaction not found"); }
             bool walletChanged = oldIncomeTransaction.WalletId != request.updateIncomeDTO.WalletId;
@@ -44,6 +44,7 @@ namespace BudgetManager.CQRS.Handlers.TransactionHandlers
             var updatedIncomeTransaction = await _dataAccess.UpdateOneAsync(filter, update, cancellationToken);
             if (updatedIncomeTransaction == null) { throw new KeyNotFoundException("Transaction not found"); }
 
+            await _mediator.Send(new ChangeTotalBalanceOfWalletOnUpdate(oldIncomeTransaction, updatedIncomeTransaction), cancellationToken);
             await _mediator.Send(new UpdateWalletDateOfChangeCommand(request.userId, updatedIncomeTransaction.WalletId, DateTime.UtcNow), cancellationToken);
             if (walletChanged) { await _mediator.Send(new UpdateWalletDateOfChangeCommand(request.userId, oldIncomeTransaction.WalletId, DateTime.UtcNow), cancellationToken); }
 
