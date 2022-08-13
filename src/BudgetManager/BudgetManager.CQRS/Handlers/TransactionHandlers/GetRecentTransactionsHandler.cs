@@ -28,16 +28,18 @@ namespace BudgetManager.CQRS.Handlers.TransactionHandlers
                 throw new KeyNotFoundException("User not found");
             }
 
-            var transactions = await _transactionRepository.GetListByUserIdAsync(user.Id, cancellationToken);
-            var tenRecents = transactions.OrderByDescending(t => t.DateOfTransaction).Take(10);
+            const int count = 10;
+            var filter = Builders<Transaction>.Filter.Eq(t => t.UserId, request.userId);
+            var sort = Builders<Transaction>.Sort.Descending(t => t.DateOfTransaction);
+            var topRecents = await _transactionRepository.GetTopElements(filter, sort, count, cancellationToken);
 
-            if (tenRecents is null)
+            if (topRecents is null)
             {
                 throw new KeyNotFoundException("No transactions found");
             }
 
             var response = new List<RecentTransactionsHomepageResponse>();
-            foreach (var transaction in tenRecents)
+            foreach (var transaction in topRecents)
             {
                 Wallet? wallet = user.Wallets?.FirstOrDefault(w => w.Id == transaction.WalletId);
                 response.Add(new RecentTransactionsHomepageResponse
