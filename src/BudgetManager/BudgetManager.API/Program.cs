@@ -69,6 +69,10 @@ builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 builder.Services.AddValidatorsFromAssemblyContaining<AddCategoryValidator>();
 builder.Services.AddValidatorsFromAssemblyContaining<UpdateCategoryValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<AddExpenseTransactionValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<AddIncomeTransactionValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<UpdateExpenseTransactionValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<UpdateIncomeTransactionValidator>();
 
 builder.Services.AddControllers().AddJsonOptions(x =>
 {
