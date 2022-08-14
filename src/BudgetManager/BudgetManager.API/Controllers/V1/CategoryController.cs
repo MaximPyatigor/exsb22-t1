@@ -61,7 +61,7 @@ namespace BudgetManager.API.Controllers.V1
         public async Task<IActionResult> UpdateOne(Guid categoryId, [FromBody] UpdateCategoryDTO category, CancellationToken cancellationToken)
         {
             var userId = Guid.Parse(User.FindFirst(_userIdString).Value);
-            _updateValidator.SetUserAsync(userId, categoryId, cancellationToken);
+            await _updateValidator.SetUserAsync(userId, categoryId, cancellationToken);
             var validationResult = await _updateValidator.ValidateAsync(category);
             if (!validationResult.IsValid)
             {
