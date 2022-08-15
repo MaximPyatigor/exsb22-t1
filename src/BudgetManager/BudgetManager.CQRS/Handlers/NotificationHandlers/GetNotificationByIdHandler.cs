@@ -27,24 +27,21 @@ namespace BudgetManager.CQRS.Handlers.NotificationHandlers
 
         public async Task<NotificationResponse> Handle(GetNotificationByIdQuery request, CancellationToken cancellationToken)
         {
-            var definition = Builders<User>.Projection
-                .Exclude(x => x.Id)
-                .Include(x => x.Notifications);
+            var userId = request.UserId;
+            var notificationId = request.Id;
 
-            var userFilter = Builders<User>.Filter.Eq(u => u.Id, request.UserId);
+            var filter = Builders<User>.Filter.Eq(u => u.Id, userId)
+                & Builders<User>.Filter.ElemMatch(u => u.Notifications, c => c.Id == notificationId);
+            var projection = Builders<User>.Projection.Include(u => u.Notifications)
+                .ElemMatch(u => u.Notifications, c => c.Id == notificationId);
 
-            var notificationFilter = Builders<User>.Filter.ElemMatch(x => x.Notifications,
-                Builders<Notification>.Filter.Eq(y => y.Id, request.Id));
+            var response = await _userContext.FilterBy<User>(filter, projection, cancellationToken);
+            var user = response.FirstOrDefault();
 
-            var filter = userFilter & notificationFilter;
+            if (user == null) { throw new KeyNotFoundException("UserId or notificationId not found"); }
 
-            var filteredUser = (await _userContext
-                .FilterBy<UserNotificationListProjection>(filter, definition, cancellationToken))
-                .FirstOrDefault();
-
-            if (filteredUser == null) { throw new KeyNotFoundException("UserId or notificationId not found"); }
-
-            var result = _mapper.Map<NotificationResponse>(filteredUser.Notifications.FirstOrDefault());
+            var usersNotification = user.Notifications.FirstOrDefault();
+            var result = _mapper.Map<NotificationResponse>(usersNotification);
             return result;
         }
     }
