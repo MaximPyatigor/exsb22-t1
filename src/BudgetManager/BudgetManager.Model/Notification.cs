@@ -19,5 +19,7 @@ namespace BudgetManager.Model
         public string Description { get; set; }
         [Required]
         public bool IsRead { get; set; }
+        [Required]
+        public DateTime Date { get; set; }
     }
 }
