@@ -31,13 +31,10 @@ namespace BudgetManager.CQRS.Handlers.CountryHandlers
             var filter = Builders<User>.Filter.Eq(u => u.Id, request.userId);
             var update = Builders<User>.Update.Set(u => u.Country, country);
 
-            if (request.updateCountryDTO.SetDefaultCurrency)
-            {
-                var currencyFilter = Builders<Currency>.Filter.Eq(c => c.CurrencyCode, country.CurrencyCode);
-                var currency = (await _currencyRepository.FilterBy(currencyFilter, cancellationToken)).FirstOrDefault();
-                if (currency == null) { throw new KeyNotFoundException("Currency not found"); }
-                update = update.Set(u => u.DefaultCurrency, currency);
-            }
+            var currencyFilter = Builders<Currency>.Filter.Eq(c => c.CurrencyCode, country.CurrencyCode);
+            var currency = (await _currencyRepository.FilterBy(currencyFilter, cancellationToken)).FirstOrDefault();
+            if (currency == null) { throw new KeyNotFoundException("Currency not found"); }
+            update = update.Set(u => u.DefaultCurrency, currency);
 
             var updatedUser = await _userRepository.UpdateOneAsync(filter, update, cancellationToken);
             if (updatedUser == null) { throw new KeyNotFoundException("User not found"); }
