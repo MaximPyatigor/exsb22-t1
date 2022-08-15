@@ -1,15 +1,20 @@
-﻿using BudgetManager.Model;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using BudgetManager.Model.Enums;
 
-namespace BudgetManager.SDK.DTOs.CategoryDTOs
+namespace BudgetManager.SDK.DTOs
 {
-    public class AddCategoryDTO
+    public class UpdateCategoryDTO
     {
         public string Name { get; set; }
+
         public decimal Limit { get; set; }
+
         public LimitPeriods? LimitPeriod { get; set; }
 
-        public OperationType CategoryType { get; set; }
         public string Color { get; set; }
     }
 }

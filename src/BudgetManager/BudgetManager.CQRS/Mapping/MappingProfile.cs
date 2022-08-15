@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using BudgetManager.CQRS.Responses.CategoryResponses;
 using BudgetManager.Model;
-using BudgetManager.SDK.DTOs.CategoryDTOs;
 using BudgetManager.CQRS.Responses.NotificationResponses;
 using BudgetManager.CQRS.Responses.WalletResponses;
 using BudgetManager.CQRS.Responses.TransactionResponses;
@@ -20,9 +19,9 @@ namespace BudgetManager.CQRS.Mapping
         public MappingProfile()
         {
             CreateMap<AddCategoryDTO, Category>();
+            CreateMap<UpdateCategoryDTO, Category>();
             CreateMap<AddSubCategoryDTO, Category>();
             CreateMap<Category, CategoryResponse>();
-            CreateMap<UpdateCategoryDTO, Category>();
             CreateMap<AddUserDTO, User>()
                 .ForMember(o => o.Payers, p => p.MapFrom(b => new List<string>() { b.FullName }));
             CreateMap<User, UserResponse>();
