@@ -66,6 +66,15 @@ namespace BudgetManager.DataAccess.MongoDbAccess.Repositories
         {
             var filter = Builders<Transaction>.Filter.Eq(t => t.UserId, userId) & Builders<Transaction>.Filter.Eq(t => t.SubCategoryId, subCategoryId);
             var result = await _collection.Find(filter).SortBy(t => t.DateOfTransaction).ToListAsync(cancellationToken);
+                        
+            return result;
+        }
+        
+        public async Task<IEnumerable<Guid>> GetWalletDistinctCategoryIdListAsync(FilterDefinition<Transaction> filterDefinition,
+            CancellationToken cancellationToken)
+        {
+            var result = await _collection.Distinct(x => x.CategoryId, filterDefinition, null, cancellationToken).ToListAsync();
+            
             return result;
         }
     }
