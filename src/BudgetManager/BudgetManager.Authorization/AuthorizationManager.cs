@@ -1,4 +1,5 @@
 ﻿using BudgetManager.Authorization.TokenService;
+using BudgetManager.CQRS.Commands.RefreshTokenCommands;
 using BudgetManager.CQRS.Queries.UserQueries;
 using BudgetManager.Model.AuthorizationModels;
 using BudgetManager.Shared.Utils.Helpers;
@@ -60,6 +61,9 @@ namespace BudgetManager.Authorization
                     var userRoles = await _userManager.GetRolesAsync(appUser);
 
                     var token = _tokenService.CreateUserToken(appUser, userRoles);
+                    var refreshToken = await _tokenService.CreateRefreshToken(user.Id);
+                    var refreshTokenResult = await _mediator.Send(new AddRefreshTokenCommand(refreshToken));
+                    
                     var responseUser = new UserAuthorizationObject
                     {
                         Id = user.Id,
@@ -74,7 +78,8 @@ namespace BudgetManager.Authorization
                     var response = new AuthorizationResponse
                     {
                         User = responseUser,
-                        Token = token
+                        Token = token,
+                        RefreshToken = refreshToken.Token
                     };
                     return response;
                 } else

@@ -55,6 +55,7 @@ builder.Services.AddScoped<IBaseRepository<Currency>, CurrencyRepository>();
 builder.Services.AddScoped<IBaseRepository<DefaultCategory>, DefaultCategoryRepository>();
 builder.Services.AddSingleton<IBaseRepository<CurrencyRates>, CurrencyRatesRepository>();
 builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
+builder.Services.AddScoped<IBaseRepository<RefreshToken>, RefreshTokenRepository>();
 
 builder.Services.AddScoped<IUpdateCurrencyRatesJob, UpdateCurrencyRatesJob>();
 builder.Services.AddScoped<ISeedingService, SeedingService>();

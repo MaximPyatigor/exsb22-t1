@@ -1,9 +1,12 @@
 ﻿using BudgetManager.Model.AuthorizationModels;
 using Microsoft.Extensions.Options;
+using BudgetManager.Model;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using System.Security.Cryptography;
+using BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation;
 
 namespace BudgetManager.Authorization.TokenService
 {
@@ -42,6 +45,19 @@ namespace BudgetManager.Authorization.TokenService
             var jwt = new JwtSecurityTokenHandler().WriteToken(token);
 
             return jwt;
+        }
+
+        public async Task<RefreshToken> CreateRefreshToken(Guid userId)
+        {
+            var refreshToken = new RefreshToken()
+            {
+                UserId = userId,
+                Created = DateTime.Now,
+                Expires = DateTime.Now.AddDays(3),
+                Token = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64))
+            };
+
+            return refreshToken;
         }
     }
 }
