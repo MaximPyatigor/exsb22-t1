@@ -1,4 +1,5 @@
 ﻿using BudgetManager.Model;
+using BudgetManager.Model.Enums;
 using BudgetManager.SDK.DTOs;
 using BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation;
 using FluentValidation;
@@ -13,7 +14,7 @@ namespace BudgetManager.CQRS.Validators
     public class AddCategoryValidator : AbstractValidator<AddCategoryDTO>
     {
         private readonly IBaseRepository<User> _repository;
-        private List<Category> categories;
+        private IEnumerable<Category> categories;
 
         public AddCategoryValidator(IBaseRepository<User> repository)
         {
@@ -28,9 +29,9 @@ namespace BudgetManager.CQRS.Validators
             _repository = repository;
         }
 
-        public void SetUser(Guid userId, CancellationToken cancellationToken)
+        public void SetUser(Guid userId, OperationType categoryType, CancellationToken cancellationToken)
         {
-            this.categories = _repository.FindByIdAsync(userId, cancellationToken).Result.Categories;
+            categories = _repository.FindByIdAsync(userId, cancellationToken).Result.Categories.Where(x=>x.CategoryType == categoryType);
         }
 
         public bool IsNameUnique(AddCategoryDTO category, string newValue)
