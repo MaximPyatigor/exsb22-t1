@@ -23,7 +23,7 @@ namespace BudgetManager.CQRS.Mapping
             CreateMap<AddSubCategoryDTO, Category>();
             CreateMap<Category, CategoryResponse>();
             CreateMap<AddUserDTO, User>()
-                .ForMember(o => o.Payers, p => p.MapFrom(b => new List<string>() { b.FullName }));
+                .ForMember(o => o.Payers, p => p.MapFrom(b => new List<string>() { "Me" }));
             CreateMap<User, UserResponse>();
             CreateMap<UpdateUserDTO, User>();
             CreateMap<Wallet, WalletResponse>();
