@@ -35,6 +35,14 @@ namespace BudgetManager.API.Controllers.V1
             return response == null ? BadRequest() : Ok(response);
         }
 
+        [HttpPut]
+        public async Task<IActionResult> UpdateOne(UpdateSubCategoryDTO subCategory, CancellationToken cancellationToken)
+        {
+            var userId = Guid.Parse(User.FindFirst("UserId").Value);
+            var response = await _mediator.Send(new UpdateSubCategoryCommand(userId, subCategory), cancellationToken);
+            return response == null ? NotFound() : Ok(response);
+        }
+
         [HttpDelete]
         public async Task<IActionResult> DeleteOne(Guid categoryId, Guid subCategoryId, CancellationToken cancellationToken)
         {
