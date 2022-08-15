@@ -75,7 +75,13 @@ namespace BudgetManager.API.Seeding
                 }
 
                 Console.WriteLine("Seeding Countries...");
-                await _mediator.Send(new AddManyCountriesCommand(countries));
+
+                // Add each country separately to make sure the order of the seed file is kept.
+                foreach (var country in countries)
+                {
+                    await _mediator.Send(new AddCountryCommand(country));
+                }
+
                 Console.WriteLine("Seeding Countries successful.");
             }
         }
