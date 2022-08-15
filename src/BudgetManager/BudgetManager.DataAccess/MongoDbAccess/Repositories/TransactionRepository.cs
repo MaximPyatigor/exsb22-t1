@@ -14,6 +14,11 @@ namespace BudgetManager.DataAccess.MongoDbAccess.Repositories
         {
         }
 
+        public async Task<IEnumerable<Transaction>> GetTopElements(FilterDefinition<Transaction> filterDefinition, SortDefinition<Transaction> sortDefinition, int count, CancellationToken cancellationToken)
+        {
+            return await _collection.Find(filterDefinition).Sort(sortDefinition).Limit(count).ToListAsync(cancellationToken);
+        }
+
         public async Task<bool> DeleteManyByUserIdAsync(Guid userId, CancellationToken cancellationToken)
         {
             var fillter = Builders<Transaction>.Filter.Eq(x => x.UserId, userId);

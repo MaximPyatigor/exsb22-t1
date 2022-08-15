@@ -17,5 +17,6 @@ namespace BudgetManager.DataAccess.MongoDbAccess.Interfaces
         Task<IEnumerable<Guid>> GetWalletDistinctCategoryIdListAsync(FilterDefinition<Transaction> filterDefinition,
             CancellationToken cancellationToken);
         Task<bool> DeleteManyAsync(FilterDefinition<Transaction> filterDefinition, CancellationToken cancellationToken);
+        Task<IEnumerable<Transaction>> GetTopElements(FilterDefinition<Transaction> filterDefinition, SortDefinition<Transaction> sortDefinition, int count, CancellationToken cancellationToken);
     }
 }
