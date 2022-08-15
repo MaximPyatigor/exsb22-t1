@@ -1,5 +1,8 @@
 ﻿using BudgetManager.CQRS.Commands.SubCategoryCommands;
 using BudgetManager.CQRS.Queries.SubCategoryQueries;
+using BudgetManager.CQRS.Validators;
+using BudgetManager.CQRS.Validators.SubCategoryValidators;
+using BudgetManager.Model;
 using BudgetManager.SDK.DTOs;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -14,9 +17,12 @@ namespace BudgetManager.API.Controllers.V1
     public class SubCategoryController : Controller
     {
         private readonly IMediator _mediator;
-        public SubCategoryController(IMediator mediator)
+        private readonly UpdateSubCategoryValidator _updateValidator;
+
+        public SubCategoryController(IMediator mediator, UpdateSubCategoryValidator updateValidator)
         {
             _mediator = mediator;
+            _updateValidator = updateValidator;
         }
 
         [HttpPost]
@@ -39,6 +45,15 @@ namespace BudgetManager.API.Controllers.V1
         public async Task<IActionResult> UpdateOne(UpdateSubCategoryDTO subCategory, CancellationToken cancellationToken)
         {
             var userId = Guid.Parse(User.FindFirst("UserId").Value);
+
+            await _updateValidator.SetUserAndCategory(userId, subCategory.CategoryId, cancellationToken);
+            var validationResult = await _updateValidator.ValidateAsync(subCategory);
+            if (!validationResult.IsValid)
+            {
+                var result = ValidatorService.GetErrorMessage(validationResult);
+                return BadRequest(result);
+            }
+
             var response = await _mediator.Send(new UpdateSubCategoryCommand(userId, subCategory), cancellationToken);
             return response == null ? NotFound() : Ok(response);
         }

@@ -7,6 +7,7 @@ using BudgetManager.Authorization;
 using BudgetManager.Authorization.TokenService;
 using BudgetManager.CQRS.Mapping;
 using BudgetManager.CQRS.Validators;
+using BudgetManager.CQRS.Validators.SubCategoryValidators;
 using BudgetManager.DataAccess.MongoDbAccess.Interfaces;
 using BudgetManager.DataAccess.MongoDbAccess.Repositories;
 using BudgetManager.Model;
@@ -69,6 +70,7 @@ builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 builder.Services.AddValidatorsFromAssemblyContaining<AddCategoryValidator>();
 builder.Services.AddValidatorsFromAssemblyContaining<UpdateCategoryValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<UpdateSubCategoryValidator>();
 
 builder.Services.AddControllers().AddJsonOptions(x =>
 {
