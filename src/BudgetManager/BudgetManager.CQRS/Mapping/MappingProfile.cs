@@ -23,7 +23,7 @@ namespace BudgetManager.CQRS.Mapping
             CreateMap<AddSubCategoryDTO, Category>();
             CreateMap<Category, CategoryResponse>();
             CreateMap<AddUserDTO, User>()
-                .ForMember(o => o.Payers, p => p.MapFrom(b => new List<string>() { b.FullName }));
+                .ForMember(o => o.Payers, p => p.MapFrom(b => new List<string>() { "Me" }));
             CreateMap<User, UserResponse>();
             CreateMap<UpdateUserDTO, User>();
             CreateMap<Wallet, WalletResponse>();
@@ -31,7 +31,8 @@ namespace BudgetManager.CQRS.Mapping
             CreateMap<UpdateWalletDTO, Wallet>(); 
             CreateMap<Transaction, TransactionResponse>();
             CreateMap<UpdateTransactionDTO, Transaction>();
-            CreateMap<AddNotificationDto, Notification>();
+            CreateMap<AddNotificationDto, Notification>()
+                .ForMember(o => o.Date, p => p.MapFrom(b => DateTime.UtcNow));
             CreateMap<Notification, NotificationResponse>();
             CreateMap<Country, CountryResponse>();
             CreateMap<DefaultCategory, DefaultCategoryResponse>()
@@ -49,6 +50,7 @@ namespace BudgetManager.CQRS.Mapping
             CreateMap<Transaction, RecentTransactionResponse>()
                 .ForMember(o => o.Value, p => p.MapFrom(b => b.TransactionType == OperationType.Income ? b.Value : -b.Value))
                 .ForMember(o => o.DateOfTransaction, p => p.MapFrom(b => b.DateOfTransaction.Date));
+            CreateMap<CategoryResponse, WalletCategoryResponse>();
         }
     }
 }

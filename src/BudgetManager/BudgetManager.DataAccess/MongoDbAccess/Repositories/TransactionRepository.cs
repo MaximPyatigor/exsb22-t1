@@ -14,6 +14,12 @@ namespace BudgetManager.DataAccess.MongoDbAccess.Repositories
         {
         }
 
+        public async Task<IEnumerable<Transaction>> GetTopElements(FilterDefinition<Transaction> filterDefinition,
+            SortDefinition<Transaction> sortDefinition, int count, CancellationToken cancellationToken)
+        {
+            return await _collection.Find(filterDefinition).Sort(sortDefinition).Limit(count).ToListAsync(cancellationToken);
+        }
+
         public async Task<bool> DeleteManyByUserIdAsync(Guid userId, CancellationToken cancellationToken)
         {
             var fillter = Builders<Transaction>.Filter.Eq(x => x.UserId, userId);
@@ -66,6 +72,15 @@ namespace BudgetManager.DataAccess.MongoDbAccess.Repositories
         {
             var filter = Builders<Transaction>.Filter.Eq(t => t.UserId, userId) & Builders<Transaction>.Filter.Eq(t => t.SubCategoryId, subCategoryId);
             var result = await _collection.Find(filter).SortBy(t => t.DateOfTransaction).ToListAsync(cancellationToken);
+
+            return result;
+        }
+
+        public async Task<IEnumerable<Guid>> GetWalletDistinctCategoryIdListAsync(FilterDefinition<Transaction> filterDefinition,
+            CancellationToken cancellationToken)
+        {
+            var result = await _collection.Distinct(x => x.CategoryId, filterDefinition, null, cancellationToken).ToListAsync();
+
             return result;
         }
     }

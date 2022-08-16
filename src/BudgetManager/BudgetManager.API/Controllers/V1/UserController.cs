@@ -29,17 +29,6 @@ namespace BudgetManager.API.Controllers.V1
             return user is not null ? Ok(user) : NotFound();
         }
 
-        // PUT api/<UserController>/5
-        [Authorize]
-        [HttpPut]
-        public async Task<IActionResult> UpdateUser([FromBody] UpdateUserDTO updateUser, CancellationToken cancellationToken)
-        {
-            var userId = Guid.Parse(User.FindFirst("UserId").Value);
-            var result = await _mediator.Send(new UpdateUserCommand(userId, updateUser), cancellationToken);
-
-            return result is not null ? Ok(result) : NotFound();
-        }
-
         // DELETE api/<UserController>/5
         [Authorize]
         [HttpDelete]

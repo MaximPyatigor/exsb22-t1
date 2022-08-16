@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using BudgetManager.Model.Enums;
 
 namespace BudgetManager.SDK.DTOs
 {
     public class AddNotificationDto
     {
-        public int NotificationType { get; set; }
+        public NotificationTypes NotificationType { get; set; }
         public string Description { get; set; }
     }
 }
