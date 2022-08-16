@@ -1,6 +1,4 @@
-﻿using BudgetManager.Model;
-
-namespace BudgetManager.SDK.DTOs
+﻿namespace BudgetManager.SDK.DTOs
 {
     public class UpdateWalletDTO
     {
@@ -9,9 +7,5 @@ namespace BudgetManager.SDK.DTOs
         public string Name { get; set; }
 
         public Guid CurrencyId { get; set; }
-
-        public decimal Balance { get; set; }
-
-        public DateTime DateOfChange { get; set; }
     }
 }
