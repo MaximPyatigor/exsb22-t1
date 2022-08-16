@@ -6,6 +6,5 @@ namespace BudgetManager.SDK.DTOs
     {
         public NotificationTypes NotificationType { get; set; }
         public string Description { get; set; }
-        public DateTime Date { get; set; }
     }
 }
