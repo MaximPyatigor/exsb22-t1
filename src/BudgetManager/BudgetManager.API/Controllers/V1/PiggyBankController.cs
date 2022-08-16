@@ -1,5 +1,6 @@
 ﻿using BudgetManager.CQRS.Commands.PiggyBankCommands;
 using BudgetManager.CQRS.Queries.PiggyBankQueries;
+using BudgetManager.CQRS.Validators;
 using BudgetManager.SDK.DTOs;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -14,10 +15,12 @@ namespace BudgetManager.API.Controllers.V1
     public class PiggyBankController : ControllerBase
     {
         private readonly IMediator _mediator;
+        private readonly AddPiggyBankValidator _validator;
 
-        public PiggyBankController(IMediator mediator)
+        public PiggyBankController(IMediator mediator, AddPiggyBankValidator validator)
         {
             _mediator = mediator;
+            _validator = validator;
         }
 
         // GET: api/<PiggyBankController>
@@ -35,6 +38,14 @@ namespace BudgetManager.API.Controllers.V1
         public async Task<IActionResult> Post([FromBody] AddPiggyBankDTO addPiggy, CancellationToken cancellationToken)
         {
             var userId = Guid.Parse(User.FindFirst("UserId").Value);
+            await _validator.SetUserAsync(userId, cancellationToken);
+            var validationResult = await _validator.ValidateAsync(addPiggy);
+            if (!validationResult.IsValid)
+            {
+                var response = ValidatorService.GetErrorMessage(validationResult);
+                return BadRequest(response);
+            }
+
             var result = await _mediator.Send(new AddPiggyBankCommand(userId, addPiggy), cancellationToken);
 
             return result == Guid.Empty ? BadRequest() : Ok(result);
