@@ -5,6 +5,7 @@
         LimitExceeded,
         MonthlyExpense,
         Encouraging,
+        SystemUpdate,
         Other,
     }
 }
