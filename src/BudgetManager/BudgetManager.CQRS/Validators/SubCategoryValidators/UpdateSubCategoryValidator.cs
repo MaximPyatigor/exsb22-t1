@@ -29,7 +29,7 @@ namespace BudgetManager.CQRS.Validators.SubCategoryValidators
 
         public bool IsNameUnique(UpdateSubCategoryDTO subCategory, string newValue)
         {
-            return _subCategories.All(s => s.Id == subCategory.SubCategoryId || s.Name.ToLower() != newValue.ToLower());
+            return _subCategories.All(s => s.Name.ToLower() != newValue.ToLower() || s.Id == subCategory.SubCategoryId);
         }
     }
 }
