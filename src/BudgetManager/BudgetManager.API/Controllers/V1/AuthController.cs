@@ -21,5 +21,12 @@ namespace BudgetManager.API.Controllers.V1
             var result = await _authorizationManager.Login(loginData.Email, loginData.Password);
             return Ok(result);
         }
+
+        [HttpPost("[action]")]
+        public async Task<IActionResult> RefreshToken([FromBody] RefreshedTokenResponse refreshTokenRequest)
+        {
+            var result = await _authorizationManager.RefreshToken(refreshTokenRequest);
+            return Ok(result);
+        }
     }
 }

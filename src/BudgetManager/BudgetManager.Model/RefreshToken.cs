@@ -4,7 +4,7 @@ using MongoDbGenericRepository.Attributes;
 
 namespace BudgetManager.Model
 {
-    [CollectionName("Users")]
+    [CollectionName("RefreshTokens")]
     public class RefreshToken : IModelBase
     {
         [BsonId]
@@ -14,8 +14,8 @@ namespace BudgetManager.Model
 
         public string Token { get; set; }
 
-        public DateTime Created { get; set; }
+        public DateTime Created { get; set; } = DateTime.Now;
 
-        public DateTime Expires { get; set; }
+        public DateTime Expires { get; set; } = DateTime.Now.AddDays(3);
     }
 }

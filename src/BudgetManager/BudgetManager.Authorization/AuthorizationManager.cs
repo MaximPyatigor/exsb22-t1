@@ -1,10 +1,15 @@
 ﻿using BudgetManager.Authorization.TokenService;
 using BudgetManager.CQRS.Commands.RefreshTokenCommands;
+using BudgetManager.CQRS.Queries.RefreshTokenQueries;
 using BudgetManager.CQRS.Queries.UserQueries;
 using BudgetManager.Model.AuthorizationModels;
 using BudgetManager.Shared.Utils.Helpers;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 
 namespace BudgetManager.Authorization
 {
@@ -97,6 +102,42 @@ namespace BudgetManager.Authorization
         public async Task<IEnumerable<ApplicationUser>> GetApplicationUsersList()
         {
             return await Task.Run(() => _userManager.Users.ToList());
+        }
+
+        public async Task<RefreshedTokenResponse> RefreshToken(RefreshedTokenResponse tokenResponse)
+        {
+            var accessToken = tokenResponse.Token;
+            var refreshToken = tokenResponse.RefreshToken;
+
+            var principal = _tokenService.GetPrincipalFromExpiredToken(accessToken);
+
+            if (principal == null) { throw new AppException("Invalid access token or refresh token"); }
+
+            Guid userId = Guid.Parse(principal.FindFirst("UserId").Value);
+            var email = principal.FindFirst(ClaimTypes.Email).Value;
+
+            var appUser = await _userManager.FindByEmailAsync(email);
+            var roles = await _userManager.GetRolesAsync(appUser);
+            var user = await _mediator.Send(new GetUserByIdQuery(userId));
+            var token = await _mediator.Send(new GetRefreshTokenByTokenQuery(refreshToken));
+
+            if (appUser.UserId != user.Id ||
+                user == null || user.Id != token.UserId ||
+                token.Token != refreshToken || token.Expires <= DateTime.Now.ToUniversalTime())
+            {
+                throw new AppException("Invalid access token or refresh token");
+            }
+
+            var newAccessToken = _tokenService.CreateUserToken(appUser, roles);
+            var newRefreshToken = await _tokenService.CreateRefreshToken(user.Id);
+
+            await _mediator.Send(new UpdateRefreshTokenCommand(newRefreshToken));
+
+            return new RefreshedTokenResponse
+            {
+                Token = newAccessToken,
+                RefreshToken = newRefreshToken.Token
+            };
         }
     }
 }

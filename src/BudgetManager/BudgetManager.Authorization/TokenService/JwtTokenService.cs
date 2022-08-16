@@ -52,12 +52,29 @@ namespace BudgetManager.Authorization.TokenService
             var refreshToken = new RefreshToken()
             {
                 UserId = userId,
-                Created = DateTime.Now,
-                Expires = DateTime.Now.AddDays(3),
                 Token = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64))
             };
 
             return refreshToken;
+        }
+
+        public ClaimsPrincipal GetPrincipalFromExpiredToken(string token)
+        {
+            var tokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateAudience = false,
+                ValidateIssuer = false,
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_tokenSettings.JwtKey)),
+                ValidateLifetime = false
+            };
+
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var principal = tokenHandler.ValidateToken(token, tokenValidationParameters, out SecurityToken securityToken);
+            if (securityToken is not JwtSecurityToken)
+                throw new SecurityTokenException("Invalid token");
+
+            return principal;
         }
     }
 }
