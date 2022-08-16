@@ -1,4 +1,5 @@
 ﻿using BudgetManager.CQRS.Commands.PiggyBankCommands;
+using BudgetManager.CQRS.Queries.PiggyBankQueries;
 using BudgetManager.SDK.DTOs;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -21,9 +22,12 @@ namespace BudgetManager.API.Controllers.V1
 
         // GET: api/<PiggyBankController>
         [HttpGet]
-        public IEnumerable<string> GetPiggyBanks()
+        public async Task<IActionResult> GetPiggyBanks(CancellationToken cancellationToken)
         {
-            return new string[] { "value1", "value2" };
+            var userId = Guid.Parse(User.FindFirst("UserId").Value);
+            var result = await _mediator.Send(new GetPiggyBankListQuery(userId), cancellationToken);
+
+            return result is not null ? Ok(result) : NotFound();
         }
 
         // POST api/<PiggyBankController>
