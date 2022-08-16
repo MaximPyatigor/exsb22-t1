@@ -35,6 +35,14 @@ namespace BudgetManager.API.Controllers.V1
             return Ok(response);
         }
 
+        [Authorize(Roles = "Admin")]
+        [HttpPost("NotifyAll")]
+        public async Task<IActionResult> AddNotificationToAll([FromBody] AddNotificationDto notification, CancellationToken cancellationToken)
+        {
+            var response = await _mediator.Send(new AddNotificationToAllCommand(notification), cancellationToken);
+            return Ok(response);
+        }
+
         [HttpPost]
         public async Task<IActionResult> AddNotification([FromBody] AddNotificationDto notification, CancellationToken cancellationToken)
         {
