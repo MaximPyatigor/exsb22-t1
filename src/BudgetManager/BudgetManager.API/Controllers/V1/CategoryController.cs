@@ -14,10 +14,10 @@ namespace BudgetManager.API.Controllers.V1
     [Authorize]
     public class CategoryController : Controller
     {
+        private const string _userIdString = "UserId";
         private readonly IMediator _mediator;
         private readonly AddCategoryValidator _addValidator;
         private readonly UpdateCategoryValidator _updateValidator;
-        private string _userIdString = "UserId";
         public CategoryController(IMediator mediator, AddCategoryValidator addValidator, UpdateCategoryValidator updateValidator)
         {
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));

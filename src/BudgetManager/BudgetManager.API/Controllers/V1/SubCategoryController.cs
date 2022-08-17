@@ -15,6 +15,7 @@ namespace BudgetManager.API.Controllers.V1
     [Authorize]
     public class SubCategoryController : Controller
     {
+        private const string _userIdString = "UserId";
         private readonly IMediator _mediator;
         private readonly UpdateSubCategoryValidator _updateValidator;
 
@@ -27,7 +28,7 @@ namespace BudgetManager.API.Controllers.V1
         [HttpPost]
         public async Task<IActionResult> InsertOneAsync(AddSubCategoryDTO category, CancellationToken cancellationToken)
         {
-            Guid userId = new Guid(User.FindFirst("UserId").Value);
+            Guid userId = new Guid(User.FindFirst(_userIdString).Value);
             var response = await _mediator.Send(new AddSubCategoryCommand(category, userId), cancellationToken);
             return response == Guid.Empty ? BadRequest() : Ok(response);
         }
@@ -35,7 +36,7 @@ namespace BudgetManager.API.Controllers.V1
         [HttpGet]
         public async Task<IActionResult> GetAllAsync(Guid categoryId, CancellationToken cancellationToken)
         {
-            Guid userId = new Guid(User.FindFirst("UserId").Value);
+            Guid userId = new Guid(User.FindFirst(_userIdString).Value);
             var response = await _mediator.Send(new GetSubCategoriesQuery(userId, categoryId), cancellationToken);
             return response == null ? BadRequest() : Ok(response);
         }
@@ -43,7 +44,7 @@ namespace BudgetManager.API.Controllers.V1
         [HttpPut]
         public async Task<IActionResult> UpdateOneAsync(UpdateSubCategoryDTO subCategory, CancellationToken cancellationToken)
         {
-            var userId = Guid.Parse(User.FindFirst("UserId").Value);
+            var userId = Guid.Parse(User.FindFirst(_userIdString).Value);
 
             await _updateValidator.SetUserAndCategory(userId, subCategory.CategoryId, cancellationToken);
             var validationResult = await _updateValidator.ValidateAsync(subCategory);
@@ -60,7 +61,7 @@ namespace BudgetManager.API.Controllers.V1
         [HttpDelete]
         public async Task<IActionResult> DeleteOneAsync(Guid categoryId, Guid subCategoryId, CancellationToken cancellationToken)
         {
-            var userId = Guid.Parse(User.FindFirst("UserId").Value);
+            var userId = Guid.Parse(User.FindFirst(_userIdString).Value);
             var response = await _mediator.Send(new DeleteSubCategoryCommand(userId, categoryId, subCategoryId), cancellationToken);
             return response ? Ok(response) : NotFound();
         }

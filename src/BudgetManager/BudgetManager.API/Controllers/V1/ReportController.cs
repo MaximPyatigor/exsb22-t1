@@ -12,13 +12,14 @@ namespace BudgetManager.API.Controllers.V1
     [Authorize]
     public class ReportController : ControllerBase
     {
+        private const string _userIdString = "UserId";
         private readonly IMediator _mediator;
         public ReportController(IMediator mediator) => _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
 
         [HttpGet]
         public async Task<IActionResult> GetReportAsync([FromQuery] ReportRequest reportRequest, CancellationToken cancellationToken)
         {
-            var userId = Guid.Parse(User.FindFirst("UserId").Value);
+            var userId = Guid.Parse(User.FindFirst(_userIdString).Value);
             var response = await _mediator.Send(new GetReportQuery(userId, reportRequest), cancellationToken);
             return response == null ? NotFound() : Ok(response);
         }

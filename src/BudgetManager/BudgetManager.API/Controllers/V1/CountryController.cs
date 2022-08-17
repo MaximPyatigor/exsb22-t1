@@ -13,8 +13,8 @@ namespace BudgetManager.API.Controllers.V1
     [ApiVersion("1.0")]
     public class CountryController : ControllerBase
     {
+        private const string _userIdString = "UserId";
         private readonly IMediator _mediator;
-        private string _userIdString = "UserId";
         public CountryController(IMediator mediator) => _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
 
         [HttpGet]
