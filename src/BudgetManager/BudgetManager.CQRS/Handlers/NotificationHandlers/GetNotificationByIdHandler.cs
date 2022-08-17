@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using BudgetManager.CQRS.Projections.UserProjections;
 using BudgetManager.CQRS.Queries.NotificationQueries;
 using BudgetManager.CQRS.Responses.NotificationResponses;
 using BudgetManager.Model;
