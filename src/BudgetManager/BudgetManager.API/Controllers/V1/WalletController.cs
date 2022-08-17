@@ -1,7 +1,8 @@
 ﻿using BudgetManager.CQRS.Commands.WalletCommands;
 using BudgetManager.CQRS.Queries.TransactionQueries;
 using BudgetManager.CQRS.Queries.WalletQueries;
-using BudgetManager.Model.Enums;
+using BudgetManager.CQRS.Validators;
+using BudgetManager.CQRS.Validators.WalletValidators;
 using BudgetManager.SDK.DTOs;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -17,9 +18,12 @@ namespace BudgetManager.API.Controllers.V1
         private readonly IMediator _mediator;
         private string _userIdString = "UserId";
 
-        public WalletController(IMediator mediator)
+        private readonly AddWalletValidator _addWalletValidator;
+
+        public WalletController(IMediator mediator, AddWalletValidator addWalletValidator)
         {
             _mediator = mediator;
+            _addWalletValidator = addWalletValidator;
         }
 
         [Authorize]
@@ -77,8 +81,16 @@ namespace BudgetManager.API.Controllers.V1
         public async Task<IActionResult> CreateWalletAsync([FromBody] AddWalletDTO walletDTO, CancellationToken cancellationToken)
         {
             var userId = Guid.Parse(User.FindFirst("UserId").Value);
-            var result = await _mediator.Send(new AddWalletCommand(userId, walletDTO), cancellationToken);
 
+            await _addWalletValidator.SetUserAsync(userId, cancellationToken);
+            var validationResult = await _addWalletValidator.ValidateAsync(walletDTO);
+            if (!validationResult.IsValid)
+            {
+                var validationErrorMessage = ValidatorService.GetErrorMessage(validationResult);
+                return BadRequest(validationErrorMessage);
+            }
+
+            var result = await _mediator.Send(new AddWalletCommand(userId, walletDTO), cancellationToken);
             return result == Guid.Empty ? BadRequest() : Ok(result);
         }
 

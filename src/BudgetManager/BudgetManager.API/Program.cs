@@ -8,6 +8,7 @@ using BudgetManager.Authorization.TokenService;
 using BudgetManager.CQRS.Mapping;
 using BudgetManager.CQRS.Validators;
 using BudgetManager.CQRS.Validators.SubCategoryValidators;
+using BudgetManager.CQRS.Validators.WalletValidators;
 using BudgetManager.DataAccess.MongoDbAccess.Interfaces;
 using BudgetManager.DataAccess.MongoDbAccess.Repositories;
 using BudgetManager.Model;
@@ -75,6 +76,7 @@ builder.Services.AddValidatorsFromAssemblyContaining<AddExpenseTransactionValida
 builder.Services.AddValidatorsFromAssemblyContaining<AddIncomeTransactionValidator>();
 builder.Services.AddValidatorsFromAssemblyContaining<UpdateExpenseTransactionValidator>();
 builder.Services.AddValidatorsFromAssemblyContaining<UpdateIncomeTransactionValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<AddWalletValidator>();
 
 builder.Services.AddControllers().AddJsonOptions(x =>
 {
