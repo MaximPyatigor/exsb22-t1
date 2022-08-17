@@ -3,5 +3,5 @@ using MediatR;
 
 namespace BudgetManager.CQRS.Queries.WalletQueries
 {
-    public record GetWalletListQuery(Guid userId) : IRequest<IEnumerable<WalletResponse>>;
+    public record GetAllWalletsListQuery(Guid userId) : IRequest<IEnumerable<WalletResponse>>;
 }

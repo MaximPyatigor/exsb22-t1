@@ -40,16 +40,23 @@ namespace BudgetManager.CQRS.Handlers.WalletHandlers
                 throw new KeyNotFoundException("Wallet not found");
             }
 
-            var userFilter = Builders<User>.Filter.Eq(u => u.Id, request.userId);
-            var userUpdate = Builders<User>.Update.PullFilter(u => u.Wallets, w => w.Id == request.walletId);
-            var walletResult = await _userRepository.UpdateOneAsync(userFilter, userUpdate, cancellationToken);
+            var walletTransactions = await _transactionRepository.GetListByWalletIdAsync(wallet.Id, cancellationToken);
+            User? walletResult;
 
-            var transactionFilter = Builders<Transaction>.Filter.And(
-                Builders<Transaction>.Filter.Eq(t => t.UserId, request.userId),
-                Builders<Transaction>.Filter.Eq(t => t.WalletId, request.walletId));
-            var transactionResult = await _transactionRepository.DeleteManyAsync(transactionFilter, cancellationToken);
+            if (walletTransactions is null || walletTransactions.Count() == 0)
+            {
+                var userFilter = Builders<User>.Filter.Eq(u => u.Id, request.userId);
+                var userUpdate = Builders<User>.Update.PullFilter(u => u.Wallets, w => w.Id == request.walletId);
+                walletResult = await _userRepository.UpdateOneAsync(userFilter, userUpdate, cancellationToken);
+            }
+            else
+            {
+                walletResult = await _userRepository.UpdateOneAsync(
+                u => u.Id == request.userId && u.Wallets.Any(w => w.Id == request.walletId),
+                Builders<User>.Update.Set(w => w.Wallets[-1].IsActive, false), cancellationToken);
+            }
 
-            return walletResult is not null && transactionResult;
+            return walletResult is not null;
         }
     }
 }
