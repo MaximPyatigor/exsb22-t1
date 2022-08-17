@@ -15,11 +15,11 @@ namespace BudgetManager.API.Controllers.V1
 
         public CurrencyController(IMediator mediator)
         {
-            _mediator = mediator;
+            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllCurrencies(CancellationToken cancellationToken)
+        public async Task<IActionResult> GetAllCurrenciesAsync(CancellationToken cancellationToken)
         {
             var result = await _mediator.Send(new GetCurrencyListQuery(), cancellationToken);
 
@@ -27,7 +27,7 @@ namespace BudgetManager.API.Controllers.V1
         }
 
         [HttpGet("UserCurrencies")]
-        public async Task<IActionResult> GetAllCurrenciesWithDefaultOnTop(CancellationToken cancellationToken)
+        public async Task<IActionResult> GetAllCurrenciesWithDefaultOnTopAsync(CancellationToken cancellationToken)
         {
             var userId = Guid.Parse(User.FindFirst("UserId").Value);
             var result = await _mediator.Send(new GetCurrencyListWithDefaultOnTopQuery(userId), cancellationToken);

@@ -1,7 +1,6 @@
 ﻿using BudgetManager.CQRS.Commands.WalletCommands;
 using BudgetManager.CQRS.Queries.TransactionQueries;
 using BudgetManager.CQRS.Queries.WalletQueries;
-using BudgetManager.Model.Enums;
 using BudgetManager.SDK.DTOs;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;

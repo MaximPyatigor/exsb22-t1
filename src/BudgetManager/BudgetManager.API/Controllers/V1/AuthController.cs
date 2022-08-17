@@ -12,11 +12,11 @@ namespace BudgetManager.API.Controllers.V1
         private readonly IAuthorizationManager _authorizationManager;
         public AuthController(IAuthorizationManager authorizationManager)
         {
-            _authorizationManager = authorizationManager;
+            _authorizationManager = authorizationManager ?? throw new ArgumentNullException(nameof(authorizationManager));
         }
 
         [HttpPost("Login")]
-        public async Task<IActionResult> Login([FromBody] LoginDTO loginData)
+        public async Task<IActionResult> LoginAsync([FromBody] LoginDTO loginData)
         {
             var result = await _authorizationManager.Login(loginData.Email, loginData.Password);
             return Ok(result);
