@@ -54,6 +54,8 @@ namespace BudgetManager.CQRS.Handlers.TransactionHandlers
                 await _mediator.Send(new UpdateWalletDateOfChangeCommand(request.userId, updatedIncomeTransaction.WalletId, DateTime.UtcNow), cancellationToken);
             }
 
+            await _mediator.Send(new UpdateWalletDateOfChangeCommand(request.userId, updatedIncomeTransaction.WalletId, DateTime.UtcNow), cancellationToken);
+
             return _mapper.Map<IncomeTransactionResponse>(updatedIncomeTransaction);
         }
     }
