@@ -1,6 +1,5 @@
 ﻿using BudgetManager.CQRS.Commands.CountryCommands;
 using BudgetManager.CQRS.Queries.CountryQueries;
-using BudgetManager.Model;
 using BudgetManager.SDK.DTOs;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -9,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace BudgetManager.API.Controllers.V1
 {
     [ApiController]
+    [Authorize]
     [Route("api/v{version:ApiVersion}/[controller]")]
     [ApiVersion("1.0")]
     public class CountryController : ControllerBase
@@ -25,7 +25,6 @@ namespace BudgetManager.API.Controllers.V1
             return result is not null ? Ok(result) : NotFound();
         }
 
-        [Authorize]
         [HttpPut]
         public async Task<IActionResult> UpdateCountry(UpdateCountryDTO updateCountryDTO, CancellationToken cancellationToken)
         {

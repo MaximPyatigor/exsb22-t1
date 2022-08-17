@@ -15,7 +15,7 @@ namespace BudgetManager.API.Controllers.V1
             _authorizationManager = authorizationManager;
         }
 
-        [HttpPost("[action]")]
+        [HttpPost("Login")]
         public async Task<IActionResult> Login([FromBody] LoginDTO loginData)
         {
             var result = await _authorizationManager.Login(loginData.Email, loginData.Password);
