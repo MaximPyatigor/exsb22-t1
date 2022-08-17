@@ -39,7 +39,7 @@ namespace BudgetManager.API.Controllers.V1
         {
             var userId = Guid.Parse(User.FindFirst("UserId").Value);
             await _validator.SetUserAsync(userId, cancellationToken);
-            var validationResult = await _validator.ValidateAsync(addPiggy);
+            var validationResult = await _validator.ValidateAsync(addPiggy, cancellationToken);
             if (!validationResult.IsValid)
             {
                 var response = ValidatorService.GetErrorMessage(validationResult);

@@ -52,7 +52,7 @@ namespace BudgetManager.CQRS.Mapping
                 .ForMember(o => o.DateOfTransaction, p => p.MapFrom(b => b.DateOfTransaction.Date));
             CreateMap<CategoryResponse, WalletCategoryResponse>();
             CreateMap<AddPiggyBankDTO, PiggyBank>();
-            CreateMap<PiggyBankResponse, PiggyBank>();
+            CreateMap<PiggyBank, PiggyBankResponse>();
         }
     }
 }

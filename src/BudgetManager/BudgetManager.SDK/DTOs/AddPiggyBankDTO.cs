@@ -7,8 +7,6 @@ namespace BudgetManager.SDK.DTOs
     {
         public string Name { get; set; }
         public Guid CurrencyId { get; set; }
-
-        [BsonRepresentation(BsonType.Decimal128)]
         public decimal Target { get; set; }
     }
 }

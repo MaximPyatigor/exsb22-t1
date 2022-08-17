@@ -1,11 +1,13 @@
-﻿using MongoDB.Bson;
+﻿using BudgetManager.Shared.Models.MongoDB.Models.Interfaces;
+using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace BudgetManager.Model
 {
-    public class PiggyBank
+    public class PiggyBank : IModelBase
     {
-        public Guid Id { get; set; }
+        [BsonId]
+        public Guid Id { get; set; } = Guid.NewGuid();
         public string Name { get; set; }
         public Currency Currency { get; set; }
 

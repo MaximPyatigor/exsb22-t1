@@ -1,5 +1,4 @@
 ﻿using BudgetManager.Model;
-using BudgetManager.Model.Enums;
 using BudgetManager.SDK.DTOs;
 using BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation;
 using FluentValidation;
@@ -22,8 +21,7 @@ namespace BudgetManager.CQRS.Validators
 
         public async Task SetUserAsync(Guid userId, CancellationToken cancellationToken)
         {
-            var user = await _repository.FindByIdAsync(userId, cancellationToken);
-            _piggyBanks = user.PiggyBanks;
+            _piggyBanks =  _repository.FindByIdAsync(userId, cancellationToken).Result.PiggyBanks;
         }
 
         public bool IsNameUnique(AddPiggyBankDTO addPiggy, string newValue)
