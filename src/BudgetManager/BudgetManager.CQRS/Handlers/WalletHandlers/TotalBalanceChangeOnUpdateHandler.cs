@@ -18,9 +18,9 @@ namespace BudgetManager.CQRS.Handlers.WalletHandlers
 
         public async Task<bool> Handle(ChangeTotalBalanceOfWalletOnUpdate request, CancellationToken cancellationToken)
         {
-            var transactionObject = request.transaction;
+            var transactionObject = request.transactionAfter;
             var transactionBefore = request.transactionBefore;
-            var filterDefinition = Builders<User>.Filter.Eq(u => u.Id, request.transaction.UserId)
+            var filterDefinition = Builders<User>.Filter.Eq(u => u.Id, request.transactionAfter.UserId)
                 & Builders<User>.Filter.ElemMatch(u => u.Wallets, w => w.Id == transactionObject.WalletId);
             var projectionDefinition = Builders<User>.Projection.Exclude(u => u.Id).Include(u => u.Wallets[-1]);
 
@@ -45,7 +45,7 @@ namespace BudgetManager.CQRS.Handlers.WalletHandlers
 
             var result = await _userRepository.UpdateOneAsync(filterDefinition, updateDefinition, cancellationToken);
 
-            return result is not null ? true : false;
+            return result is not null;
         }
     }
 }
