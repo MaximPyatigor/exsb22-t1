@@ -45,8 +45,8 @@ namespace BudgetManager.CQRS.Handlers.TransactionHandlers
 
             if (walletChanged)
             {
-                var a = await _mediator.Send(new ChangeTotalBalanceOfWalletOnDeleteCommand(oldIncomeTransaction), cancellationToken);
-                var b = await _mediator.Send(new ChangeTotalBalanceOfWalletCommand(updatedIncomeTransaction), cancellationToken);
+                await _mediator.Send(new ChangeTotalBalanceOfWalletOnDeleteCommand(oldIncomeTransaction), cancellationToken);
+                await _mediator.Send(new ChangeTotalBalanceOfWalletCommand(updatedIncomeTransaction), cancellationToken);
                 await _mediator.Send(new UpdateWalletDateOfChangeCommand(request.userId, oldIncomeTransaction.WalletId, DateTime.UtcNow), cancellationToken);
             }
             else
