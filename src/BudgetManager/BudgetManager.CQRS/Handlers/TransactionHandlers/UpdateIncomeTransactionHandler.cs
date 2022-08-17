@@ -36,46 +36,6 @@ namespace BudgetManager.CQRS.Handlers.TransactionHandlers
                                 .FirstOrDefault() ?? throw new KeyNotFoundException("Transaction not found.");
             bool walletChanged = oldIncomeTransaction.WalletId != request.updateIncomeDTO.WalletId;
 
-            var user = await _userRepository.FindByIdAsync(request.userId, cancellationToken);
-            var wallets = user.Wallets ?? throw new KeyNotFoundException("User has no wallets");
-            var updatedWallets = new List<Wallet>();
-
-            if (walletChanged)
-            {
-                foreach (var wallet in user.Wallets)
-                {
-                    if (wallet.Id == oldIncomeTransaction.WalletId)
-                    {
-                        wallet.Balance -= oldIncomeTransaction.Value;
-                        wallet.DateOfChange = DateTime.UtcNow;
-                    }
-                    else if (wallet.Id == request.updateIncomeDTO.WalletId)
-                    {
-                        wallet.Balance += request.updateIncomeDTO.Value;
-                        wallet.DateOfChange = DateTime.UtcNow;
-                    }
-
-                    updatedWallets.Add(wallet);
-                }
-            }
-            else
-            {
-                foreach (var wallet in wallets)
-                {
-                    if (wallet.Id == request.updateIncomeDTO.WalletId)
-                    {
-                        wallet.Balance = wallet.Balance - oldIncomeTransaction.Value + request.updateIncomeDTO.Value;
-                        wallet.DateOfChange = DateTime.UtcNow;
-                    }
-
-                    updatedWallets.Add(wallet);
-                }
-            }
-
-            var userFilter = Builders<User>.Filter.Eq(u => u.Id, request.userId);
-            var userWalletUpdate = Builders<User>.Update.Set(u => u.Wallets, updatedWallets);
-            await _userRepository.UpdateOneAsync(userFilter, userWalletUpdate, cancellationToken);
-
             var update = Builders<Transaction>.Update
                 .Set(t => t.WalletId, request.updateIncomeDTO.WalletId)
                 .Set(t => t.CategoryId, request.updateIncomeDTO.CategoryId)
@@ -85,6 +45,17 @@ namespace BudgetManager.CQRS.Handlers.TransactionHandlers
 
             var updatedIncomeTransaction = await _transactionRepository.UpdateOneAsync(transactionFilter, update, cancellationToken);
             if (updatedIncomeTransaction == null) { throw new KeyNotFoundException("Transaction not found"); }
+
+            if (walletChanged)
+            {
+                var a = await _mediator.Send(new ChangeTotalBalanceOfWalletOnDeleteCommand(oldIncomeTransaction), cancellationToken);
+                var b = await _mediator.Send(new ChangeTotalBalanceOfWalletCommand(updatedIncomeTransaction), cancellationToken);
+                await _mediator.Send(new UpdateWalletDateOfChangeCommand(request.userId, oldIncomeTransaction.WalletId, DateTime.UtcNow), cancellationToken);
+            }
+            else
+            {
+                await _mediator.Send(new ChangeTotalBalanceOfWalletOnUpdate(oldIncomeTransaction, updatedIncomeTransaction), cancellationToken);
+            }
 
             return _mapper.Map<IncomeTransactionResponse>(updatedIncomeTransaction);
         }
