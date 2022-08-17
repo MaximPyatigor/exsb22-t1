@@ -4,7 +4,6 @@ using BudgetManager.CQRS.Commands.WalletCommands;
 using BudgetManager.CQRS.Responses.TransactionResponses;
 using BudgetManager.DataAccess.MongoDbAccess.Interfaces;
 using BudgetManager.Model;
-using BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation;
 using MediatR;
 using MongoDB.Driver;
 
@@ -15,14 +14,12 @@ namespace BudgetManager.CQRS.Handlers.TransactionHandlers
         private readonly IMapper _mapper;
         private readonly IMediator _mediator;
         private readonly ITransactionRepository _transactionRepository;
-        private readonly IBaseRepository<User> _userRepository;
 
-        public UpdateIncomeTransactionHandler(IMapper mapper, IMediator mediator, ITransactionRepository transactionRepository, IBaseRepository<User> userRepository)
+        public UpdateIncomeTransactionHandler(IMapper mapper, IMediator mediator, ITransactionRepository transactionRepository)
         {
             _mapper = mapper;
             _mediator = mediator;
             _transactionRepository = transactionRepository;
-            _userRepository = userRepository;
         }
 
         public async Task<IncomeTransactionResponse> Handle(UpdateIncomeTransactionCommand request, CancellationToken cancellationToken)
