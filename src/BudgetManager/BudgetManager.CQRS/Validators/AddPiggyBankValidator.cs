@@ -12,7 +12,7 @@ namespace BudgetManager.CQRS.Validators
 
         public AddPiggyBankValidator(IBaseRepository<User> repository)
         {
-            _repository = repository;
+            _repository = repository ?? throw new ArgumentNullException(nameof(repository));
             RuleFor(x => x.Name).NotEmpty()
                 .Must(IsNameUnique).WithMessage($"Piggy Bank with this 'Name' already exists")
                 .MaximumLength(30);

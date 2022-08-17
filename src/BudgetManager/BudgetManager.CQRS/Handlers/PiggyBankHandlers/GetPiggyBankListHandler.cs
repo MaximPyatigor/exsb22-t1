@@ -15,8 +15,8 @@ namespace BudgetManager.CQRS.Handlers.PiggyBankHandlers
 
         public GetPiggyBankListHandler(IBaseRepository<User> userRepository, IMapper mapper)
         {
-            _userRepository = userRepository;
-            _mapper = mapper;
+            _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
         public async Task<IEnumerable<PiggyBankResponse>> Handle(GetPiggyBankListQuery request, CancellationToken cancellationToken)
@@ -31,8 +31,8 @@ namespace BudgetManager.CQRS.Handlers.PiggyBankHandlers
 
             var piggyBanks = user.PiggyBanks;
 
-            var listOfResponseWallets = _mapper.Map<IEnumerable<PiggyBankResponse>>(piggyBanks);
-            return listOfResponseWallets;
+            var piggyBankList = _mapper.Map<IEnumerable<PiggyBankResponse>>(piggyBanks);
+            return piggyBankList;
         }
     }
 }
