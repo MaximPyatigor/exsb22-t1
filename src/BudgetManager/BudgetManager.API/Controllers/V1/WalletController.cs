@@ -37,7 +37,7 @@ namespace BudgetManager.API.Controllers.V1
         public async Task<IActionResult> GetWallets(CancellationToken cancellationToken)
         {
             var userId = Guid.Parse(User.FindFirst("UserId").Value);
-            var result = await _mediator.Send(new GetWalletListQuery(userId), cancellationToken);
+            var result = await _mediator.Send(new GetActiveWalletsListQuery(userId), cancellationToken);
 
             return result is not null ? Ok(result) : NotFound();
         }
