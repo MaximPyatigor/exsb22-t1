@@ -15,15 +15,17 @@ namespace BudgetManager.API.Controllers.V1
     [ApiVersion("1.0")]
     public class WalletController : ControllerBase
     {
+        private readonly AddWalletValidator _addWalletValidator;
+        private readonly UpdateWalletValidator _updateWalletValidator;
+
         private readonly IMediator _mediator;
         private string _userIdString = "UserId";
 
-        private readonly AddWalletValidator _addWalletValidator;
-
-        public WalletController(IMediator mediator, AddWalletValidator addWalletValidator)
+        public WalletController(IMediator mediator, AddWalletValidator addWalletValidator, UpdateWalletValidator updateWalletValidator)
         {
             _mediator = mediator;
             _addWalletValidator = addWalletValidator;
+            _updateWalletValidator = updateWalletValidator;
         }
 
         [Authorize]
@@ -31,8 +33,16 @@ namespace BudgetManager.API.Controllers.V1
         public async Task<IActionResult> UpdateWalletAsync([FromBody] UpdateWalletDTO updateWallet, bool isDefault, CancellationToken cancellationToken)
         {
             var userId = Guid.Parse(User.FindFirst(_userIdString).Value);
-            var result = await _mediator.Send(new UpdateWalletCommand(userId, isDefault, updateWallet), cancellationToken);
 
+            await _updateWalletValidator.SetUserAsync(userId, cancellationToken);
+            var validationResult = await _updateWalletValidator.ValidateAsync(updateWallet);
+            if (!validationResult.IsValid)
+            {
+                var validationErrorMessage = ValidatorService.GetErrorMessage(validationResult);
+                return BadRequest(validationErrorMessage);
+            }
+
+            var result = await _mediator.Send(new UpdateWalletCommand(userId, isDefault, updateWallet), cancellationToken);
             return result is not null ? Ok(result) : NotFound();
         }
 

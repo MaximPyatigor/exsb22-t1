@@ -77,6 +77,7 @@ builder.Services.AddValidatorsFromAssemblyContaining<AddIncomeTransactionValidat
 builder.Services.AddValidatorsFromAssemblyContaining<UpdateExpenseTransactionValidator>();
 builder.Services.AddValidatorsFromAssemblyContaining<UpdateIncomeTransactionValidator>();
 builder.Services.AddValidatorsFromAssemblyContaining<AddWalletValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<UpdateWalletValidator>();
 
 builder.Services.AddControllers().AddJsonOptions(x =>
 {
