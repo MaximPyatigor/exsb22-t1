@@ -2,7 +2,7 @@
 {
     public enum NotificationTypes
     {
-        LimitExceeded,
+        LimitExceeded = 0,
         MonthlyExpense,
         Encouraging,
         SystemUpdate,
