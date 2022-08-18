@@ -13,25 +13,24 @@ namespace BudgetManager.CQRS.Handlers.TransactionHandlers
     {
         private readonly IMapper _mapper;
         private readonly IMediator _mediator;
-        private readonly ITransactionRepository _dataAccess;
+        private readonly ITransactionRepository _transactionRepository;
 
-        public UpdateIncomeTransactionHandler(IMapper mapper, IMediator mediator, ITransactionRepository dataAccess)
+        public UpdateIncomeTransactionHandler(IMapper mapper, IMediator mediator, ITransactionRepository transactionRepository)
         {
             _mapper = mapper;
             _mediator = mediator;
-            _dataAccess = dataAccess;
+            _transactionRepository = transactionRepository;
         }
 
         public async Task<IncomeTransactionResponse> Handle(UpdateIncomeTransactionCommand request, CancellationToken cancellationToken)
         {
-            var filter = Builders<Transaction>.Filter.And(
+            var transactionFilter = Builders<Transaction>.Filter.And(
                 Builders<Transaction>.Filter.Eq(t => t.UserId, request.userId),
                 Builders<Transaction>.Filter.Eq(t => t.Id, request.updateIncomeDTO.Id),
                 Builders<Transaction>.Filter.Eq(t => t.TransactionType, Model.Enums.OperationType.Income));
 
-            var projection = Builders<Transaction>.Projection.Include(t => t.WalletId).Include(t => t.Value);
-            var oldIncomeTransaction = (await _dataAccess.FilterBy<Transaction>(filter, projection, cancellationToken)).FirstOrDefault();
-            if (oldIncomeTransaction == null) { throw new KeyNotFoundException("Transaction not found"); }
+            var oldIncomeTransaction = (await _transactionRepository.FilterBy(transactionFilter, cancellationToken))
+                                .FirstOrDefault() ?? throw new KeyNotFoundException("Transaction not found.");
             bool walletChanged = oldIncomeTransaction.WalletId != request.updateIncomeDTO.WalletId;
 
             var update = Builders<Transaction>.Update
@@ -41,12 +40,20 @@ namespace BudgetManager.CQRS.Handlers.TransactionHandlers
                 .Set(t => t.Value, request.updateIncomeDTO.Value)
                 .Set(t => t.Description, request.updateIncomeDTO.Description);
 
-            var updatedIncomeTransaction = await _dataAccess.UpdateOneAsync(filter, update, cancellationToken);
-            if (updatedIncomeTransaction == null) { throw new KeyNotFoundException("Transaction not found"); }
+            var updatedIncomeTransaction = await _transactionRepository.UpdateOneAsync(transactionFilter, update, cancellationToken) ?? throw new KeyNotFoundException("Transaction not found"); ;
 
-            await _mediator.Send(new ChangeTotalBalanceOfWalletOnUpdate(oldIncomeTransaction, updatedIncomeTransaction), cancellationToken);
+            if (walletChanged)
+            {
+                await _mediator.Send(new ChangeTotalBalanceOfWalletOnDeleteCommand(oldIncomeTransaction), cancellationToken);
+                await _mediator.Send(new ChangeTotalBalanceOfWalletCommand(updatedIncomeTransaction), cancellationToken);
+                await _mediator.Send(new UpdateWalletDateOfChangeCommand(request.userId, oldIncomeTransaction.WalletId, DateTime.UtcNow), cancellationToken);
+            }
+            else
+            {
+                await _mediator.Send(new ChangeTotalBalanceOfWalletOnUpdate(oldIncomeTransaction, updatedIncomeTransaction), cancellationToken);
+            }
+
             await _mediator.Send(new UpdateWalletDateOfChangeCommand(request.userId, updatedIncomeTransaction.WalletId, DateTime.UtcNow), cancellationToken);
-            if (walletChanged) { await _mediator.Send(new UpdateWalletDateOfChangeCommand(request.userId, oldIncomeTransaction.WalletId, DateTime.UtcNow), cancellationToken); }
 
             return _mapper.Map<IncomeTransactionResponse>(updatedIncomeTransaction);
         }
