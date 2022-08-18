@@ -2,9 +2,10 @@
 {
     public class IncomesPageDTO
     {
-        public DateTime? DateFilter { get; set; }
-        public Guid CategoryIdFilter { get; set; } = Guid.Empty;
-        public Guid WalletIdFilter { get; set; } = Guid.Empty;
+        public DateTime? DateFrom { get; set; }
+        public DateTime? DateTo { get; set; }
+        public IEnumerable<Guid>? CategoriesFilter { get; set; }
+        public IEnumerable<Guid>? WalletsFilter { get; set; }
         public bool IsSortByDate { get; set; } = true;
         public bool IsSortByAmount { get; set; }
         public bool IsSortDescending { get; set; } = true;

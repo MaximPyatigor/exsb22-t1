@@ -32,19 +32,20 @@ namespace BudgetManager.CQRS.Handlers.TransactionHandlers
             SortDefinitionBuilder<Transaction> sortBuilder = Builders<Transaction>.Sort;
             SortDefinition<Transaction>? sort;
 
-            if (request.incomesPageDto.DateFilter is not null)
+            if (request.incomesPageDto.DateFrom is not null && request.incomesPageDto.DateTo is not null)
             {
-                filter &= filterBuilder.Eq(x => x.DateOfTransaction.Date, request.incomesPageDto.DateFilter);
+                filter &= filterBuilder.Gte(x => x.DateOfTransaction, request.incomesPageDto.DateFrom) &
+                    filterBuilder.Lte(x => x.DateOfTransaction, request.incomesPageDto.DateTo);
             }
 
-            if (request.incomesPageDto.CategoryIdFilter != Guid.Empty)
+            if (request.incomesPageDto.CategoriesFilter is not null)
             {
-                filter &= filterBuilder.Eq(x => x.CategoryId, request.incomesPageDto.CategoryIdFilter);
+                filter &= filterBuilder.In(x => x.CategoryId, request.incomesPageDto.CategoriesFilter);
             }
 
-            if (request.incomesPageDto.WalletIdFilter != Guid.Empty)
+            if (request.incomesPageDto.WalletsFilter is not null)
             {
-                filter &= filterBuilder.Eq(x => x.WalletId, request.incomesPageDto.WalletIdFilter);
+                filter &= filterBuilder.In(x => x.WalletId, request.incomesPageDto.WalletsFilter);
             }
 
             if (request.incomesPageDto.IsSortByAmount && !request.incomesPageDto.IsSortByDate)
