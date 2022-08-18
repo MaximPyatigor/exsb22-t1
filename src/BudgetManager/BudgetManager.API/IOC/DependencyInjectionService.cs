@@ -64,7 +64,8 @@ namespace BudgetManager.API.IOC
 
             _builder.Services.AddSingleton<IMongoDbSettings>(sp =>
               sp.GetRequiredService<IOptions<MongoDbSettings>>().Value);
-            _builder.Services.AddSingleton<IMongoClient, MongoClient>(sp => {
+            _builder.Services.AddSingleton<IMongoClient, MongoClient>(sp =>
+            {
                 BsonDefaults.GuidRepresentation = GuidRepresentation.Standard;
                 return new MongoClient(mongoDbConfig.ConnectionString);
             });
@@ -104,22 +105,25 @@ namespace BudgetManager.API.IOC
 
             _builder.Services.Configure<TokenSettings>(tokenOptions);
 
-            _builder.Services.AddAuthentication(x => {
+            _builder.Services.AddAuthentication(x =>
+            {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(x => {
+            }).AddJwtBearer(x =>
+            {
                 x.RequireHttpsMetadata = false;
                 x.SaveToken = true;
                 x.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(tokenSettings.JwtKey.ToString())),
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(tokenSettings.JwtKey)),
                     ValidateIssuer = false,
                     ValidateAudience = false,
                 };
             });
 
-            _builder.Services.AddAuthorization(options => {
+            _builder.Services.AddAuthorization(options =>
+            {
                 var defaultAuthorizationPolicyBuilder = new AuthorizationPolicyBuilder(
                   JwtBearerDefaults.AuthenticationScheme);
                 defaultAuthorizationPolicyBuilder =
@@ -141,47 +145,58 @@ namespace BudgetManager.API.IOC
 
         public void InjectJsonOptions()
         {
-            _builder.Services.AddControllers().AddJsonOptions(x => {
+            _builder.Services.AddControllers().AddJsonOptions(x =>
+            {
                 x.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
             });
         }
 
-        public void InjectSwagger() {
-          _builder.Services.AddTransient < IConfigureOptions < SwaggerGenOptions > , SwaggerConfigureOptions > ();
-          _builder.Services.AddApiVersioning(options => {
+        public void InjectSwagger()
+        {
+          _builder.Services.AddTransient<IConfigureOptions<SwaggerGenOptions>, SwaggerConfigureOptions>();
+          _builder.Services.AddApiVersioning(options =>
+          {
             options.ReportApiVersions = true;
             options.DefaultApiVersion = new Microsoft.AspNetCore.Mvc.ApiVersion(1, 0);
             options.AssumeDefaultVersionWhenUnspecified = true;
           });
-        
-          _builder.Services.AddVersionedApiExplorer(options => {
+
+          _builder.Services.AddVersionedApiExplorer(options =>
+          {
             options.GroupNameFormat = "'v'VVV";
             options.SubstituteApiVersionInUrl = true;
           });
           var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
           var xmlFilePath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-        
+
           _builder.Services.AddEndpointsApiExplorer();
-        
-          _builder.Services.AddSwaggerGen(options => {
+
+          _builder.Services.AddSwaggerGen(options =>
+          {
             options.IncludeXmlComments(xmlFilePath);
-            options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme {
-              In = ParameterLocation.Header,
+            options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+            {
+                In = ParameterLocation.Header,
                 Description = "Please enter a valid token",
                 Name = "Authorization",
                 Type = SecuritySchemeType.Http,
                 BearerFormat = "JWT",
                 Scheme = "Bearer",
             });
-            options.AddSecurityRequirement(new OpenApiSecurityRequirement {
+            options.AddSecurityRequirement(new OpenApiSecurityRequirement
+            {
               {
-                new OpenApiSecurityScheme {
-                  Reference = new OpenApiReference {
-                    Type = ReferenceType.SecurityScheme,
+                new OpenApiSecurityScheme
+                {
+                  Reference = new OpenApiReference
+                  {
+                      Type = ReferenceType.SecurityScheme,
                       Id = "Bearer",
                   },
                 },
-                new string[] {}
+                new string[]
+                {
+                }
               },
             });
           });
@@ -189,8 +204,10 @@ namespace BudgetManager.API.IOC
 
         public void InjectCors()
         {
-            _builder.Services.AddCors(opt => {
-                opt.AddDefaultPolicy(policy => {
+            _builder.Services.AddCors(opt =>
+            {
+                opt.AddDefaultPolicy(policy =>
+                {
                     policy.AllowAnyOrigin()
                       .AllowAnyMethod()
                       .AllowAnyHeader();
