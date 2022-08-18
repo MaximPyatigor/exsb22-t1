@@ -10,7 +10,7 @@ namespace BudgetManager.CQRS.Responses.SubCategoryResponses
 
         public decimal Limit { get; set; }
 
-        public LimitPeriods? LimitPeriod { get; set; }
+        public LimitPeriods LimitPeriod { get; set; }
 
         public OperationType CategoryType { get; set; }
 
