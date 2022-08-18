@@ -14,19 +14,19 @@ namespace BudgetManager.API.Controllers.V1
     [Authorize]
     public class CategoryController : Controller
     {
+        private const string _userIdString = "UserId";
         private readonly IMediator _mediator;
         private readonly AddCategoryValidator _addValidator;
         private readonly UpdateCategoryValidator _updateValidator;
-        private string _userIdString = "UserId";
         public CategoryController(IMediator mediator, AddCategoryValidator addValidator, UpdateCategoryValidator updateValidator)
         {
-            _mediator = mediator;
-            _addValidator = addValidator;
-            _updateValidator = updateValidator;
+            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+            _addValidator = addValidator ?? throw new ArgumentNullException(nameof(addValidator));
+            _updateValidator = updateValidator ?? throw new ArgumentNullException(nameof(updateValidator));
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
+        public async Task<IActionResult> GetAllAsync(CancellationToken cancellationToken)
         {
             var userId = Guid.Parse(User.FindFirst(_userIdString).Value);
             var response = await _mediator.Send(new GetCategoriesQuery(userId), cancellationToken);
@@ -34,7 +34,7 @@ namespace BudgetManager.API.Controllers.V1
         }
 
         [HttpGet("{categoryId}")]
-        public async Task<IActionResult> GetById(Guid categoryId, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetByIdAsync(Guid categoryId, CancellationToken cancellationToken)
         {
             var userId = Guid.Parse(User.FindFirst(_userIdString).Value);
             var response = await _mediator.Send(new GetOneCategoryQuery(userId, categoryId), cancellationToken);
@@ -42,7 +42,7 @@ namespace BudgetManager.API.Controllers.V1
         }
 
         [HttpPost]
-        public async Task<IActionResult> InsertOne([FromBody] AddCategoryDTO category, CancellationToken cancellationToken)
+        public async Task<IActionResult> InsertOneAsync([FromBody] AddCategoryDTO category, CancellationToken cancellationToken)
         {
             var userId = Guid.Parse(User.FindFirst(_userIdString).Value);
             _addValidator.SetUser(userId, category.CategoryType, cancellationToken);
@@ -58,7 +58,7 @@ namespace BudgetManager.API.Controllers.V1
         }
 
         [HttpPut("{categoryId}")]
-        public async Task<IActionResult> UpdateOne(Guid categoryId, [FromBody] UpdateCategoryDTO category, CancellationToken cancellationToken)
+        public async Task<IActionResult> UpdateOneAsync(Guid categoryId, [FromBody] UpdateCategoryDTO category, CancellationToken cancellationToken)
         {
             var userId = Guid.Parse(User.FindFirst(_userIdString).Value);
             await _updateValidator.SetUserAsync(userId, categoryId, cancellationToken);
@@ -74,7 +74,7 @@ namespace BudgetManager.API.Controllers.V1
         }
 
         [HttpDelete("{categoryId}")]
-        public async Task<IActionResult> DeleteOne(Guid categoryId, CancellationToken cancellationToken)
+        public async Task<IActionResult> DeleteOneAsync(Guid categoryId, CancellationToken cancellationToken)
         {
             var userId = Guid.Parse(User.FindFirst(_userIdString).Value);
             var response = await _mediator.Send(new DeleteCategoryCommand(userId, categoryId), cancellationToken);

@@ -1,7 +1,6 @@
 ﻿using BudgetManager.CQRS.Commands.WalletCommands;
 using BudgetManager.CQRS.Queries.TransactionQueries;
 using BudgetManager.CQRS.Queries.WalletQueries;
-using BudgetManager.Model.Enums;
 using BudgetManager.SDK.DTOs;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -14,8 +13,8 @@ namespace BudgetManager.API.Controllers.V1
     [ApiVersion("1.0")]
     public class WalletController : ControllerBase
     {
+        private const string _userIdString = "UserId";
         private readonly IMediator _mediator;
-        private string _userIdString = "UserId";
 
         public WalletController(IMediator mediator)
         {
@@ -36,7 +35,7 @@ namespace BudgetManager.API.Controllers.V1
         [HttpGet]
         public async Task<IActionResult> GetActiveWalletsAsync(CancellationToken cancellationToken)
         {
-            var userId = Guid.Parse(User.FindFirst("UserId").Value);
+            var userId = Guid.Parse(User.FindFirst(_userIdString).Value);
             var result = await _mediator.Send(new GetActiveWalletsListQuery(userId), cancellationToken);
 
             return result is not null ? Ok(result) : NotFound();
@@ -46,7 +45,7 @@ namespace BudgetManager.API.Controllers.V1
         [HttpGet("All")]
         public async Task<IActionResult> GetAllWalletsAsync(CancellationToken cancellationToken)
         {
-            var userId = Guid.Parse(User.FindFirst("UserId").Value);
+            var userId = Guid.Parse(User.FindFirst(_userIdString).Value);
             var result = await _mediator.Send(new GetAllWalletsListQuery(userId), cancellationToken);
 
             return result is not null ? Ok(result) : NotFound();
@@ -56,7 +55,7 @@ namespace BudgetManager.API.Controllers.V1
         [HttpGet("{walletId}")]
         public async Task<IActionResult> GetWalletByIdAsync(Guid walletId, CancellationToken cancellationToken)
         {
-            var userId = Guid.Parse(User.FindFirst("UserId").Value);
+            var userId = Guid.Parse(User.FindFirst(_userIdString).Value);
             var result = await _mediator.Send(new GetWalletByIdQuery(userId, walletId), cancellationToken);
 
             return result is not null ? Ok(result) : NotFound();
@@ -66,7 +65,7 @@ namespace BudgetManager.API.Controllers.V1
         [HttpGet("Info")]
         public async Task<IActionResult> GetWalletInfoAsync(Guid walletId, CancellationToken cancellationToken)
         {
-            var userId = Guid.Parse(User.FindFirst("UserId").Value);
+            var userId = Guid.Parse(User.FindFirst(_userIdString).Value);
             var result = await _mediator.Send(new GetWalletInfoQuery(userId, walletId), cancellationToken);
 
             return result is not null ? Ok(result) : NotFound();
@@ -76,7 +75,7 @@ namespace BudgetManager.API.Controllers.V1
         [HttpPost]
         public async Task<IActionResult> CreateWalletAsync([FromBody] AddWalletDTO walletDTO, CancellationToken cancellationToken)
         {
-            var userId = Guid.Parse(User.FindFirst("UserId").Value);
+            var userId = Guid.Parse(User.FindFirst(_userIdString).Value);
             var result = await _mediator.Send(new AddWalletCommand(userId, walletDTO), cancellationToken);
 
             return result == Guid.Empty ? BadRequest() : Ok(result);
@@ -86,7 +85,7 @@ namespace BudgetManager.API.Controllers.V1
         [HttpDelete("{walletId}")]
         public async Task<IActionResult> DeleteUserWalletAsync(Guid walletId, CancellationToken cancellationToken)
         {
-            var userId = Guid.Parse(User.FindFirst("UserId").Value);
+            var userId = Guid.Parse(User.FindFirst(_userIdString).Value);
             var result = await _mediator.Send(new DeleteUserWalletCommand(userId, walletId), cancellationToken);
 
             return result ? Ok() : BadRequest();
@@ -96,7 +95,7 @@ namespace BudgetManager.API.Controllers.V1
         [HttpGet("RecentTransactions")]
         public async Task<IActionResult> GetWalletRecentTransactionsAsync([FromQuery] WalletRecentTransactionsPageDTO recentTransactionsPageDTO, CancellationToken cancellationToken)
         {
-            var userId = Guid.Parse(User.FindFirst("UserId").Value);
+            var userId = Guid.Parse(User.FindFirst(_userIdString).Value);
             var result = await _mediator.Send(new GetWalletRecentTransactionsQuery(userId, recentTransactionsPageDTO), cancellationToken);
 
             return result is not null ? Ok(result) : NotFound();
@@ -106,7 +105,7 @@ namespace BudgetManager.API.Controllers.V1
         [HttpGet("Categories")]
         public async Task<IActionResult> GetWalletCategoriesAsync([FromQuery] WalletCategoriesDTO walletCategoriesDTO, CancellationToken cancellationToken)
         {
-            var userId = Guid.Parse(User.FindFirst("UserId").Value);
+            var userId = Guid.Parse(User.FindFirst(_userIdString).Value);
             var result = await _mediator.Send(new GetWalletCategoriesListQuery(userId, walletCategoriesDTO), cancellationToken);
 
             return result is not null ? Ok(result) : NotFound();
