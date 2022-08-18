@@ -10,6 +10,10 @@ namespace BudgetManager.SDK.DTOs
         public LimitPeriods LimitPeriod { get; set; }
 
         public OperationType CategoryType { get; set; } = OperationType.Expense;
-        public string Color { get; set; }
+        public string Color
+        {
+            get => CategoryType == OperationType.Income ? "green.500" : "red.500";
+            set => Color = value;
+        }
     }
 }
