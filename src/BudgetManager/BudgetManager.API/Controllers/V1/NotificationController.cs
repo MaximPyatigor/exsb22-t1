@@ -15,8 +15,8 @@ namespace BudgetManager.API.Controllers.V1
     [Authorize]
     public class NotificationController : ControllerBase
     {
+        private const string _userIdString = "UserId";
         private readonly IMediator _mediator;
-        private string _userIdString = "UserId";
         public NotificationController(IMediator mediator) => _mediator = mediator;
 
         [HttpGet]
