@@ -21,7 +21,7 @@ namespace BudgetManager.CQRS.Validators.WalletValidators
                 .NotEmpty()
                 .Must(IsWalletUnique).WithMessage("Such wallet already exists, please choose another currency or change the name of wallet");
 
-            _mediator = mediator;
+            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
 
         public async Task SetUserAsync(Guid userId, CancellationToken cancellationToken)

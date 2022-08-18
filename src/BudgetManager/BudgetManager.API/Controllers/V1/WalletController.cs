@@ -23,9 +23,9 @@ namespace BudgetManager.API.Controllers.V1
 
         public WalletController(IMediator mediator, AddWalletValidator addWalletValidator, UpdateWalletValidator updateWalletValidator)
         {
-            _mediator = mediator;
-            _addWalletValidator = addWalletValidator;
-            _updateWalletValidator = updateWalletValidator;
+            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+            _addWalletValidator = addWalletValidator ?? throw new ArgumentNullException(nameof(addWalletValidator));
+            _updateWalletValidator = updateWalletValidator ?? throw new ArgumentNullException(nameof(updateWalletValidator));
         }
 
         [Authorize]
