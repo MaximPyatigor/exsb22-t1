@@ -42,19 +42,20 @@ namespace BudgetManager.CQRS.Handlers.TransactionHandlers
                 .Set(o => o.Value, request.updateExpenseDto.Value)
                 .Set(o => o.Description, request.updateExpenseDto.Description);
 
-            var response = await _transactionRepository.UpdateOneAsync(transactionFilter, update, cancellationToken) ?? throw new KeyNotFoundException("Transaction not found"); ;
+            var response = await _transactionRepository.UpdateOneAsync(transactionFilter, update, cancellationToken) ?? throw new KeyNotFoundException("Transaction not found");
 
             if (walletChanged)
             {
                 await _mediator.Send(new ChangeTotalBalanceOfWalletOnDeleteCommand(oldExpenseTransaction), cancellationToken);
                 await _mediator.Send(new ChangeTotalBalanceOfWalletCommand(response), cancellationToken);
-                await _mediator.Send(new UpdateWalletDateOfChangeCommand(request.userId, oldExpenseTransaction.WalletId, DateTime.UtcNow), cancellationToken); 
+                await _mediator.Send(new UpdateWalletDateOfChangeCommand(request.userId, oldExpenseTransaction.WalletId, DateTime.UtcNow), cancellationToken);
             }
             else
             {
                 await _mediator.Send(new ChangeTotalBalanceOfWalletOnUpdate(oldExpenseTransaction, response), cancellationToken);
-                await _mediator.Send(new UpdateWalletDateOfChangeCommand(request.userId, response.WalletId, DateTime.UtcNow), cancellationToken);
             }
+
+            await _mediator.Send(new UpdateWalletDateOfChangeCommand(request.userId, response.WalletId, DateTime.UtcNow), cancellationToken);
 
             return _mapper.Map<ExpenseTransactionResponse>(response);
         }
