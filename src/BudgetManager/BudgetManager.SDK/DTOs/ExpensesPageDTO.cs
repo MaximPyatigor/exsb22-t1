@@ -2,10 +2,11 @@
 {
     public class ExpensesPageDTO
     {
-        public DateTime? DateFilter { get; set; }
-        public Guid CategoryIdFilter { get; set; } = Guid.Empty;
-        public Guid WalletIdFilter { get; set; } = Guid.Empty;
-        public string? PayerFilter { get; set; }
+        public DateTime? DateFrom { get; set; }
+        public DateTime? DateTo { get; set; }
+        public List<Guid>? CategoriesFilter { get; set; }
+        public List<Guid>? WalletsFilter { get; set; }
+        public List<string>? PayersFilter { get; set; }
         public bool IsSortByDate { get; set; } = true;
         public bool IsSortByAmount { get; set; }
         public bool IsSortDescending { get; set; } = true;
