@@ -1,10 +1,8 @@
 ﻿using AutoMapper;
-using BudgetManager.CQRS.Projections.UserProjections;
 using BudgetManager.CQRS.Queries.NotificationQueries;
 using BudgetManager.CQRS.Responses.NotificationResponses;
 using BudgetManager.Model;
 using BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation;
-using BudgetManager.Shared.Utils.Helpers;
 using MediatR;
 using MongoDB.Driver;
 
@@ -32,10 +30,10 @@ namespace BudgetManager.CQRS.Handlers.NotificationHandlers
             var filter = Builders<User>.Filter.Eq(u => u.Id, request.UserId);
 
             var filteredUser = (await _userContext
-                .FilterBy<UserNotificationListProjection>(filter, definition, cancellationToken))
+                .FilterBy<User>(filter, definition, cancellationToken))
                 .FirstOrDefault();
 
-            if(filteredUser == null) { throw new KeyNotFoundException("UserId or notificationId not found"); }
+            if (filteredUser == null) { throw new KeyNotFoundException("UserId or notificationId not found"); }
 
             var result = _mapper.Map<IEnumerable<NotificationResponse>>(filteredUser.Notifications);
             return result;
