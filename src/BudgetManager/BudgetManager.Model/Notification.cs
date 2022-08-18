@@ -14,7 +14,7 @@ namespace BudgetManager.Model
         [BsonId]
         public Guid Id { get; set; } = Guid.NewGuid();
         [Required]
-        public NotificationTypes NotificationType { get; set; }
+        public NotificationTypes NotificationType { get; set; } = NotificationTypes.None;
         [Required]
         public string Description { get; set; }
         [Required]

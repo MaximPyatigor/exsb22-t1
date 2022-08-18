@@ -10,7 +10,7 @@ namespace BudgetManager.SDK.DTOs
 
         public LimitPeriods LimitPeriod { get; set; } = LimitPeriods.None;
 
-        public OperationType CategoryType { get; set; }
+        public OperationType CategoryType { get; set; } = OperationType.None;
 
         public string Color { get; set; }
     }

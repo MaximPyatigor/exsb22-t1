@@ -26,7 +26,7 @@ namespace BudgetManager.Model
         [BsonRepresentation(BsonType.Decimal128)]
         public decimal Value { get; set; }
         [Required]
-        public OperationType TransactionType { get; set; }
+        public OperationType TransactionType { get; set; } = OperationType.None;
         public string Description { get; set; }
     }
 }
