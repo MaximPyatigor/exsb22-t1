@@ -21,25 +21,32 @@ namespace BudgetManager.CQRS.Validators
 
         public AddSubCategoryValidator(IMediator mediator)
         {
-            _mediator = mediator;
+            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
 
-            RuleFor(x => x.Name).NotEmpty()
-                .Must(IsSubCategoryNameUnique).WithMessage($"Subcategory with this 'Name' already exists");
+            RuleFor(x => x.Name).NotEmpty();
             RuleFor(x => x.Name).MaximumLength(100).WithMessage($"Maximum name length exceeded");
-
-            RuleFor(x => x.Name).NotEmpty()
-                .Must(IsSubCategoryNameUnique).WithMessage($"Subcategory with this 'Name' already exists");
-            RuleFor(x => x.Name).NotEmpty()
-                .Must(IsCategoryNameUnique).WithMessage($"Subcategory 'Name' can not match the category name");
-
-            RuleFor(x => x).Must(IsCategoryTypeExpense).WithMessage($"Category must be of expense category type");
+            RuleFor(x => x.Name).Must(IsSubCategoryNameUnique).WithMessage($"Subcategory with this 'Name' already exists");
 
             RuleFor(x => x.CategoryType).Equal(OperationType.Expense);
+
+            RuleFor(x => x.CategoryId)
+                .Must(DoesCategoryExist).WithMessage("Category with this 'CategoryId' does not exist")
+                .DependentRules(() =>
+                {
+                    RuleFor(x => x.Name).Must(IsCategoryNameUnique).WithMessage($"Subcategory 'Name' can not match the category name");
+                    RuleFor(x => x).Must(IsCategoryTypeExpense).WithMessage($"Category must be of expense category type");
+                });
         }
 
         public async Task SetUserAndCategory(Guid userId, Guid categoryId, CancellationToken cancellationToken)
         {
             _categories = await _mediator.Send(new GetCategoriesQuery(userId), cancellationToken);
+        }
+
+        public bool DoesCategoryExist(AddSubCategoryDTO subCategory, Guid newValue)
+        {
+            var category = _categories.Where(c => c.Id == subCategory.CategoryId).FirstOrDefault();
+            return category is not null;
         }
 
         public bool IsSubCategoryNameUnique(AddSubCategoryDTO category, string newValue)
@@ -49,9 +56,11 @@ namespace BudgetManager.CQRS.Validators
                 .Select(c => c.SubCategories)
                 .FirstOrDefault();
 
+            if (subCategories == null) { return true; }
+
             return subCategories
                 .All(
-                    sub => sub.Id.Equals(category.CategoryId) 
+                    sub => sub.Id.Equals(category.CategoryId)
                         || sub.Name.ToLower() != newValue.ToLower()
                 );
 
