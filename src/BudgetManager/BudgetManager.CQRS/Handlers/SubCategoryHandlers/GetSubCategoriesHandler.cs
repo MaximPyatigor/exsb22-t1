@@ -25,7 +25,7 @@ namespace BudgetManager.CQRS.Handlers.SubCategoryHandlers
                 & Builders<User>.Filter.ElemMatch(u => u.Categories, c => c.Id == request.categoryId);
             var projection = Builders<User>.Projection.Exclude(u => u.Id).Include(u => u.Categories[-1]);
             var response = await _userRepository.FilterBy<User>(filter, projection, cancellationToken);
-            var categoryOfUser = response.FirstOrDefault().Categories;
+            var categoryOfUser = response.FirstOrDefault()?.Categories;
 
             if (categoryOfUser == null) { throw new KeyNotFoundException("UserId or categoryId is not correct"); }
 
