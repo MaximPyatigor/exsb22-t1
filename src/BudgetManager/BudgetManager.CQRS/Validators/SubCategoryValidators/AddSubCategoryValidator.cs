@@ -49,9 +49,11 @@ namespace BudgetManager.CQRS.Validators
                 .Select(c => c.SubCategories)
                 .FirstOrDefault();
 
+            if (subCategories == null) { return true; }
+
             return subCategories
                 .All(
-                    sub => sub.Id.Equals(category.CategoryId) 
+                    sub => sub.Id.Equals(category.CategoryId)
                         || sub.Name.ToLower() != newValue.ToLower()
                 );
 
