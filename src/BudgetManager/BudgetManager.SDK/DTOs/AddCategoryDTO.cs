@@ -12,6 +12,6 @@ namespace BudgetManager.SDK.DTOs
 
         public OperationType CategoryType { get; set; }
 
-        public string Color { get; set; }
+        public string Color { get; set; } = null;
     }
 }
