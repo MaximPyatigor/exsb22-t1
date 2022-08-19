@@ -141,6 +141,7 @@ namespace BudgetManager.API.IOC
             _builder.Services.AddValidatorsFromAssemblyContaining<AddIncomeTransactionValidator>();
             _builder.Services.AddValidatorsFromAssemblyContaining<UpdateExpenseTransactionValidator>();
             _builder.Services.AddValidatorsFromAssemblyContaining<UpdateIncomeTransactionValidator>();
+            _builder.Services.AddValidatorsFromAssemblyContaining<GetReportValidator>();
         }
 
         public void InjectJsonOptions()
