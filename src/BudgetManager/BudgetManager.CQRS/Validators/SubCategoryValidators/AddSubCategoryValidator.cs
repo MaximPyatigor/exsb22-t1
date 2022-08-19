@@ -28,7 +28,6 @@ namespace BudgetManager.CQRS.Validators
                 .MaximumLength(100);
             RuleFor(x => x).Must(IsCategoryTypeExpense);
 
-            RuleFor(x => x.Color).NotEmpty();
             RuleFor(x => x.CategoryType).Equal(OperationType.Expense);
         }
 
@@ -39,8 +38,21 @@ namespace BudgetManager.CQRS.Validators
 
         public bool IsNameUnique(AddSubCategoryDTO category, string newValue)
         {
-            return _categories.All(ca =>
-              ca.Equals(category) || ca.Name.ToLower() != newValue.ToLower());
+            var subCategories = _categories
+                .Where(c => c.Id == category.CategoryId)
+                .Select(c => c.SubCategories)
+                .FirstOrDefault();
+
+            var isSubCategoryNameUnique = subCategories
+                .All(
+                    sub => sub.Id.Equals(category.CategoryId) 
+                        || sub.Name.ToLower() != newValue.ToLower()
+                );
+
+            var isCategoryNameUnique = _categories.All(ca =>
+              ca.Name.ToLower() != newValue.ToLower());
+
+            return isCategoryNameUnique && isSubCategoryNameUnique;
         }
 
         public bool IsCategoryTypeExpense(AddSubCategoryDTO category)

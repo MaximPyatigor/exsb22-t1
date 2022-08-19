@@ -16,9 +16,9 @@ namespace BudgetManager.API.Controllers.V1
     {
         private const string _userIdString = "UserId";
         private readonly IMediator _mediator;
-        private readonly AddSubCategoryValidator _addValidator;
+        private readonly AddCategoryValidator _addValidator;
         private readonly UpdateCategoryValidator _updateValidator;
-        public CategoryController(IMediator mediator, AddSubCategoryValidator addValidator, UpdateCategoryValidator updateValidator)
+        public CategoryController(IMediator mediator, AddCategoryValidator addValidator, UpdateCategoryValidator updateValidator)
         {
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
             _addValidator = addValidator ?? throw new ArgumentNullException(nameof(addValidator));

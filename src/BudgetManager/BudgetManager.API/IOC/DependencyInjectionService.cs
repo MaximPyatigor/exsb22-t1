@@ -1,14 +1,14 @@
-﻿/*using System.Reflection;
+﻿using System.Reflection;
 using System.Text;
 using System.Text.Json.Serialization;
 using BudgetManager.API.Configuration;
+using BudgetManager.API.IOC;
 using BudgetManager.API.Seeding;
 using BudgetManager.Authorization;
 using BudgetManager.Authorization.TokenService;
 using BudgetManager.CQRS.Mapping;
 using BudgetManager.CQRS.Validators;
 using BudgetManager.CQRS.Validators.SubCategoryValidators;
-using BudgetManager.CQRS.Validators.WalletValidators;
 using BudgetManager.DataAccess.MongoDbAccess.Interfaces;
 using BudgetManager.DataAccess.MongoDbAccess.Repositories;
 using BudgetManager.Model;
@@ -116,7 +116,7 @@ namespace BudgetManager.API.IOC
                 x.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(tokenSettings.JwtKey.ToString())),
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(tokenSettings.JwtKey)),
                     ValidateIssuer = false,
                     ValidateAudience = false,
                 };
@@ -137,6 +137,7 @@ namespace BudgetManager.API.IOC
             _builder.Services.AddValidatorsFromAssemblyContaining<AddCategoryValidator>();
             _builder.Services.AddValidatorsFromAssemblyContaining<UpdateCategoryValidator>();
             _builder.Services.AddValidatorsFromAssemblyContaining<UpdateSubCategoryValidator>();
+            _builder.Services.AddValidatorsFromAssemblyContaining<AddSubCategoryValidator>();
             _builder.Services.AddValidatorsFromAssemblyContaining<AddExpenseTransactionValidator>();
             _builder.Services.AddValidatorsFromAssemblyContaining<AddIncomeTransactionValidator>();
             _builder.Services.AddValidatorsFromAssemblyContaining<UpdateExpenseTransactionValidator>();
@@ -183,15 +184,20 @@ namespace BudgetManager.API.IOC
                     BearerFormat = "JWT",
                     Scheme = "Bearer",
                 });
-                options.AddSecurityRequirement(new OpenApiSecurityRequirement {
+                options.AddSecurityRequirement(new OpenApiSecurityRequirement
+            {
               {
-                new OpenApiSecurityScheme {
-                  Reference = new OpenApiReference {
-                    Type = ReferenceType.SecurityScheme,
+                new OpenApiSecurityScheme
+                {
+                  Reference = new OpenApiReference
+                  {
+                      Type = ReferenceType.SecurityScheme,
                       Id = "Bearer",
                   },
                 },
-                new string[] {}
+                new string[]
+                {
+                }
               },
             });
             });
@@ -210,4 +216,4 @@ namespace BudgetManager.API.IOC
             });
         }
     }
-}*/
+}

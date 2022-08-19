@@ -15,11 +15,11 @@ namespace BudgetManager.API.Controllers.V1
     [ApiVersion("1.0")]
     public class WalletController : ControllerBase
     {
+        private const string _userIdString = "UserId";
         private readonly AddWalletValidator _addWalletValidator;
         private readonly UpdateWalletValidator _updateWalletValidator;
 
         private readonly IMediator _mediator;
-        private string _userIdString = "UserId";
 
         public WalletController(IMediator mediator, AddWalletValidator addWalletValidator, UpdateWalletValidator updateWalletValidator)
         {
