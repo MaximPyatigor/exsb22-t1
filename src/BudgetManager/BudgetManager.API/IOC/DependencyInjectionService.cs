@@ -1,14 +1,14 @@
-﻿using System.Reflection;
+﻿/*using System.Reflection;
 using System.Text;
 using System.Text.Json.Serialization;
 using BudgetManager.API.Configuration;
-using BudgetManager.API.IOC;
 using BudgetManager.API.Seeding;
 using BudgetManager.Authorization;
 using BudgetManager.Authorization.TokenService;
 using BudgetManager.CQRS.Mapping;
 using BudgetManager.CQRS.Validators;
 using BudgetManager.CQRS.Validators.SubCategoryValidators;
+using BudgetManager.CQRS.Validators.WalletValidators;
 using BudgetManager.DataAccess.MongoDbAccess.Interfaces;
 using BudgetManager.DataAccess.MongoDbAccess.Repositories;
 using BudgetManager.Model;
@@ -64,7 +64,8 @@ namespace BudgetManager.API.IOC
 
             _builder.Services.AddSingleton<IMongoDbSettings>(sp =>
               sp.GetRequiredService<IOptions<MongoDbSettings>>().Value);
-            _builder.Services.AddSingleton<IMongoClient, MongoClient>(sp => {
+            _builder.Services.AddSingleton<IMongoClient, MongoClient>(sp =>
+            {
                 BsonDefaults.GuidRepresentation = GuidRepresentation.Standard;
                 return new MongoClient(mongoDbConfig.ConnectionString);
             });
@@ -104,10 +105,12 @@ namespace BudgetManager.API.IOC
 
             _builder.Services.Configure<TokenSettings>(tokenOptions);
 
-            _builder.Services.AddAuthentication(x => {
+            _builder.Services.AddAuthentication(x =>
+            {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(x => {
+            }).AddJwtBearer(x =>
+            {
                 x.RequireHttpsMetadata = false;
                 x.SaveToken = true;
                 x.TokenValidationParameters = new TokenValidationParameters
@@ -119,7 +122,8 @@ namespace BudgetManager.API.IOC
                 };
             });
 
-            _builder.Services.AddAuthorization(options => {
+            _builder.Services.AddAuthorization(options =>
+            {
                 var defaultAuthorizationPolicyBuilder = new AuthorizationPolicyBuilder(
                   JwtBearerDefaults.AuthenticationScheme);
                 defaultAuthorizationPolicyBuilder =
@@ -141,39 +145,45 @@ namespace BudgetManager.API.IOC
 
         public void InjectJsonOptions()
         {
-            _builder.Services.AddControllers().AddJsonOptions(x => {
+            _builder.Services.AddControllers().AddJsonOptions(x =>
+            {
                 x.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
             });
         }
 
-        public void InjectSwagger() {
-          _builder.Services.AddTransient < IConfigureOptions < SwaggerGenOptions > , SwaggerConfigureOptions > ();
-          _builder.Services.AddApiVersioning(options => {
-            options.ReportApiVersions = true;
-            options.DefaultApiVersion = new Microsoft.AspNetCore.Mvc.ApiVersion(1, 0);
-            options.AssumeDefaultVersionWhenUnspecified = true;
-          });
-        
-          _builder.Services.AddVersionedApiExplorer(options => {
-            options.GroupNameFormat = "'v'VVV";
-            options.SubstituteApiVersionInUrl = true;
-          });
-          var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-          var xmlFilePath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-        
-          _builder.Services.AddEndpointsApiExplorer();
-        
-          _builder.Services.AddSwaggerGen(options => {
-            options.IncludeXmlComments(xmlFilePath);
-            options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme {
-              In = ParameterLocation.Header,
-                Description = "Please enter a valid token",
-                Name = "Authorization",
-                Type = SecuritySchemeType.Http,
-                BearerFormat = "JWT",
-                Scheme = "Bearer",
+        public void InjectSwagger()
+        {
+            _builder.Services.AddTransient<IConfigureOptions<SwaggerGenOptions>, SwaggerConfigureOptions>();
+            _builder.Services.AddApiVersioning(options =>
+            {
+                options.ReportApiVersions = true;
+                options.DefaultApiVersion = new Microsoft.AspNetCore.Mvc.ApiVersion(1, 0);
+                options.AssumeDefaultVersionWhenUnspecified = true;
             });
-            options.AddSecurityRequirement(new OpenApiSecurityRequirement {
+
+            _builder.Services.AddVersionedApiExplorer(options =>
+            {
+                options.GroupNameFormat = "'v'VVV";
+                options.SubstituteApiVersionInUrl = true;
+            });
+            var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+            var xmlFilePath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+
+            _builder.Services.AddEndpointsApiExplorer();
+
+            _builder.Services.AddSwaggerGen(options =>
+            {
+                options.IncludeXmlComments(xmlFilePath);
+                options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    In = ParameterLocation.Header,
+                    Description = "Please enter a valid token",
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.Http,
+                    BearerFormat = "JWT",
+                    Scheme = "Bearer",
+                });
+                options.AddSecurityRequirement(new OpenApiSecurityRequirement {
               {
                 new OpenApiSecurityScheme {
                   Reference = new OpenApiReference {
@@ -184,13 +194,15 @@ namespace BudgetManager.API.IOC
                 new string[] {}
               },
             });
-          });
+            });
         }
 
         public void InjectCors()
         {
-            _builder.Services.AddCors(opt => {
-                opt.AddDefaultPolicy(policy => {
+            _builder.Services.AddCors(opt =>
+            {
+                opt.AddDefaultPolicy(policy =>
+                {
                     policy.AllowAnyOrigin()
                       .AllowAnyMethod()
                       .AllowAnyHeader();
@@ -198,4 +210,4 @@ namespace BudgetManager.API.IOC
             });
         }
     }
-}
+}*/
