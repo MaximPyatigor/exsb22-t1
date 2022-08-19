@@ -32,24 +32,25 @@ namespace BudgetManager.CQRS.Handlers.TransactionHandlers
             SortDefinitionBuilder<Transaction> sortBuilder = Builders<Transaction>.Sort;
             SortDefinition<Transaction>? sort;
 
-            if (request.expensesPageDto.DateFilter is not null)
+            if (request.expensesPageDto.DateFrom is not null && request.expensesPageDto.DateTo is not null)
             {
-                filter &= filterBuilder.Eq(x => x.DateOfTransaction.Date, request.expensesPageDto.DateFilter);
+                filter &= filterBuilder.Gte(x => x.DateOfTransaction, request.expensesPageDto.DateFrom) &
+                    filterBuilder.Lte(x => x.DateOfTransaction, request.expensesPageDto.DateTo);
             }
 
-            if (request.expensesPageDto.CategoryIdFilter != Guid.Empty)
+            if (request.expensesPageDto.CategoriesFilter is not null)
             {
-                filter &= filterBuilder.Eq(x => x.CategoryId, request.expensesPageDto.CategoryIdFilter);
+                filter &= filterBuilder.In(x => x.CategoryId, request.expensesPageDto.CategoriesFilter);
             }
 
-            if (request.expensesPageDto.WalletIdFilter != Guid.Empty)
+            if (request.expensesPageDto.WalletsFilter is not null)
             {
-                filter &= filterBuilder.Eq(x => x.WalletId, request.expensesPageDto.WalletIdFilter);
+                filter &= filterBuilder.In(x => x.WalletId, request.expensesPageDto.WalletsFilter);
             }
 
-            if (request.expensesPageDto.PayerFilter is not null)
+            if (request.expensesPageDto.PayersFilter is not null)
             {
-                filter &= filterBuilder.Eq(x => x.Payer, request.expensesPageDto.PayerFilter);
+                filter &= filterBuilder.In(x => x.Payer, request.expensesPageDto.PayersFilter);
             }
 
             if (request.expensesPageDto.IsSortByAmount && !request.expensesPageDto.IsSortByDate)

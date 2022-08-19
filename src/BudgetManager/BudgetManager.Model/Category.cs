@@ -14,8 +14,8 @@ namespace BudgetManager.Model
         public string Name { get; set; }
         public decimal? Limit { get; set; }
         public LimitPeriods LimitPeriod { get; set; } = LimitPeriods.None;
-        public List<Category>? SubCategories { get; set; }
         public OperationType CategoryType { get; set; } = OperationType.None;
+        public List<Category> SubCategories { get; set; } = new List<Category>();
         public string Color { get; set; }
     }
 }
