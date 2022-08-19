@@ -34,7 +34,7 @@ namespace BudgetManager.CQRS.Handlers.NotificationHandlers
             var projection = Builders<User>.Projection.Include(u => u.Notifications)
                 .ElemMatch(u => u.Notifications, c => c.Id == notificationId);
 
-            var response = await _userContext.FilterBy<User>(filter, projection, cancellationToken);
+            var response = await _userContext.FilterByAsync<User>(filter, projection, cancellationToken);
             var user = response.FirstOrDefault();
 
             if (user == null) { throw new KeyNotFoundException("UserId or notificationId not found"); }

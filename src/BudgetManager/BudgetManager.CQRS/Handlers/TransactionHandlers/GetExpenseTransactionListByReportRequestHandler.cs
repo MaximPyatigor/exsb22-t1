@@ -32,7 +32,7 @@ namespace BudgetManager.CQRS.Handlers.TransactionHandlers
 
             var filter = Builders<Transaction>.Filter.And(userFilter, walletFilter, dateFromFilter, dateToFilter, categoriesFilter, transactionTypeFilter, payerFilter);
 
-            return await _dataAccess.FilterBy(filter, cancellationToken);
+            return await _dataAccess.FilterByAsync(filter, cancellationToken);
         }
     }
 }

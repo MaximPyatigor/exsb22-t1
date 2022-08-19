@@ -30,7 +30,7 @@ namespace BudgetManager.CQRS.Handlers.NotificationHandlers
             var filter = Builders<User>.Filter.Eq(u => u.Id, request.UserId);
 
             var filteredUser = (await _userContext
-                .FilterBy<User>(filter, definition, cancellationToken))
+                .FilterByAsync<User>(filter, definition, cancellationToken))
                 .FirstOrDefault();
 
             if (filteredUser == null) { throw new KeyNotFoundException("UserId or notificationId not found"); }
