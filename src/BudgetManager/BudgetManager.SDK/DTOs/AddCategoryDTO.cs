@@ -12,10 +12,6 @@ namespace BudgetManager.SDK.DTOs
 
         public OperationType CategoryType { get; set; }
 
-        public string Color
-        {
-            get => CategoryType == OperationType.Income ? "green.500" : "red.500";
-            set => Color = value;
-        }
+        public string Color { get; set; } = null;
     }
 }
