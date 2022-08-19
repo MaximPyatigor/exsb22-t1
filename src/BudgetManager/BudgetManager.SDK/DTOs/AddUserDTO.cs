@@ -5,7 +5,7 @@ namespace BudgetManager.SDK.DTOs
     public class AddUserDTO
     {
         public string FullName { get; set; }
-        public DateTime DOB { get; set; }
+        public DateTimeOffset DateOfBirth { get; set; }
         public string Email { get; set; }
         public Currency? DefaultCurrency { get; set; }
         public Guid? DefaultWallet { get; set; }

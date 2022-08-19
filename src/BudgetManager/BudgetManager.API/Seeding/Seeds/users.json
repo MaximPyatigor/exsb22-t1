@@ -2,31 +2,31 @@
   {
     "Id": "a0ffbfb1-fbd1-4472-bc18-324f9bd41e5d",
     "fullName": "Panther Seed",
-    "dob": "2022-07-28T15:19:42.251Z",
+    "DateOfBirth": "2022-07-28T15:19:42.251Z",
     "email": "seed1@seed.com"
   },
   {
     "Id": "a1ffbfb1-fbd1-4472-bc18-324f9bd41e5d",
     "fullName": "Joker Seed",
-    "dob": "2022-07-28T15:19:42.251Z",
+    "DateOfBirth": "2022-07-28T15:19:42.251Z",
     "email": "seed2@seed.com"
   },
   {
     "Id": "a2ffbfb1-fbd1-4472-bc18-324f9bd41e5d",
     "fullName": "Morgana Seed",
-    "dob": "2022-07-28T15:19:42.251Z",
+    "DateOfBirth": "2022-07-28T15:19:42.251Z",
     "email": "seed3@seed.com"
   },
   {
     "Id": "a3ffbfb1-fbd1-4472-bc18-324f9bd41e5d",
     "fullName": "Lelouch Seed",
-    "dob": "2022-07-28T15:19:42.251Z",
+    "DateOfBirth": "2022-07-28T15:19:42.251Z",
     "email": "seed4@seed.com"
   },
   {
     "Id": "a4ffbfb1-fbd1-4472-bc18-324f9bd41e5d",
     "fullName": "Nagisa Seed",
-    "dob": "2022-07-28T15:19:42.251Z",
+    "DateOfBirth": "2022-07-28T15:19:42.251Z",
     "email": "seed5@seed.com"
   }
 ]

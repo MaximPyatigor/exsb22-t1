@@ -20,6 +20,6 @@ namespace BudgetManager.Model
         [Required]
         public bool IsRead { get; set; }
         [Required]
-        public DateTime Date { get; set; }
+        public DateTimeOffset Date { get; set; }
     }
 }
