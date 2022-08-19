@@ -17,19 +17,30 @@ namespace BudgetManager.API.Controllers.V1
     {
         private const string _userIdString = "UserId";
         private readonly IMediator _mediator;
+        private readonly AddSubCategoryValidator _addValidator;
         private readonly UpdateSubCategoryValidator _updateValidator;
 
-        public SubCategoryController(IMediator mediator, UpdateSubCategoryValidator updateValidator)
+        public SubCategoryController(IMediator mediator, AddSubCategoryValidator addValidator, UpdateSubCategoryValidator updateValidator)
         {
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+            _addValidator = addValidator ?? throw new ArgumentNullException(nameof(addValidator));
             _updateValidator = updateValidator ?? throw new ArgumentNullException(nameof(updateValidator));
         }
 
         [HttpPost]
-        public async Task<IActionResult> InsertOneAsync(AddSubCategoryDTO category, CancellationToken cancellationToken)
+        public async Task<IActionResult> InsertOneAsync(AddSubCategoryDTO subCategory, CancellationToken cancellationToken)
         {
             Guid userId = new Guid(User.FindFirst(_userIdString).Value);
-            var response = await _mediator.Send(new AddSubCategoryCommand(category, userId), cancellationToken);
+
+            await _addValidator.SetUserAndCategory(userId, subCategory.CategoryId, cancellationToken);
+            var validationResult = await _addValidator.ValidateAsync(subCategory);
+            if (!validationResult.IsValid)
+            {
+                var result = ValidatorService.GetErrorMessage(validationResult);
+                return BadRequest(result);
+            }
+
+            var response = await _mediator.Send(new AddSubCategoryCommand(subCategory, userId), cancellationToken);
             return response == Guid.Empty ? BadRequest() : Ok(response);
         }
 

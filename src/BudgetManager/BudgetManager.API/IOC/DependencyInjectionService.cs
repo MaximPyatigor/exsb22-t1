@@ -136,6 +136,7 @@ namespace BudgetManager.API.IOC
         {
             _builder.Services.AddValidatorsFromAssemblyContaining<AddCategoryValidator>();
             _builder.Services.AddValidatorsFromAssemblyContaining<UpdateCategoryValidator>();
+            _builder.Services.AddValidatorsFromAssemblyContaining<AddSubCategoryValidator>();
             _builder.Services.AddValidatorsFromAssemblyContaining<UpdateSubCategoryValidator>();
             _builder.Services.AddValidatorsFromAssemblyContaining<AddExpenseTransactionValidator>();
             _builder.Services.AddValidatorsFromAssemblyContaining<AddIncomeTransactionValidator>();
