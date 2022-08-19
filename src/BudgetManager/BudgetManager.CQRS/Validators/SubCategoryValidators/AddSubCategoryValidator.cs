@@ -21,7 +21,7 @@ namespace BudgetManager.CQRS.Validators
 
         public AddSubCategoryValidator(IMediator mediator)
         {
-            _mediator = mediator;
+            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
 
             RuleFor(x => x.Name).NotEmpty();
             RuleFor(x => x.Name).MaximumLength(100).WithMessage($"Maximum name length exceeded");
