@@ -1,8 +1,9 @@
-﻿using BudgetManager.CQRS.Responses.TransactionResponses;
+﻿using BudgetManager.CQRS.Responses.PageResponses;
+using BudgetManager.CQRS.Responses.TransactionResponses;
 using BudgetManager.SDK.DTOs;
 using MediatR;
 
 namespace BudgetManager.CQRS.Queries.TransactionQueries
 {
-    public record GetIncomeTransactionListQuery(Guid userId, IncomesPageDTO incomesPageDto) : IRequest<IncomePageResponse>;
+    public record GetIncomeTransactionListQuery(Guid userId, IncomesPageDTO incomesPageDto) : IRequest<PageResponse<IncomeTransactionResponse>>;
 }

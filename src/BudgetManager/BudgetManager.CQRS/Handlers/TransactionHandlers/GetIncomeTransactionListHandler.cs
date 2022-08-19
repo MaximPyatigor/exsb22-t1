@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BudgetManager.CQRS.Queries.TransactionQueries;
+using BudgetManager.CQRS.Responses.PageResponses;
 using BudgetManager.CQRS.Responses.TransactionResponses;
 using BudgetManager.DataAccess.MongoDbAccess.Interfaces;
 using BudgetManager.Model;
@@ -9,7 +10,7 @@ using MongoDB.Driver;
 
 namespace BudgetManager.CQRS.Handlers.TransactionHandlers
 {
-    public class GetIncomeTransactionListHandler : IRequestHandler<GetIncomeTransactionListQuery, IncomePageResponse>
+    public class GetIncomeTransactionListHandler : IRequestHandler<GetIncomeTransactionListQuery, PageResponse<IncomeTransactionResponse>>
     {
         private readonly IMapper _mapper;
         private readonly ITransactionRepository _dataAccess;
@@ -20,7 +21,7 @@ namespace BudgetManager.CQRS.Handlers.TransactionHandlers
             _dataAccess = dataAccess;
         }
 
-        public async Task<IncomePageResponse> Handle(GetIncomeTransactionListQuery request, CancellationToken cancellationToken)
+        public async Task<PageResponse<IncomeTransactionResponse>> Handle(GetIncomeTransactionListQuery request, CancellationToken cancellationToken)
         {
             var pageSize = request.incomesPageDto.PageSize;
             long count;
@@ -73,9 +74,9 @@ namespace BudgetManager.CQRS.Handlers.TransactionHandlers
 
             (incomeTransactions, count) = await _dataAccess.GetPageListAsync(filter, sort, request.incomesPageDto.PageNumber, pageSize, cancellationToken);
 
-            var result = new IncomePageResponse()
+            var result = new PageResponse<IncomeTransactionResponse>()
             {
-                Incomes = _mapper.Map<IEnumerable<IncomeTransactionResponse>>(incomeTransactions),
+                Data = _mapper.Map<IEnumerable<IncomeTransactionResponse>>(incomeTransactions),
                 PageInfo = new SDK.Pagination.PageInfo(count, request.incomesPageDto.PageNumber, pageSize),
             };
 

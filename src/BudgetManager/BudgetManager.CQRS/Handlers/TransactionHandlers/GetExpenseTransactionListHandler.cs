@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BudgetManager.CQRS.Queries.TransactionQueries;
+using BudgetManager.CQRS.Responses.PageResponses;
 using BudgetManager.CQRS.Responses.TransactionResponses;
 using BudgetManager.DataAccess.MongoDbAccess.Interfaces;
 using BudgetManager.Model;
@@ -9,7 +10,7 @@ using MongoDB.Driver;
 
 namespace BudgetManager.CQRS.Handlers.TransactionHandlers
 {
-    public class GetExpenseTransactionListHandler : IRequestHandler<GetExpenseTransactionListQuery, ExpensePageResponse>
+    public class GetExpenseTransactionListHandler : IRequestHandler<GetExpenseTransactionListQuery, PageResponse<ExpenseTransactionResponse>>
     {
         private readonly IMapper _mapper;
         private readonly ITransactionRepository _dataAccess;
@@ -20,7 +21,7 @@ namespace BudgetManager.CQRS.Handlers.TransactionHandlers
             _dataAccess = dataAccess;
         }
 
-        public async Task<ExpensePageResponse> Handle(GetExpenseTransactionListQuery request, CancellationToken cancellationToken)
+        public async Task<PageResponse<ExpenseTransactionResponse>> Handle(GetExpenseTransactionListQuery request, CancellationToken cancellationToken)
         {
             var pageSize = request.expensesPageDto.PageSize;
             long count;
@@ -78,9 +79,9 @@ namespace BudgetManager.CQRS.Handlers.TransactionHandlers
 
             (expenseTransactions, count) = await _dataAccess.GetPageListAsync(filter, sort, request.expensesPageDto.PageNumber, pageSize, cancellationToken);
 
-            var result = new ExpensePageResponse()
+            var result = new PageResponse<ExpenseTransactionResponse>()
             {
-                Expenses = _mapper.Map<IEnumerable<ExpenseTransactionResponse>>(expenseTransactions),
+                Data = _mapper.Map<IEnumerable<ExpenseTransactionResponse>>(expenseTransactions),
                 PageInfo = new SDK.Pagination.PageInfo(count, request.expensesPageDto.PageNumber, pageSize),
             };
 

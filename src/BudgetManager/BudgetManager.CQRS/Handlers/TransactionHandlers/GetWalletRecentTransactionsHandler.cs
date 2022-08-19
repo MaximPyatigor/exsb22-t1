@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BudgetManager.CQRS.Queries.TransactionQueries;
+using BudgetManager.CQRS.Responses.PageResponses;
 using BudgetManager.CQRS.Responses.TransactionResponses;
 using BudgetManager.DataAccess.MongoDbAccess.Interfaces;
 using BudgetManager.Model;
@@ -8,7 +9,7 @@ using MongoDB.Driver;
 
 namespace BudgetManager.CQRS.Handlers.TransactionHandlers
 {
-    public class GetWalletRecentTransactionsHandler : IRequestHandler<GetWalletRecentTransactionsQuery, RecentTransactionsPageResponse>
+    public class GetWalletRecentTransactionsHandler : IRequestHandler<GetWalletRecentTransactionsQuery, PageResponse<RecentTransactionResponse>>
     {
         private readonly IMapper _mapper;
         private readonly ITransactionRepository _dataAccess;
@@ -19,7 +20,7 @@ namespace BudgetManager.CQRS.Handlers.TransactionHandlers
             _dataAccess = dataAccess;
         }
 
-        public async Task<RecentTransactionsPageResponse> Handle(GetWalletRecentTransactionsQuery request, CancellationToken cancellationToken)
+        public async Task<PageResponse<RecentTransactionResponse>> Handle(GetWalletRecentTransactionsQuery request, CancellationToken cancellationToken)
         {
             var pageSize = request.recentTransactionsPageDTO.PageSize;
             long count;
@@ -32,9 +33,9 @@ namespace BudgetManager.CQRS.Handlers.TransactionHandlers
 
             (recentTransactions, count) = await _dataAccess.GetPageListAsync(filter, sort, request.recentTransactionsPageDTO.PageNumber, pageSize, cancellationToken);
 
-            var result = new RecentTransactionsPageResponse()
+            var result = new PageResponse<RecentTransactionResponse>()
             {
-                RecentTransactions = _mapper.Map<IEnumerable<RecentTransactionResponse>>(recentTransactions),
+                Data = _mapper.Map<IEnumerable<RecentTransactionResponse>>(recentTransactions),
                 PageInfo = new SDK.Pagination.PageInfo(count, request.recentTransactionsPageDTO.PageNumber, pageSize),
             };
 
