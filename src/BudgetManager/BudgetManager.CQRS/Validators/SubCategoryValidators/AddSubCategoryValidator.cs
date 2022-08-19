@@ -26,7 +26,7 @@ namespace BudgetManager.CQRS.Validators
             RuleFor(x => x.Name).NotEmpty()
                 .Must(IsNameUnique).WithMessage($"Subcategory with this 'Name' already exists")
                 .MaximumLength(100);
-            RuleFor(x => x).Must(IsCategoryTypeExpense);
+            RuleFor(x => x).Must(IsCategoryTypeExpense).WithMessage($"Category must be of expense category type");
 
             RuleFor(x => x.CategoryType).Equal(OperationType.Expense);
         }
@@ -57,7 +57,11 @@ namespace BudgetManager.CQRS.Validators
 
         public bool IsCategoryTypeExpense(AddSubCategoryDTO category)
         {
-            return _categories.Where(c => c.Id == category.CategoryId).Select(c => c.CategoryType).Equals(OperationType.Expense);
+            return _categories
+                .Where(c => c.Id == category.CategoryId)
+                .Select(c => c.CategoryType)
+                .FirstOrDefault()
+                .Equals(OperationType.Expense);
         }
     }
 }
