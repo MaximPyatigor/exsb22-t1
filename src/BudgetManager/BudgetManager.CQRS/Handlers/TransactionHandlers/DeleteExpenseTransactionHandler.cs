@@ -26,7 +26,7 @@ namespace BudgetManager.CQRS.Handlers.TransactionHandlers
                 builder.Eq(t => t.UserId, request.userId),
                 builder.Eq(t => t.Id, request.expenseId),
                 builder.Eq(t => t.TransactionType, Model.Enums.OperationType.Expense));
-            var transaction = (await _transactionRepository.FilterBy(filter, cancellationToken)).FirstOrDefault();
+            var transaction = (await _transactionRepository.FilterByAsync(filter, cancellationToken)).FirstOrDefault();
 
             await _mediator.Send(new ChangeTotalBalanceOfWalletOnDeleteCommand(transaction), cancellationToken);
             bool result = await _transactionRepository.DeleteOneAsync(filter, cancellationToken);

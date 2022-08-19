@@ -34,7 +34,7 @@ namespace BudgetManager.CQRS.Handlers.WalletHandlers
             var projection = Builders<User>.Projection.Include(u => u.Wallets)
                 .ElemMatch(u => u.Wallets, c => c.Id == walletId);
 
-            var response = await _repository.FilterBy<User>(filter, projection, cancellationToken);
+            var response = await _repository.FilterByAsync<User>(filter, projection, cancellationToken);
             var user = response.FirstOrDefault();
 
             if (user == null) { return null; }

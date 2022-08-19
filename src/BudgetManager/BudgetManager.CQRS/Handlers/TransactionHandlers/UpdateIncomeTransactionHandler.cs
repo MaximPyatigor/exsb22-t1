@@ -29,7 +29,7 @@ namespace BudgetManager.CQRS.Handlers.TransactionHandlers
                 Builders<Transaction>.Filter.Eq(t => t.Id, request.updateIncomeDTO.Id),
                 Builders<Transaction>.Filter.Eq(t => t.TransactionType, Model.Enums.OperationType.Income));
 
-            var oldIncomeTransaction = (await _transactionRepository.FilterBy(transactionFilter, cancellationToken))
+            var oldIncomeTransaction = (await _transactionRepository.FilterByAsync(transactionFilter, cancellationToken))
                                 .FirstOrDefault() ?? throw new KeyNotFoundException("Transaction not found.");
             bool walletChanged = oldIncomeTransaction.WalletId != request.updateIncomeDTO.WalletId;
 

@@ -24,7 +24,7 @@ namespace BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation
             return await _collection.Find(_ => true).ToListAsync(cancellationToken);
         }
 
-        public virtual Task<IEnumerable<TProjected>> FilterBy<TProjected>(
+        public virtual Task<IEnumerable<TProjected>> FilterByAsync<TProjected>(
         Expression<Func<TDocument, bool>> filterExpression,
         Expression<Func<TDocument, TProjected>> projectionExpression,
         CancellationToken cancellationToken)
@@ -32,14 +32,14 @@ namespace BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation
             return Task.FromResult(_collection.Find(filterExpression).Project(projectionExpression).ToEnumerable(cancellationToken));
         }
 
-        public virtual async Task<IEnumerable<TDocument>> FilterBy(Expression<Func<TDocument, bool>> filterExpression,
+        public virtual async Task<IEnumerable<TDocument>> FilterByAsync(Expression<Func<TDocument, bool>> filterExpression,
             CancellationToken cancellationToken)
         {
             var result = await _collection.FindAsync(filterExpression);
             return result.ToEnumerable(cancellationToken);
         }
 
-        public Task<IEnumerable<TProjected>> FilterBy<TProjected>(
+        public Task<IEnumerable<TProjected>> FilterByAsync<TProjected>(
             FilterDefinition<TDocument> filterDefinition,
             ProjectionDefinition<TDocument, TProjected> projectDefinition,
             CancellationToken cancellationToken)
@@ -47,7 +47,7 @@ namespace BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation
             return Task.FromResult(_collection.Find(filterDefinition).Project(projectDefinition).ToEnumerable(cancellationToken));
         }
 
-        public async Task<IEnumerable<TDocument>> FilterBy(FilterDefinition<TDocument> filterDefenition, CancellationToken cancellationToken)
+        public async Task<IEnumerable<TDocument>> FilterByAsync(FilterDefinition<TDocument> filterDefenition, CancellationToken cancellationToken)
         {
             var result = await _collection.FindAsync(filterDefenition);
             return result.ToEnumerable(cancellationToken);
