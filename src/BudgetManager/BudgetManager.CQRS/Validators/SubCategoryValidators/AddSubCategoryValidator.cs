@@ -23,12 +23,9 @@ namespace BudgetManager.CQRS.Validators
         {
             _mediator = mediator;
 
-            RuleFor(x => x.Name).NotEmpty()
-                .Must(IsSubCategoryNameUnique).WithMessage($"Subcategory with this 'Name' already exists");
+            RuleFor(x => x.Name).NotEmpty();
             RuleFor(x => x.Name).MaximumLength(100).WithMessage($"Maximum name length exceeded");
-
-            RuleFor(x => x.Name).NotEmpty()
-                .Must(IsSubCategoryNameUnique).WithMessage($"Subcategory with this 'Name' already exists");
+            RuleFor(x => x.Name).Must(IsSubCategoryNameUnique).WithMessage($"Subcategory with this 'Name' already exists");
 
             RuleFor(x => x.CategoryType).Equal(OperationType.Expense);
 
@@ -36,10 +33,7 @@ namespace BudgetManager.CQRS.Validators
                 .Must(DoesCategoryExist).WithMessage("Category with this 'CategoryId' does not exist")
                 .DependentRules(() =>
                 {
-                    RuleFor(x => x.Name)
-                        .NotEmpty()
-                        .Must(IsCategoryNameUnique).WithMessage($"Subcategory 'Name' can not match the category name");
-
+                    RuleFor(x => x.Name).Must(IsCategoryNameUnique).WithMessage($"Subcategory 'Name' can not match the category name");
                     RuleFor(x => x).Must(IsCategoryTypeExpense).WithMessage($"Category must be of expense category type");
                 });
         }
