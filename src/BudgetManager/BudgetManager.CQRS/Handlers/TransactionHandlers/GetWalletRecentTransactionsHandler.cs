@@ -35,7 +35,7 @@ namespace BudgetManager.CQRS.Handlers.TransactionHandlers
             var result = new RecentTransactionsPageResponse()
             {
                 RecentTransactions = _mapper.Map<IEnumerable<RecentTransactionResponse>>(recentTransactions),
-                PageInfo = new Pagination.PageInfo(count, request.recentTransactionsPageDTO.PageNumber, pageSize),
+                PageInfo = new SDK.Pagination.PageInfo(count, request.recentTransactionsPageDTO.PageNumber, pageSize),
             };
 
             return result;

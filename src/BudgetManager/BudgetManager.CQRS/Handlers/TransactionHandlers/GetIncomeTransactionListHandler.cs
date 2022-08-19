@@ -76,7 +76,7 @@ namespace BudgetManager.CQRS.Handlers.TransactionHandlers
             var result = new IncomePageResponse()
             {
                 Incomes = _mapper.Map<IEnumerable<IncomeTransactionResponse>>(incomeTransactions),
-                PageInfo = new Pagination.PageInfo(count, request.incomesPageDto.PageNumber, pageSize),
+                PageInfo = new SDK.Pagination.PageInfo(count, request.incomesPageDto.PageNumber, pageSize),
             };
 
             return result;

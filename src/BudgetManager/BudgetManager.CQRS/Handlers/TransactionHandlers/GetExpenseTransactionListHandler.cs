@@ -81,7 +81,7 @@ namespace BudgetManager.CQRS.Handlers.TransactionHandlers
             var result = new ExpensePageResponse()
             {
                 Expenses = _mapper.Map<IEnumerable<ExpenseTransactionResponse>>(expenseTransactions),
-                PageInfo = new Pagination.PageInfo(count, request.expensesPageDto.PageNumber, pageSize),
+                PageInfo = new SDK.Pagination.PageInfo(count, request.expensesPageDto.PageNumber, pageSize),
             };
 
             return result;
