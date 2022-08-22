@@ -14,9 +14,9 @@ namespace BudgetManager.API.Controllers.V1
     [Authorize]
     public class PiggyBankController : ControllerBase
     {
+        private const string _userId = "UserId";
         private readonly IMediator _mediator;
         private readonly AddPiggyBankValidator _validator;
-        private string _userId = "UserId";
 
         public PiggyBankController(IMediator mediator, AddPiggyBankValidator validator)
         {
