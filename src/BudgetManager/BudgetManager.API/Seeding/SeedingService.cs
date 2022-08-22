@@ -192,10 +192,10 @@ namespace BudgetManager.API.Seeding
                     var userId = userIds[i];
                     var user = listOfUsers[i];
 
-                    if (i == userIds.Count() - 1)
+                    if (i == userIds.Count() - 1 || i == 0)
                     {
                         await _authorizationManager.RegisterAsync(user.Email, defaultPassword, userId, true);
-                        break;
+                        continue;
                     }
 
                     await _authorizationManager.RegisterAsync(user.Email, defaultPassword, userId, false);
