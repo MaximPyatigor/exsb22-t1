@@ -6,7 +6,7 @@ namespace BudgetManager.CQRS.Responses.TransactionResponses
     {
         public Guid TransactionId { get; set; }
 
-        public DateTime TransactionDate { get; set; }
+        public DateTimeOffset TransactionDate { get; set; }
 
         public string CategoryName { get; set; }
 

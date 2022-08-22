@@ -63,7 +63,7 @@ namespace BudgetManager.Authorization
                     var responseUser = new UserAuthorizationObject
                     {
                         Id = user.Id,
-                        DOB = user.DOB,
+                        DateOfBirth = user.DateOfBirth,
                         Country = user.Country,
                         DefaultCurrency = user.DefaultCurrency,
                         DefaultWallet = user.DefaultWallet,

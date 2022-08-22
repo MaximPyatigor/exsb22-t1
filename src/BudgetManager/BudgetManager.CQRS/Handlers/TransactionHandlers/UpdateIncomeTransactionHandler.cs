@@ -46,14 +46,14 @@ namespace BudgetManager.CQRS.Handlers.TransactionHandlers
             {
                 await _mediator.Send(new ChangeTotalBalanceOfWalletOnDeleteCommand(oldIncomeTransaction), cancellationToken);
                 await _mediator.Send(new ChangeTotalBalanceOfWalletCommand(updatedIncomeTransaction), cancellationToken);
-                await _mediator.Send(new UpdateWalletDateOfChangeCommand(request.userId, oldIncomeTransaction.WalletId, DateTime.UtcNow), cancellationToken);
+                await _mediator.Send(new UpdateWalletDateOfChangeCommand(request.userId, oldIncomeTransaction.WalletId, DateTimeOffset.Now), cancellationToken);
             }
             else
             {
                 await _mediator.Send(new ChangeTotalBalanceOfWalletOnUpdate(oldIncomeTransaction, updatedIncomeTransaction), cancellationToken);
             }
 
-            await _mediator.Send(new UpdateWalletDateOfChangeCommand(request.userId, updatedIncomeTransaction.WalletId, DateTime.UtcNow), cancellationToken);
+            await _mediator.Send(new UpdateWalletDateOfChangeCommand(request.userId, updatedIncomeTransaction.WalletId, DateTimeOffset.Now), cancellationToken);
 
             return _mapper.Map<IncomeTransactionResponse>(updatedIncomeTransaction);
         }
