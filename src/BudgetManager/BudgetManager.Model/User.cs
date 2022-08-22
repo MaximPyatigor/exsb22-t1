@@ -23,5 +23,6 @@ namespace BudgetManager.Model
         public List<Wallet>? Wallets { get; set; }
         public List<Notification>? Notifications { get; set; }
         public List<string>? Payers { get; set; }
+        public List<PiggyBank>? PiggyBanks { get; set; }
     }
 }
