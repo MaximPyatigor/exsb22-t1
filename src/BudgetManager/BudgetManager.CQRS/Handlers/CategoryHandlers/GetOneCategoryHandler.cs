@@ -29,7 +29,7 @@ namespace BudgetManager.CQRS.Handlers.CategoryHandlers
             var projection = Builders<User>.Projection.Include(u => u.Categories)
                 .ElemMatch(u => u.Categories, c => c.Id == categoryId);
 
-            var response = await _userRepository.FilterBy<User>(filter, projection, cancellationToken);
+            var response = await _userRepository.FilterByAsync<User>(filter, projection, cancellationToken);
             var user = response.FirstOrDefault();
 
             if (user == null ) { return null; }

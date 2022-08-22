@@ -31,7 +31,7 @@ namespace BudgetManager.CQRS.Handlers.CategoryHandlers
             var transactionFilter = Builders<Transaction>.Filter.And(
                 Builders<Transaction>.Filter.Eq(t => t.UserId, userId),
                 Builders<Transaction>.Filter.Eq(t => t.CategoryId, categoryId));
-            var transactions = await _transactionRepository.FilterBy(transactionFilter, cancellationToken);
+            var transactions = await _transactionRepository.FilterByAsync(transactionFilter, cancellationToken);
 
             if (transactions.Any())
             {

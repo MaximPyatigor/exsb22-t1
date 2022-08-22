@@ -19,7 +19,7 @@ namespace BudgetManager.CQRS.Validators.SubCategoryValidators
 
             RuleFor(x => x.Color).NotEmpty();
 
-            _mediator = mediator;
+            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
 
         public async Task SetUserAndCategory(Guid userId, Guid categoryId, CancellationToken cancellationToken)

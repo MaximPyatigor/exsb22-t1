@@ -15,11 +15,8 @@ namespace BudgetManager.Model.ReportModels
         public DateTime DateFrom { get; set; }
         [Required]
         public DateTime DateTo { get; set; }
-        [Required]
-        public List<Guid> IncomeCategoryIds { get; set; }
-        [Required]
-        public List<Guid> ExpenseCategoryIds { get; set; }
-        [Required]
-        public List<string> Payers { get; set; }
+        public List<Guid> IncomeCategoryIds { get; set; } = new List<Guid>();
+        public List<Guid> ExpenseCategoryIds { get; set; } = new List<Guid>();
+        public List<string> Payers { get; set; } = new List<string>();
     }
 }

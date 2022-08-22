@@ -14,7 +14,7 @@ namespace BudgetManager.DataAccess.MongoDbAccess.Repositories
         {
         }
 
-        public async Task<IEnumerable<Transaction>> GetTopElements(FilterDefinition<Transaction> filterDefinition,
+        public async Task<IEnumerable<Transaction>> GetTopElementsAsync(FilterDefinition<Transaction> filterDefinition,
             SortDefinition<Transaction> sortDefinition, int count, CancellationToken cancellationToken)
         {
             return await _collection.Find(filterDefinition).Sort(sortDefinition).Limit(count).ToListAsync(cancellationToken);

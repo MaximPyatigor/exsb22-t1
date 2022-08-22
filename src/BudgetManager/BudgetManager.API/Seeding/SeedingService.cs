@@ -165,7 +165,7 @@ namespace BudgetManager.API.Seeding
         public async Task SeedUsers()
         {
             var usersList = await _mediator.Send(new GetUsersQuery());
-            var applicationUserList = await _authorizationManager.GetApplicationUsersList();
+            var applicationUserList = await _authorizationManager.GetApplicationUsersListAsync();
             var defaultPassword = "Pass123!";
 
             // Check if null or empty
@@ -194,11 +194,11 @@ namespace BudgetManager.API.Seeding
 
                     if (i == userIds.Count() - 1)
                     {
-                        await _authorizationManager.Register(user.Email, defaultPassword, userId, true);
+                        await _authorizationManager.RegisterAsync(user.Email, defaultPassword, userId, true);
                         break;
                     }
 
-                    await _authorizationManager.Register(user.Email, defaultPassword, userId, false);
+                    await _authorizationManager.RegisterAsync(user.Email, defaultPassword, userId, false);
                 }
 
                 Console.WriteLine("Seeding Users successful.");

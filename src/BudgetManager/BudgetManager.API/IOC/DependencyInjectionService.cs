@@ -137,11 +137,13 @@ namespace BudgetManager.API.IOC
             _builder.Services.AddValidatorsFromAssemblyContaining<AddCategoryValidator>();
             _builder.Services.AddValidatorsFromAssemblyContaining<UpdateCategoryValidator>();
             _builder.Services.AddValidatorsFromAssemblyContaining<UpdateSubCategoryValidator>();
+            _builder.Services.AddValidatorsFromAssemblyContaining<AddSubCategoryValidator>();
             _builder.Services.AddValidatorsFromAssemblyContaining<AddExpenseTransactionValidator>();
             _builder.Services.AddValidatorsFromAssemblyContaining<AddIncomeTransactionValidator>();
             _builder.Services.AddValidatorsFromAssemblyContaining<UpdateExpenseTransactionValidator>();
             _builder.Services.AddValidatorsFromAssemblyContaining<UpdateIncomeTransactionValidator>();
             _builder.Services.AddValidatorsFromAssemblyContaining<AddPiggyBankValidator>();
+            _builder.Services.AddValidatorsFromAssemblyContaining<GetReportValidator>();
         }
 
         public void InjectJsonOptions()
@@ -154,37 +156,37 @@ namespace BudgetManager.API.IOC
 
         public void InjectSwagger()
         {
-          _builder.Services.AddTransient<IConfigureOptions<SwaggerGenOptions>, SwaggerConfigureOptions>();
-          _builder.Services.AddApiVersioning(options =>
-          {
-            options.ReportApiVersions = true;
-            options.DefaultApiVersion = new Microsoft.AspNetCore.Mvc.ApiVersion(1, 0);
-            options.AssumeDefaultVersionWhenUnspecified = true;
-          });
-
-          _builder.Services.AddVersionedApiExplorer(options =>
-          {
-            options.GroupNameFormat = "'v'VVV";
-            options.SubstituteApiVersionInUrl = true;
-          });
-          var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-          var xmlFilePath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-
-          _builder.Services.AddEndpointsApiExplorer();
-
-          _builder.Services.AddSwaggerGen(options =>
-          {
-            options.IncludeXmlComments(xmlFilePath);
-            options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+            _builder.Services.AddTransient<IConfigureOptions<SwaggerGenOptions>, SwaggerConfigureOptions>();
+            _builder.Services.AddApiVersioning(options =>
             {
-                In = ParameterLocation.Header,
-                Description = "Please enter a valid token",
-                Name = "Authorization",
-                Type = SecuritySchemeType.Http,
-                BearerFormat = "JWT",
-                Scheme = "Bearer",
+                options.ReportApiVersions = true;
+                options.DefaultApiVersion = new Microsoft.AspNetCore.Mvc.ApiVersion(1, 0);
+                options.AssumeDefaultVersionWhenUnspecified = true;
             });
-            options.AddSecurityRequirement(new OpenApiSecurityRequirement
+
+            _builder.Services.AddVersionedApiExplorer(options =>
+            {
+                options.GroupNameFormat = "'v'VVV";
+                options.SubstituteApiVersionInUrl = true;
+            });
+            var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+            var xmlFilePath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+
+            _builder.Services.AddEndpointsApiExplorer();
+
+            _builder.Services.AddSwaggerGen(options =>
+            {
+                options.IncludeXmlComments(xmlFilePath);
+                options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    In = ParameterLocation.Header,
+                    Description = "Please enter a valid token",
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.Http,
+                    BearerFormat = "JWT",
+                    Scheme = "Bearer",
+                });
+                options.AddSecurityRequirement(new OpenApiSecurityRequirement
             {
               {
                 new OpenApiSecurityScheme
@@ -200,7 +202,7 @@ namespace BudgetManager.API.IOC
                 }
               },
             });
-          });
+            });
         }
 
         public void InjectCors()
