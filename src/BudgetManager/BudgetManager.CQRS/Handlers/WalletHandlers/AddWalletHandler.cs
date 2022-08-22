@@ -36,7 +36,7 @@ namespace BudgetManager.CQRS.Handlers.WalletHandlers
 
             if (setDefault)
             {
-                update.Set(u => u.DefaultWallet, wallet.Id);
+                update = update.Set(u => u.DefaultWallet, wallet.Id);
             }
 
             var result = await _dataAccess.UpdateOneAsync(filter, update, cancellationToken);

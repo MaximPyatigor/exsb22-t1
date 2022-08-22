@@ -41,10 +41,7 @@ namespace BudgetManager.CQRS.Handlers.WalletHandlers
             var updList = new List<UpdateDefinition<User>>();
 
             // If the wallet already has some transactions, currency can not be changed.
-            var defaultUpdate = Builders<User>.Update
-                    .Set(u => u.Wallets[-1].Name, updateWallet.Name)
-                    .Set(u => u.Wallets[-1].Balance, updateWallet.Balance)
-                    .Set(u => u.Wallets[-1].DateOfChange, updateWallet.DateOfChange);
+            var defaultUpdate = Builders<User>.Update.Set(u => u.Wallets[-1].Name, updateWallet.Name);
 
             updList.Add(defaultUpdate);
 
@@ -57,7 +54,7 @@ namespace BudgetManager.CQRS.Handlers.WalletHandlers
                 updList.Add(updateWalletCurrency);
             }
 
-            if(request.isDefault)
+            if (request.isDefault)
             {
                 var defaultWalletUpdate = Builders<User>.Update
                     .Set(u => u.DefaultWallet, walletId);
@@ -67,7 +64,7 @@ namespace BudgetManager.CQRS.Handlers.WalletHandlers
 
             var finalUpdate = Builders<User>.Update.Combine(updList);
             var result = await _dataAccess.UpdateOneAsync(filter, finalUpdate, cancellationToken);
-            if(result is null)
+            if (result is null)
             {
                 throw new KeyNotFoundException("WalletId not found");
             }

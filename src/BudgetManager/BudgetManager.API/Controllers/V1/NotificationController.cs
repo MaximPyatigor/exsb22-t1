@@ -15,8 +15,8 @@ namespace BudgetManager.API.Controllers.V1
     [Authorize]
     public class NotificationController : ControllerBase
     {
+        private const string _userIdString = "UserId";
         private readonly IMediator _mediator;
-        private string _userIdString = "UserId";
         public NotificationController(IMediator mediator) => _mediator = mediator;
 
         [HttpGet]
@@ -32,6 +32,14 @@ namespace BudgetManager.API.Controllers.V1
         {
             var userId = Guid.Parse(User.FindFirst(_userIdString).Value);
             var response = await _mediator.Send(new GetNotificationByIdQuery(userId, notificationId), cancellationToken);
+            return Ok(response);
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPost("NotifyAll")]
+        public async Task<IActionResult> AddNotificationToAll([FromBody] AddNotificationDto notification, CancellationToken cancellationToken)
+        {
+            var response = await _mediator.Send(new AddNotificationToAllCommand(notification), cancellationToken);
             return Ok(response);
         }
 

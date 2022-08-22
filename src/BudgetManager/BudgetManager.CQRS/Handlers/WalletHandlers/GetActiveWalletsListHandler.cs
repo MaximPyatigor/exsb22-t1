@@ -8,18 +8,18 @@ using MongoDB.Driver;
 
 namespace BudgetManager.CQRS.Handlers.WalletHandlers
 {
-    public class GetWalletListHandler : IRequestHandler<GetWalletListQuery, IEnumerable<WalletResponse>>
+    public class GetActiveWalletsListHandler : IRequestHandler<GetActiveWalletsListQuery, IEnumerable<WalletResponse>>
     {
         private readonly IBaseRepository<User> _userRepository;
         private readonly IMapper _mapper;
 
-        public GetWalletListHandler(IBaseRepository<User> userRepository, IMapper mapper)
+        public GetActiveWalletsListHandler(IBaseRepository<User> userRepository, IMapper mapper)
         {
             _userRepository = userRepository;
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<WalletResponse>> Handle(GetWalletListQuery request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<WalletResponse>> Handle(GetActiveWalletsListQuery request, CancellationToken cancellationToken)
         {
             var filter = Builders<User>.Filter.Eq(u => u.Id, request.userId);
             var projection = Builders<User>.Projection.Exclude(u => u.Id).Include(u => u.DefaultWallet).Include(u => u.Wallets);

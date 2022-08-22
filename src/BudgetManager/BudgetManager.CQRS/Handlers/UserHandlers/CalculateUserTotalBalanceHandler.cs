@@ -25,7 +25,7 @@ namespace BudgetManager.CQRS.Handlers.UserHandlers
             var convertTo = request.currencyCode;
             var userId = request.userId;
             decimal totalBalance = 0;
-            var userWallets = await _mediator.Send(new GetWalletListQuery(userId), cancellationToken);
+            var userWallets = await _mediator.Send(new GetActiveWalletsListQuery(userId), cancellationToken);
 
             foreach (var wallet in userWallets)
             {
