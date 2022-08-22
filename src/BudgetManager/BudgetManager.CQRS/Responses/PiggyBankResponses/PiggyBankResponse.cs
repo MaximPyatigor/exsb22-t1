@@ -1,8 +1,8 @@
 ﻿using BudgetManager.Model;
 
-namespace BudgetManager.CQRS.Responses.WalletResponses
+namespace BudgetManager.CQRS.Responses.PiggyBankResponses
 {
-    public class WalletResponse
+    public class PiggyBankResponse
     {
         public Guid Id { get; set; }
 
@@ -10,8 +10,10 @@ namespace BudgetManager.CQRS.Responses.WalletResponses
 
         public Currency Currency { get; set; }
 
+        public decimal Target { get; set; }
+
         public decimal Balance { get; set; }
 
-        public DateTimeOffset DateOfChange { get; set; }
+        public bool IsSpent { get; set; }
     }
 }

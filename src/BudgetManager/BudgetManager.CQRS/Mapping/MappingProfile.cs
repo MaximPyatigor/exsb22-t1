@@ -11,6 +11,7 @@ using BudgetManager.CQRS.Responses.CountryResponses;
 using BudgetManager.CQRS.Responses.DefaultCategoryResponses;
 using BudgetManager.Model.Enums;
 using BudgetManager.CQRS.Responses.SubCategoryResponses;
+using BudgetManager.CQRS.Responses.PiggyBankResponses;
 
 namespace BudgetManager.CQRS.Mapping
 {
@@ -32,7 +33,7 @@ namespace BudgetManager.CQRS.Mapping
             CreateMap<Transaction, TransactionResponse>();
             CreateMap<UpdateTransactionDTO, Transaction>();
             CreateMap<AddNotificationDto, Notification>()
-                .ForMember(o => o.Date, p => p.MapFrom(b => DateTime.UtcNow));
+                .ForMember(o => o.Date, p => p.MapFrom(b => DateTimeOffset.Now));
             CreateMap<Notification, NotificationResponse>();
             CreateMap<Country, CountryResponse>();
             CreateMap<DefaultCategory, DefaultCategoryResponse>()
@@ -51,6 +52,8 @@ namespace BudgetManager.CQRS.Mapping
                 .ForMember(o => o.Value, p => p.MapFrom(b => b.TransactionType == OperationType.Income ? b.Value : -b.Value))
                 .ForMember(o => o.DateOfTransaction, p => p.MapFrom(b => b.DateOfTransaction.Date));
             CreateMap<CategoryResponse, WalletCategoryResponse>();
+            CreateMap<AddPiggyBankDTO, PiggyBank>();
+            CreateMap<PiggyBank, PiggyBankResponse>();
         }
     }
 }

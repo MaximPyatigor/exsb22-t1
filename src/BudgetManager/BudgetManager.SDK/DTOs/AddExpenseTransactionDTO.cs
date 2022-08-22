@@ -10,7 +10,7 @@
 
         public string Payer { get; set; }
 
-        public DateTime DateOfTransaction { get; set; } = DateTime.UtcNow;
+        public DateTimeOffset DateOfTransaction { get; set; } = DateTimeOffset.Now;
 
         public decimal Value { get; set; }
 

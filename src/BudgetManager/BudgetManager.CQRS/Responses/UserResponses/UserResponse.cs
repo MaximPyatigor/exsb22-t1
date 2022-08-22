@@ -8,7 +8,7 @@ namespace BudgetManager.CQRS.Responses.UserResponses
 
         public string FullName { get; set; }
 
-        public DateTime DOB { get; set; }
+        public DateTimeOffset DateOfBirth { get; set; }
 
         public string Email { get; set; }
 
@@ -25,6 +25,7 @@ namespace BudgetManager.CQRS.Responses.UserResponses
         public List<Notification>? Notifications { get; set; }
 
         public List<string>? Payers { get; set; }
+        public List<PiggyBank>? PiggyBanks { get; set; }
 
         public bool IsAdmin { get; set; }
     }

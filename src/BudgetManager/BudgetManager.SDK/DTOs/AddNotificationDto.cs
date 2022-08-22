@@ -4,7 +4,7 @@ namespace BudgetManager.SDK.DTOs
 {
     public class AddNotificationDto
     {
-        public NotificationTypes NotificationType { get; set; }
+        public NotificationTypes NotificationType { get; set; } = NotificationTypes.None;
         public string Description { get; set; }
     }
 }

@@ -11,7 +11,8 @@ namespace BudgetManager.SDK.DTOs
 
         public decimal Limit { get; set; }
 
-        public LimitPeriods LimitPeriod { get; set; }
+        public LimitPeriods LimitPeriod { get; set; } = LimitPeriods.None;
+        
         [JsonIgnore]
         public OperationType CategoryType { get; set; } = OperationType.Expense;
 

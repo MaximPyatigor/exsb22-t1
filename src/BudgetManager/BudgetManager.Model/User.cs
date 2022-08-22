@@ -13,7 +13,7 @@ namespace BudgetManager.Model
         [Required]
         public string FullName { get; set; }
         [Required]
-        public DateTime DOB { get; set; }
+        public DateTimeOffset DateOfBirth { get; set; }
         [Required]
         public string Email { get; set; }
         public Currency? DefaultCurrency { get; set; }
@@ -23,5 +23,6 @@ namespace BudgetManager.Model
         public List<Wallet>? Wallets { get; set; }
         public List<Notification>? Notifications { get; set; }
         public List<string>? Payers { get; set; }
+        public List<PiggyBank>? PiggyBanks { get; set; }
     }
 }

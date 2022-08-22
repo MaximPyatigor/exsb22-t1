@@ -2,7 +2,8 @@
 {
     public enum LimitPeriods
     {
-        Daily,
+        None = -1,
+        Daily = 0,
         Weekly,
         Monthly,
     }

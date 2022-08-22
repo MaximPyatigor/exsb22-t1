@@ -29,7 +29,7 @@ namespace BudgetManager.CQRS.Handlers.WalletHandlers
 
             wallet.Currency = await _mediator.Send(new GetCurrencyByIdQuery(request.addWalletDTO.CurrencyId), cancellationToken);
 
-            wallet.DateOfChange = DateTime.UtcNow;
+            wallet.DateOfChange = DateTimeOffset.Now;
 
             var filter = Builders<User>.Filter.Eq(u => u.Id, userId);
             var update = Builders<User>.Update.Push(u => u.Wallets, wallet);
