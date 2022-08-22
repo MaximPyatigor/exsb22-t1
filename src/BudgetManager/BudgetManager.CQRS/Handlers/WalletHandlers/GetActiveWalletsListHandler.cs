@@ -23,7 +23,7 @@ namespace BudgetManager.CQRS.Handlers.WalletHandlers
         {
             var filter = Builders<User>.Filter.Eq(u => u.Id, request.userId);
             var projection = Builders<User>.Projection.Exclude(u => u.Id).Include(u => u.DefaultWallet).Include(u => u.Wallets);
-            var response = await _userRepository.FilterBy<User>(filter, projection, cancellationToken);
+            var response = await _userRepository.FilterByAsync<User>(filter, projection, cancellationToken);
             var user = response.FirstOrDefault();
 
             if (user == null) { throw new KeyNotFoundException("User not found"); }

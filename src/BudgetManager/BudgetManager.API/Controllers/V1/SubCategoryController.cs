@@ -18,17 +18,28 @@ namespace BudgetManager.API.Controllers.V1
         private const string _userIdString = "UserId";
         private readonly IMediator _mediator;
         private readonly UpdateSubCategoryValidator _updateValidator;
+        private readonly AddSubCategoryValidator _addValidator;
 
-        public SubCategoryController(IMediator mediator, UpdateSubCategoryValidator updateValidator)
+        public SubCategoryController(IMediator mediator, UpdateSubCategoryValidator updateValidator, AddSubCategoryValidator addValidator)
         {
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
             _updateValidator = updateValidator ?? throw new ArgumentNullException(nameof(updateValidator));
+            _addValidator = addValidator ?? throw new ArgumentNullException(nameof(addValidator));
         }
 
         [HttpPost]
         public async Task<IActionResult> InsertOneAsync(AddSubCategoryDTO category, CancellationToken cancellationToken)
         {
             Guid userId = new Guid(User.FindFirst(_userIdString).Value);
+
+            await _addValidator.SetUserAndCategory(userId, category.CategoryId, cancellationToken);
+            var validationResult = await _addValidator.ValidateAsync(category);
+            if (!validationResult.IsValid)
+            {
+                var result = ValidatorService.GetErrorMessage(validationResult);
+                return BadRequest(result);
+            }
+
             var response = await _mediator.Send(new AddSubCategoryCommand(category, userId), cancellationToken);
             return response == Guid.Empty ? BadRequest() : Ok(response);
         }

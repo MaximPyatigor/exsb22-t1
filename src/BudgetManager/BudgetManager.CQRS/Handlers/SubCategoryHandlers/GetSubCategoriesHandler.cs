@@ -15,8 +15,8 @@ namespace BudgetManager.CQRS.Handlers.SubCategoryHandlers
 
         public GetSubCategoriesHandler(IBaseRepository<User> userRepository, IMapper mapper)
         {
-            _userRepository = userRepository;
-            _mapper = mapper;
+            _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
         public async Task<IEnumerable<SubCategoryResponse>> Handle(GetSubCategoriesQuery request, CancellationToken cancellationToken)
@@ -24,8 +24,8 @@ namespace BudgetManager.CQRS.Handlers.SubCategoryHandlers
             var filter = Builders<User>.Filter.Eq(u => u.Id, request.userId)
                 & Builders<User>.Filter.ElemMatch(u => u.Categories, c => c.Id == request.categoryId);
             var projection = Builders<User>.Projection.Exclude(u => u.Id).Include(u => u.Categories[-1]);
-            var response = await _userRepository.FilterBy<User>(filter, projection, cancellationToken);
-            var categoryOfUser = response.FirstOrDefault().Categories;
+            var response = await _userRepository.FilterByAsync<User>(filter, projection, cancellationToken);
+            var categoryOfUser = response.FirstOrDefault()?.Categories;
 
             if (categoryOfUser == null) { throw new KeyNotFoundException("UserId or categoryId is not correct"); }
 

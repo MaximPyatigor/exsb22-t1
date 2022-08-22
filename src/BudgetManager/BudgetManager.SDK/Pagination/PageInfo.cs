@@ -1,4 +1,4 @@
-﻿namespace BudgetManager.CQRS.Pagination
+﻿namespace BudgetManager.SDK.Pagination
 {
     public class PageInfo
     {

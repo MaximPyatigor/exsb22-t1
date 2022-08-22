@@ -32,7 +32,7 @@ namespace BudgetManager.CQRS.Handlers.CountryHandlers
             var update = Builders<User>.Update.Set(u => u.Country, country);
 
             var currencyFilter = Builders<Currency>.Filter.Eq(c => c.CurrencyCode, country.CurrencyCode);
-            var currency = (await _currencyRepository.FilterBy(currencyFilter, cancellationToken)).FirstOrDefault();
+            var currency = (await _currencyRepository.FilterByAsync(currencyFilter, cancellationToken)).FirstOrDefault();
             if (currency == null) { throw new KeyNotFoundException("Currency not found"); }
             update = update.Set(u => u.DefaultCurrency, currency);
 

@@ -22,7 +22,7 @@ namespace BudgetManager.Authorization
             _tokenService = tokenService;
         }
 
-        public async Task<bool> Register(string email, string password, Guid userId,
+        public async Task<bool> RegisterAsync(string email, string password, Guid userId,
             bool isAdmin)
         {
             var appUser = new ApplicationUser
@@ -46,7 +46,7 @@ namespace BudgetManager.Authorization
             return savedAppUser.Succeeded;
         }
 
-        public async Task<AuthorizationResponse> Login(string email, string password)
+        public async Task<AuthorizationResponse> LoginAsync(string email, string password)
         {
             try
             {
@@ -89,7 +89,7 @@ namespace BudgetManager.Authorization
 
         }
 
-        public async Task<IEnumerable<ApplicationUser>> GetApplicationUsersList()
+        public async Task<IEnumerable<ApplicationUser>> GetApplicationUsersListAsync()
         {
             return await Task.Run(() => _userManager.Users.ToList());
         }

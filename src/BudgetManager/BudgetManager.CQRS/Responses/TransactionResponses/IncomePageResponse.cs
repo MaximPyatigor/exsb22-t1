@@ -1,4 +1,4 @@
-﻿using BudgetManager.CQRS.Pagination;
+﻿using BudgetManager.SDK.Pagination;
 
 namespace BudgetManager.CQRS.Responses.TransactionResponses
 {

@@ -1,4 +1,5 @@
 using BudgetManager.CQRS.Queries.ReportQueries;
+using BudgetManager.CQRS.Validators;
 using BudgetManager.Model.ReportModels;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -14,12 +15,27 @@ namespace BudgetManager.API.Controllers.V1
     {
         private const string _userIdString = "UserId";
         private readonly IMediator _mediator;
-        public ReportController(IMediator mediator) => _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+        private readonly GetReportValidator _getReportValidator;
+
+        public ReportController(IMediator mediator, GetReportValidator getReportValidator)
+        {
+            _mediator = mediator;
+            _getReportValidator = getReportValidator;
+        }
 
         [HttpGet]
         public async Task<IActionResult> GetReportAsync([FromQuery] ReportRequest reportRequest, CancellationToken cancellationToken)
         {
             var userId = Guid.Parse(User.FindFirst(_userIdString).Value);
+
+            _getReportValidator.SetUser(userId, cancellationToken);
+            var validationResult = await _getReportValidator.ValidateAsync(reportRequest);
+            if (!validationResult.IsValid)
+            {
+                var result = ValidatorService.GetErrorMessage(validationResult);
+                return BadRequest(result);
+            }
+
             var response = await _mediator.Send(new GetReportQuery(userId, reportRequest), cancellationToken);
             return response == null ? NotFound() : Ok(response);
         }
