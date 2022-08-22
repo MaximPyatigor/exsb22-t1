@@ -13,7 +13,7 @@ namespace BudgetManager.SDK.DTOs
 
         public decimal Limit { get; set; }
 
-        public LimitPeriods? LimitPeriod { get; set; }
+        public LimitPeriods LimitPeriod { get; set; } = LimitPeriods.None;
 
         public string Color { get; set; }
     }

@@ -13,9 +13,9 @@ namespace BudgetManager.Model
         public Guid Id { get; set; } = Guid.NewGuid();
         public string Name { get; set; }
         public decimal? Limit { get; set; }
-        public LimitPeriods? LimitPeriod { get; set; }
+        public LimitPeriods LimitPeriod { get; set; } = LimitPeriods.None;
+        public OperationType CategoryType { get; set; } = OperationType.None;
         public List<Category> SubCategories { get; set; } = new List<Category>();
-        public OperationType CategoryType { get; set; }
         public string Color { get; set; }
     }
 }
