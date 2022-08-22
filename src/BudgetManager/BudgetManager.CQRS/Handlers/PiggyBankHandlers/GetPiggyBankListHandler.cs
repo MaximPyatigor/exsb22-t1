@@ -23,7 +23,7 @@ namespace BudgetManager.CQRS.Handlers.PiggyBankHandlers
         {
             var filter = Builders<User>.Filter.Eq(u => u.Id, request.userId);
             var projection = Builders<User>.Projection.Include(u => u.PiggyBanks);
-            var response = await _userRepository.FilterBy<User>(filter, projection, cancellationToken);
+            var response = await _userRepository.FilterByAsync<User>(filter, projection, cancellationToken);
             var user = response.FirstOrDefault();
 
             if (user == null) { throw new KeyNotFoundException("User not found"); }
