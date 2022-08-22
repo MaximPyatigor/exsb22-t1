@@ -19,8 +19,8 @@ namespace BudgetManager.API.Controllers.V1
 
         public ReportController(IMediator mediator, GetReportValidator getReportValidator)
         {
-            _mediator = mediator;
-            _getReportValidator = getReportValidator;
+            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+            _getReportValidator = getReportValidator ?? throw new ArgumentNullException(nameof(getReportValidator));
         }
 
         [HttpGet]

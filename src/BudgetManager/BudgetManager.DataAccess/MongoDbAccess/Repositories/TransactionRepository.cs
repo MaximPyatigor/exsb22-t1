@@ -12,6 +12,15 @@ namespace BudgetManager.DataAccess.MongoDbAccess.Repositories
         public TransactionRepository(IMongoDbSettings settings, IMongoClient client)
             : base(settings, client)
         {
+            if (settings is null)
+            {
+                throw new ArgumentNullException(nameof(settings));
+            }
+
+            if (client is null)
+            {
+                throw new ArgumentNullException(nameof(client));
+            }
         }
 
         public async Task<IEnumerable<Transaction>> GetTopElementsAsync(FilterDefinition<Transaction> filterDefinition,

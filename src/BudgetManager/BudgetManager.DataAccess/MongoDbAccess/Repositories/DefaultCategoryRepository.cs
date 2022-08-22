@@ -10,6 +10,15 @@ namespace BudgetManager.DataAccess.MongoDbAccess.Repositories
         public DefaultCategoryRepository(IMongoDbSettings settings, IMongoClient client)
             : base(settings, client)
         {
+            if (settings is null)
+            {
+                throw new ArgumentNullException(nameof(settings));
+            }
+
+            if (client is null)
+            {
+                throw new ArgumentNullException(nameof(client));
+            }
         }
     }
 }

@@ -2,8 +2,6 @@
 using BudgetManager.CQRS.Commands.WalletCommands;
 using BudgetManager.CQRS.Queries.CurrencyQueries;
 using BudgetManager.CQRS.Queries.TransactionQueries;
-using BudgetManager.CQRS.Queries.UserQueries;
-using BudgetManager.CQRS.Queries.WalletQueries;
 using BudgetManager.CQRS.Responses.WalletResponses;
 using BudgetManager.Model;
 using BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation;
@@ -20,9 +18,9 @@ namespace BudgetManager.CQRS.Handlers.WalletHandlers
 
         public UpdateWalletHandler(IBaseRepository<User> dataAccess, IMapper mapper, IMediator mediator)
         {
-            _dataAccess = dataAccess;
-            _mapper = mapper;
-            _mediator = mediator;
+            _dataAccess = dataAccess ?? throw new ArgumentNullException(nameof(dataAccess));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
 
         public async Task<WalletResponse> Handle(UpdateWalletCommand request, CancellationToken cancellationToken)

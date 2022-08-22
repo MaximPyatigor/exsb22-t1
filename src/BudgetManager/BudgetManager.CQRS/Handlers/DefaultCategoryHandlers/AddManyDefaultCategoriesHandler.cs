@@ -11,7 +11,7 @@ namespace BudgetManager.CQRS.Handlers.DefaultCategoryHandlers
 
         public AddManyDefaultCategoriesHandler(IBaseRepository<DefaultCategory> baseRepository)
         {
-            _defaultCategoryRepository = baseRepository;
+            _defaultCategoryRepository = baseRepository ?? throw new ArgumentNullException(nameof(baseRepository));
         }
 
         public async Task<IEnumerable<Guid>> Handle(AddManyDefaultCategoriesCommand request, CancellationToken cancellationToken)

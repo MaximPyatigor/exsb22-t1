@@ -16,8 +16,8 @@ namespace BudgetManager.CQRS.Handlers.TransactionHandlers
 
         public GetWalletRecentTransactionsHandler(IMapper mapper, ITransactionRepository dataAccess)
         {
-            _mapper = mapper;
-            _dataAccess = dataAccess;
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            _dataAccess = dataAccess ?? throw new ArgumentNullException(nameof(dataAccess));
         }
 
         public async Task<PageResponse<RecentTransactionResponse>> Handle(GetWalletRecentTransactionsQuery request, CancellationToken cancellationToken)

@@ -16,8 +16,8 @@ namespace BudgetManager.CQRS.Handlers.SubCategoryHandlers
 
         public DeleteSubCategoryHandler(ITransactionRepository transactionRepository, IBaseRepository<User> userRepository)
         {
-            _transactionRepository = transactionRepository;
-            _userRepository = userRepository;
+            _transactionRepository = transactionRepository ?? throw new ArgumentNullException(nameof(transactionRepository));
+            _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
         }
 
         public async Task<bool> Handle(DeleteSubCategoryCommand request, CancellationToken cancellationToken)

@@ -18,9 +18,9 @@ namespace BudgetManager.CQRS.Handlers.UserHandlers
         public GetUserByIdHandler(IBaseRepository<User> userRepository, IMapper mapper,
             UserManager<ApplicationUser> userManager)
         {
-            _userRepository = userRepository;
-            _mapper = mapper;
-            _userManager = userManager;
+            _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
         }
 
         public async Task<UserResponse> Handle(GetUserByIdQuery request, CancellationToken cancellationToken)

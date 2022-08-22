@@ -2,11 +2,6 @@
 using Microsoft.Extensions.Hosting;
 using Quartz;
 using Quartz.Spi;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace BudgetManager.Scheduler.Scheduler
 {
@@ -19,9 +14,9 @@ namespace BudgetManager.Scheduler.Scheduler
 
         public MyScheduler(ISchedulerFactory schedulerFactory, List<JobMetadata> jobMetadatas, IJobFactory jobFactory)
         {
-            this.jobFactory = jobFactory;
-            this.schedulerFactory = schedulerFactory;
-            this.jobMetadatas = jobMetadatas;
+            this.jobFactory = jobFactory ?? throw new ArgumentNullException(nameof(jobFactory));
+            this.schedulerFactory = schedulerFactory ?? throw new ArgumentNullException(nameof(schedulerFactory));
+            this.jobMetadatas = jobMetadatas ?? throw new ArgumentNullException(nameof(jobMetadatas));
         }
         public async Task StartAsync(CancellationToken cancellationToken)
         {

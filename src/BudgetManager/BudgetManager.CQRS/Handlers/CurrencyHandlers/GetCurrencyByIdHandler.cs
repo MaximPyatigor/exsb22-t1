@@ -14,8 +14,8 @@ namespace BudgetManager.CQRS.Handlers.CurrencyHandlers
 
         public GetCurrencyByIdHandler(IMapper mapper, IBaseRepository<Currency> dataAccess)
         {
-            _mapper = mapper;
-            _dataAccess = dataAccess;
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            _dataAccess = dataAccess ?? throw new ArgumentNullException(nameof(dataAccess));
         }
 
         public async Task<Currency> Handle(GetCurrencyByIdQuery request, CancellationToken cancellationToken)

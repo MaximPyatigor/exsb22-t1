@@ -11,7 +11,7 @@ namespace BudgetManager.CQRS.Handlers.CurrencyHandlers
 
         public AddManyCurrenciesHandler(IBaseRepository<Currency> dataAccess)
         {
-            _dataAccess = dataAccess;
+            _dataAccess = dataAccess ?? throw new ArgumentNullException(nameof(dataAccess));
         }
 
         public async Task<IEnumerable<Guid>> Handle(AddManyCurrenciesCommand request, CancellationToken cancellationToken)

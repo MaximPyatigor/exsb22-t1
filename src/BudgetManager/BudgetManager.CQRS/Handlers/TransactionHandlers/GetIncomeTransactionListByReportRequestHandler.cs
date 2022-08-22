@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using BudgetManager.CQRS.Queries.TransactionQueries;
-using BudgetManager.CQRS.Responses.TransactionResponses;
 using BudgetManager.DataAccess.MongoDbAccess.Interfaces;
 using BudgetManager.Model;
 using BudgetManager.Model.Enums;
@@ -16,8 +15,8 @@ namespace BudgetManager.CQRS.Handlers.TransactionHandlers
 
         public GetIncomeTransactionListByReportRequestHandler(IMapper mapper, ITransactionRepository dataAccess)
         {
-            _mapper = mapper;
-            _dataAccess = dataAccess;
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            _dataAccess = dataAccess ?? throw new ArgumentNullException(nameof(dataAccess));
         }
 
         public async Task<IEnumerable<Transaction>> Handle(GetIncomeTransactionListByReportRequestQuery request, CancellationToken cancellationToken)

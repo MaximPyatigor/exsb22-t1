@@ -13,8 +13,8 @@ namespace BudgetManager.CQRS.Handlers.CountryHandlers
 
         public AddCountryHandler(IMapper mapper, IBaseRepository<Country> dataAccess)
         {
-            _mapper = mapper;
-            _dataAccess = dataAccess;
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            _dataAccess = dataAccess ?? throw new ArgumentNullException(nameof(dataAccess));
         }
 
         public async Task<Unit> Handle(AddCountryCommand request, CancellationToken cancellationToken)

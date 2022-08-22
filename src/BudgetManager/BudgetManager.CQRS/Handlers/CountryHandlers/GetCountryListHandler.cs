@@ -14,8 +14,8 @@ namespace BudgetManager.CQRS.Handlers.CountryHandlers
 
         public GetCountryListHandler(IMapper mapper, IBaseRepository<Country> dataAccess)
         {
-            _mapper = mapper;
-            _dataAccess = dataAccess;
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            _dataAccess = dataAccess ?? throw new ArgumentNullException(nameof(dataAccess));
         }
 
         public async Task<IEnumerable<CountryResponse>> Handle(GetCountryListQuery request, CancellationToken cancellationToken)

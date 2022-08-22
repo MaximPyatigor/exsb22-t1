@@ -12,7 +12,7 @@ namespace BudgetManager.CQRS.Handlers.WalletHandlers
 
         public GetWalletInfoHandler(IBaseRepository<User> userRepository)
         {
-            _userRepository = userRepository;
+            _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
         }
 
         public async Task<WalletViewResponse> Handle(GetWalletInfoQuery request, CancellationToken cancellationToken)

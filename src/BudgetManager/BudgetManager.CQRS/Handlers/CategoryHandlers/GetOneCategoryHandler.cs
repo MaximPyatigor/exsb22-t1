@@ -15,8 +15,8 @@ namespace BudgetManager.CQRS.Handlers.CategoryHandlers
 
         public GetOneCategoryHandler(IBaseRepository<User> userRepository, IMapper mapper)
         {
-            _userRepository = userRepository;
-            _mapper = mapper;
+            _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
         public async Task<CategoryResponse> Handle(GetOneCategoryQuery request, CancellationToken cancellationToken)

@@ -5,11 +5,6 @@ using BudgetManager.Model;
 using BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation;
 using MediatR;
 using MongoDB.Driver;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BudgetManager.CQRS.Handlers.NotificationHandlers
 {
@@ -20,8 +15,8 @@ namespace BudgetManager.CQRS.Handlers.NotificationHandlers
 
         public GetNotificationByIdHandler(IBaseRepository<User> userContext, IMapper mapper)
         {
-            _userContext = userContext;
-            _mapper = mapper;
+            _userContext = userContext ?? throw new ArgumentNullException(nameof(userContext));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
         public async Task<NotificationResponse> Handle(GetNotificationByIdQuery request, CancellationToken cancellationToken)

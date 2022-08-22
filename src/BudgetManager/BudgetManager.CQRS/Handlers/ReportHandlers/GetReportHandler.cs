@@ -4,11 +4,6 @@ using BudgetManager.CQRS.Queries.TransactionQueries;
 using BudgetManager.Model.Enums;
 using BudgetManager.Model.ReportModels;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BudgetManager.CQRS.Handlers.ReportHandlers
 {
@@ -18,7 +13,7 @@ namespace BudgetManager.CQRS.Handlers.ReportHandlers
 
         public GetReportHandler(IMediator mediator)
         {
-            _mediator = mediator;
+            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
 
         public async Task<Report> Handle(GetReportQuery request, CancellationToken cancellationToken)

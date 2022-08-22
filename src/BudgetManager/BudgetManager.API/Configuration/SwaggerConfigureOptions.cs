@@ -9,7 +9,7 @@ namespace BudgetManager.API.Configuration
     {
         private readonly IApiVersionDescriptionProvider _provider;
 
-        public SwaggerConfigureOptions(IApiVersionDescriptionProvider provider) => _provider = provider;
+        public SwaggerConfigureOptions(IApiVersionDescriptionProvider provider) => _provider = provider ?? throw new ArgumentNullException(nameof(provider));
 
         public void Configure(SwaggerGenOptions options)
         {

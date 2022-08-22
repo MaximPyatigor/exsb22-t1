@@ -6,8 +6,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Quartz;
 using Quartz.Impl;
 using Quartz.Spi;
-using System;
-using System.Collections.Generic;
 
 namespace BudgetManager.Scheduler
 {

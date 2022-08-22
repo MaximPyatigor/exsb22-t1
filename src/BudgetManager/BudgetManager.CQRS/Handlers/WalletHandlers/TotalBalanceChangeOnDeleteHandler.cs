@@ -13,7 +13,7 @@ namespace BudgetManager.CQRS.Handlers.WalletHandlers
 
         public TotalBalanceChangeOnDeleteHandler(IBaseRepository<User> userRepository)
         {
-            _userRepository = userRepository;
+            _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
         }
 
         public async Task<bool> Handle(ChangeTotalBalanceOfWalletOnDeleteCommand request, CancellationToken cancellationToken)

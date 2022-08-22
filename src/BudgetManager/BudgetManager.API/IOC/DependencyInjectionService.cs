@@ -38,7 +38,7 @@ namespace BudgetManager.API.IOC
 
         public DependencyInjectionService(WebApplicationBuilder builder)
         {
-            _builder = builder;
+            _builder = builder ?? throw new ArgumentNullException(nameof(builder));
         }
 
         public void AddDependencyInjection()

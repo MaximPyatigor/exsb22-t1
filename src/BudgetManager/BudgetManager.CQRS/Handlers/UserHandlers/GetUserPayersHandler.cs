@@ -11,7 +11,7 @@ namespace BudgetManager.CQRS.Handlers.UserHandlers
 
         public GetUserPayersHandler(IBaseRepository<User> dataAccess)
         {
-            _dataAccess = dataAccess;
+            _dataAccess = dataAccess ?? throw new ArgumentNullException(nameof(dataAccess));
         }
 
         public async Task<IEnumerable<string>?> Handle(GetUserPayersQuery request, CancellationToken cancellationToken)

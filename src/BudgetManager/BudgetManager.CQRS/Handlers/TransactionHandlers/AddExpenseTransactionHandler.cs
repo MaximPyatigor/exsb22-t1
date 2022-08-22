@@ -15,9 +15,9 @@ namespace BudgetManager.CQRS.Handlers.TransactionHandlers
 
         public AddExpenseTransactionHandler(IMapper mapper, IMediator mediator, ITransactionRepository dataAccess)
         {
-            _mapper = mapper;
-            _mediator = mediator;
-            _dataAccess = dataAccess;
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+            _dataAccess = dataAccess ?? throw new ArgumentNullException(nameof(dataAccess));
         }
 
         public async Task<Guid> Handle(AddExpenseTransactionCommand request, CancellationToken cancellationToken)

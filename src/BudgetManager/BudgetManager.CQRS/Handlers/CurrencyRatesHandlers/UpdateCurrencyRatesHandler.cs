@@ -2,7 +2,6 @@
 using BudgetManager.Model;
 using BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation;
 using MediatR;
-using MongoDB.Driver;
 
 namespace BudgetManager.CQRS.Handlers.CurrencyRatesHandlers
 {
@@ -12,7 +11,7 @@ namespace BudgetManager.CQRS.Handlers.CurrencyRatesHandlers
 
         public UpdateCurrencyRatesHandler(IBaseRepository<CurrencyRates> dataAccess)
         {
-            _dataAccess = dataAccess;
+            _dataAccess = dataAccess ?? throw new ArgumentNullException(nameof(dataAccess));
         }
 
         public async Task<Unit> Handle(UpdateCurrencyRatesCommand request, CancellationToken cancellationToken)

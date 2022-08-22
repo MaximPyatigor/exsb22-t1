@@ -1,9 +1,7 @@
 ﻿using AutoMapper;
 using BudgetManager.CQRS.Commands.NotificationCommands;
 using BudgetManager.CQRS.Queries.UserQueries;
-using BudgetManager.CQRS.Responses.NotificationResponses;
 using BudgetManager.Model;
-using BudgetManager.Model.Enums;
 using BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation;
 using MediatR;
 using MongoDB.Driver;
@@ -18,9 +16,9 @@ namespace BudgetManager.CQRS.Handlers.NotificationHandlers
 
         public AddNotificationToAllHandler(IBaseRepository<User> userContext, IMapper mapper, IMediator mediator)
         {
-            _userContext = userContext;
-            _mapper = mapper;
-            _mediator = mediator;
+            _userContext = userContext ?? throw new ArgumentNullException(nameof(userContext));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
 
         public async Task<Guid> Handle(AddNotificationToAllCommand request, CancellationToken cancellationToken)

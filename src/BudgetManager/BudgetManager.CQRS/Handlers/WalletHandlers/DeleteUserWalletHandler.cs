@@ -15,8 +15,8 @@ namespace BudgetManager.CQRS.Handlers.WalletHandlers
 
         public DeleteUserWalletHandler(IBaseRepository<User> userRepository, ITransactionRepository transactionRepository)
         {
-            _userRepository = userRepository;
-            _transactionRepository = transactionRepository;
+            _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
+            _transactionRepository = transactionRepository ?? throw new ArgumentNullException(nameof(transactionRepository));
         }
 
         public async Task<bool> Handle(DeleteUserWalletCommand request, CancellationToken cancellationToken)
