@@ -26,12 +26,12 @@
   },
   {
     "fullName": "Olesya Vasilieva",
-    "dob": "2022-07-28T15:19:42.251Z",
+    "DateOfBirth": "2022-07-28T15:19:42.251Z",
     "email": "OlesyaVasilieva@gmail.com"
   },
   {
     "fullName": "Nikita Bobrov",
-    "dob": "2022-07-28T15:19:42.251Z",
+    "DateOfBirth": "2022-07-28T15:19:42.251Z",
     "email": "NikitaBobrov@gmail.com"
   }
 ]
