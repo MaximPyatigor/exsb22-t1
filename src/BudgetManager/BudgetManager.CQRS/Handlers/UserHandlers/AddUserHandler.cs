@@ -15,9 +15,9 @@ namespace BudgetManager.CQRS.Handlers.UserHandlers
 
         public AddUserHandler(IBaseRepository<DefaultCategory> defaultCategoryRepository, IBaseRepository<User> userRepository, IMapper mapper)
         {
-            _defaultCategoryRepository = defaultCategoryRepository;
-            _userRepository = userRepository;
-            _mapper = mapper;
+            _defaultCategoryRepository = defaultCategoryRepository ?? throw new ArgumentNullException(nameof(defaultCategoryRepository));
+            _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
         public async Task<Guid> Handle(AddUserCommand request, CancellationToken cancellationToken)

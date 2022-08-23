@@ -15,8 +15,8 @@ namespace BudgetManager.CQRS.Handlers.TransactionHandlers
         public DeleteIncomeTransactionHandler(ITransactionRepository transactionRepository,
             IMediator mediator)
         {
-            _transactionRepository = transactionRepository;
-            _mediator = mediator;
+            _transactionRepository = transactionRepository ?? throw new ArgumentNullException(nameof(transactionRepository));
+            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
 
         public async Task<bool> Handle(DeleteIncomeTransactionCommand request, CancellationToken cancellationToken)

@@ -1,14 +1,11 @@
 ﻿using AutoMapper;
 using BudgetManager.CQRS.Commands.SubCategoryCommands;
 using BudgetManager.CQRS.Queries.SubCategoryQueries;
-using BudgetManager.CQRS.Responses.CategoryResponses;
 using BudgetManager.CQRS.Responses.SubCategoryResponses;
 using BudgetManager.Model;
 using BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation;
 using MediatR;
-using MongoDB.Bson;
 using MongoDB.Driver;
-using System.Threading.Channels;
 
 namespace BudgetManager.CQRS.Handlers.CategoryHandlers
 {
@@ -20,9 +17,9 @@ namespace BudgetManager.CQRS.Handlers.CategoryHandlers
 
         public UpdateSubCategoryHandler(IBaseRepository<User> userRepository, IMediator mediator, IMapper mapper)
         {
-            _userRepository = userRepository;
-            _mediator = mediator;
-            _mapper = mapper;
+            _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
+            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
         public async Task<SubCategoryResponse> Handle(UpdateSubCategoryCommand request, CancellationToken cancellationToken)

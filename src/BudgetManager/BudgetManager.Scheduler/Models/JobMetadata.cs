@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace BudgetManager.Scheduler.Models
+﻿namespace BudgetManager.Scheduler.Models
 {
     public class JobMetadata
     {

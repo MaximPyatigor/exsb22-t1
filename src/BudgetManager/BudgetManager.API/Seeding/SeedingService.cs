@@ -35,10 +35,10 @@ namespace BudgetManager.API.Seeding
             RoleManager<ApplicationRole> roleManager,
             IUpdateCurrencyRatesJob currencyRatesJob)
         {
-            _mediator = mediator;
-            _authorizationManager = authorizationManager;
-            _roleManager = roleManager;
-            _currencyRatesJob = currencyRatesJob;
+            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+            _authorizationManager = authorizationManager ?? throw new ArgumentNullException(nameof(authorizationManager));
+            _roleManager = roleManager ?? throw new ArgumentNullException(nameof(roleManager));
+            _currencyRatesJob = currencyRatesJob ?? throw new ArgumentNullException(nameof(currencyRatesJob));
         }
 
         public void Seed()

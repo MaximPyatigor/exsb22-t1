@@ -19,9 +19,9 @@ namespace BudgetManager.CQRS.Handlers.CurrencyRatesHandlers
 
         public ConvertCurrencyRatesHandler(IMapper mapper, IBaseRepository<CurrencyRates> dataAccess, IMediator mediator)
         {
-            _mapper = mapper;
-            _dataAccess = dataAccess;
-            _mediator = mediator;
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            _dataAccess = dataAccess ?? throw new ArgumentNullException(nameof(dataAccess));
+            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
 
         public async Task<decimal> Handle(ConvertCurrencyRatesQuery request, CancellationToken cancellationToken)

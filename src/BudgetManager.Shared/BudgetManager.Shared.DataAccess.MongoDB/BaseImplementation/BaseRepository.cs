@@ -14,7 +14,12 @@ namespace BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation
 
         public BaseRepository(IMongoDbSettings settings, IMongoClient client)
         {
-            _client = client;
+            if (settings is null)
+            {
+                throw new ArgumentNullException(nameof(settings));
+            }
+
+            _client = client ?? throw new ArgumentNullException(nameof(client));
             var database = _client.GetDatabase(settings.DatabaseName);
             _collection = database.GetCollection<TDocument>(GetCollectionName(typeof(TDocument)));
         }

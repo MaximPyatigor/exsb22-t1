@@ -15,8 +15,8 @@ namespace BudgetManager.CQRS.Handlers.TransactionHandlers
         public DeleteExpenseTransactionHandler(ITransactionRepository transactionRepository,
             IMediator mediator)
         {
-            _transactionRepository = transactionRepository;
-            _mediator = mediator;
+            _transactionRepository = transactionRepository ?? throw new ArgumentNullException(nameof(transactionRepository));
+            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
 
         public async Task<bool> Handle(DeleteExpenseTransactionCommand request, CancellationToken cancellationToken)

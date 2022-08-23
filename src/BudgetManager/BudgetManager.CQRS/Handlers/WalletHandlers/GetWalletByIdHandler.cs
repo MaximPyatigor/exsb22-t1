@@ -5,11 +5,6 @@ using BudgetManager.Model;
 using BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation;
 using MediatR;
 using MongoDB.Driver;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BudgetManager.CQRS.Handlers.WalletHandlers
 {
@@ -20,8 +15,8 @@ namespace BudgetManager.CQRS.Handlers.WalletHandlers
 
         public GetWalletByIdHandler(IBaseRepository<User> repository, IMapper mapper)
         {
-            _repository = repository;
-            _mapper = mapper;
+            _repository = repository ?? throw new ArgumentNullException(nameof(repository));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
         public async Task<WalletResponse> Handle(GetWalletByIdQuery request, CancellationToken cancellationToken)

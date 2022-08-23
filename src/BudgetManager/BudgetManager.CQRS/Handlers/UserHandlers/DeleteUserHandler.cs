@@ -13,8 +13,8 @@ namespace BudgetManager.CQRS.Handlers.UserHandlers
 
         public DeleteUserHandler(IBaseRepository<User> userRepository, ITransactionRepository transactionRepository)
         {
-            _userRepository = userRepository;
-            _transactionRepository = transactionRepository;
+            _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
+            _transactionRepository = transactionRepository ?? throw new ArgumentNullException(nameof(transactionRepository));
         }
 
         public async Task<bool> Handle(DeleteUserCommand request, CancellationToken cancellationToken)

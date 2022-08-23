@@ -1,7 +1,6 @@
 ﻿using BudgetManager.Authorization.TokenService;
 using BudgetManager.CQRS.Queries.UserQueries;
 using BudgetManager.Model.AuthorizationModels;
-using BudgetManager.Shared.Utils.Helpers;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 
@@ -17,9 +16,9 @@ namespace BudgetManager.Authorization
             IMediator mediator,
             IJwtTokenService tokenService)
         {
-            _userManager = userManager;
-            _mediator = mediator;
-            _tokenService = tokenService;
+            _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
+            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+            _tokenService = tokenService ?? throw new ArgumentNullException(nameof(tokenService));
         }
 
         public async Task<bool> RegisterAsync(string email, string password, Guid userId,

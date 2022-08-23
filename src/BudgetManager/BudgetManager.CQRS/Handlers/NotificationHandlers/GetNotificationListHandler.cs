@@ -15,8 +15,8 @@ namespace BudgetManager.CQRS.Handlers.NotificationHandlers
 
         public GetNotificationListHandler(IBaseRepository<User> userContext, IMapper mapper)
         {
-            _userContext = userContext;
-            _mapper = mapper;
+            _userContext = userContext ?? throw new ArgumentNullException(nameof(userContext));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
         public async Task<IEnumerable<NotificationResponse>> Handle(GetNotificationListQuery request, CancellationToken cancellationToken)

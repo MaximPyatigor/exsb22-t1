@@ -12,7 +12,7 @@ namespace BudgetManager.CQRS.Handlers.WalletHandlers
 
         public UpdateWalletDateOfChangeHandler(IBaseRepository<User> dataAccess)
         {
-            _dataAccess = dataAccess;
+            _dataAccess = dataAccess ?? throw new ArgumentNullException(nameof(dataAccess));
         }
 
         public async Task<Guid> Handle(UpdateWalletDateOfChangeCommand request, CancellationToken cancellationToken)

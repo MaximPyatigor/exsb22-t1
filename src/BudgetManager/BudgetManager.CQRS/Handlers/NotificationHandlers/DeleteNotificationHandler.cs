@@ -3,11 +3,6 @@ using BudgetManager.Model;
 using BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation;
 using MediatR;
 using MongoDB.Driver;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BudgetManager.CQRS.Handlers.NotificationHandlers
 {
@@ -17,7 +12,7 @@ namespace BudgetManager.CQRS.Handlers.NotificationHandlers
 
         public DeleteNotificationHandler(IBaseRepository<User> userContext)
         {
-            _userContext = userContext;
+            _userContext = userContext ?? throw new ArgumentNullException(nameof(userContext));
         }
 
         public async Task<bool> Handle(DeleteNotificationCommand request, CancellationToken cancellationToken)

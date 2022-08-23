@@ -17,9 +17,9 @@ namespace BudgetManager.CQRS.Handlers.CurrencyHandlers
 
         public GetCurrencyListWithDefaultOnTopHandler(IMapper mapper, IBaseRepository<Currency> dataAccess, IBaseRepository<User> userAccess)
         {
-            _mapper = mapper;
-            _dataAccess = dataAccess;
-            _userAccess = userAccess;
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            _dataAccess = dataAccess ?? throw new ArgumentNullException(nameof(dataAccess));
+            _userAccess = userAccess ?? throw new ArgumentNullException(nameof(userAccess));
         }
 
         public async Task<IEnumerable<CurrencyResponse>> Handle(GetCurrencyListWithDefaultOnTopQuery request, CancellationToken cancellationToken)

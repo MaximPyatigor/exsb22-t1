@@ -17,8 +17,8 @@ namespace BudgetManager.CQRS.Handlers.TransactionHandlers
 
         public GetExpenseTransactionListHandler(IMapper mapper, ITransactionRepository dataAccess)
         {
-            _mapper = mapper;
-            _dataAccess = dataAccess;
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            _dataAccess = dataAccess ?? throw new ArgumentNullException(nameof(dataAccess));
         }
 
         public async Task<PageResponse<ExpenseTransactionResponse>> Handle(GetExpenseTransactionListQuery request, CancellationToken cancellationToken)

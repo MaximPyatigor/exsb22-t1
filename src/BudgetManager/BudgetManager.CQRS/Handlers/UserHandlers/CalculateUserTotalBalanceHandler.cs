@@ -4,7 +4,6 @@ using BudgetManager.CQRS.Queries.WalletQueries;
 using BudgetManager.Model;
 using BudgetManager.Shared.DataAccess.MongoDB.BaseImplementation;
 using MediatR;
-using MongoDB.Driver;
 
 namespace BudgetManager.CQRS.Handlers.UserHandlers
 {
@@ -16,8 +15,8 @@ namespace BudgetManager.CQRS.Handlers.UserHandlers
         public CalculateUserTotalBalanceHandler(IBaseRepository<User> userRepository,
             IMediator mediator)
         {
-            _userRepository = userRepository;
-            _mediator = mediator;
+            _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
+            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
 
         public async Task<decimal> Handle(CalculateUserTotalBalanceQuery request, CancellationToken cancellationToken)

@@ -17,9 +17,9 @@ namespace BudgetManager.CQRS.Handlers.WalletHandlers
 
         public GetWalletCategoriesListHandler(IMapper mapper, IMediator mediator, ITransactionRepository transactionRepository)
         {
-            _mapper = mapper;
-            _mediator = mediator;
-            _transactionRepository = transactionRepository;
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+            _transactionRepository = transactionRepository ?? throw new ArgumentNullException(nameof(transactionRepository));
         }
 
         public async Task<IEnumerable<WalletCategoryResponse>> Handle(GetWalletCategoriesListQuery request, CancellationToken cancellationToken)

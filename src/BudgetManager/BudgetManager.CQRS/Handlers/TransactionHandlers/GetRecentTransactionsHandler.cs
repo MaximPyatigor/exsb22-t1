@@ -15,8 +15,8 @@ namespace BudgetManager.CQRS.Handlers.TransactionHandlers
 
         public GetRecentTransactionsHandler(ITransactionRepository transactionRepository, IBaseRepository<User> userRepository)
         {
-            _transactionRepository = transactionRepository;
-            _userRepository = userRepository;
+            _transactionRepository = transactionRepository ?? throw new ArgumentNullException(nameof(transactionRepository));
+            _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
         }
 
         public async Task<List<RecentTransactionsHomepageResponse>> Handle(GetRecentTransactionsQuery request, CancellationToken cancellationToken)

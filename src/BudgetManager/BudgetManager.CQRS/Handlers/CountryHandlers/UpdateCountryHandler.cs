@@ -17,10 +17,10 @@ namespace BudgetManager.CQRS.Handlers.CountryHandlers
 
         public UpdateCountryHandler(IBaseRepository<Currency> currencyRepository, IBaseRepository<Country> countryRepository, IBaseRepository<User> userRepository, IMapper mapper)
         {
-            _currencyRepository = currencyRepository;
-            _countryRepository = countryRepository;
-            _userRepository = userRepository;
-            _mapper = mapper;
+            _currencyRepository = currencyRepository ?? throw new ArgumentNullException(nameof(currencyRepository));
+            _countryRepository = countryRepository ?? throw new ArgumentNullException(nameof(countryRepository));
+            _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
         public async Task<CountryResponse> Handle(UpdateCountryCommand request, CancellationToken cancellationToken)

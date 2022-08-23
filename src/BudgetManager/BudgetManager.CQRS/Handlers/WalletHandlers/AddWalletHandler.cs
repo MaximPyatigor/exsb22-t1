@@ -16,9 +16,9 @@ namespace BudgetManager.CQRS.Handlers.WalletHandlers
 
         public AddWalletHandler(IMapper mapper ,IBaseRepository<User> dataAccess, IMediator mediator)
         {
-            _mapper = mapper;
-            _dataAccess = dataAccess;
-            _mediator = mediator;
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            _dataAccess = dataAccess ?? throw new ArgumentNullException(nameof(dataAccess));
+            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
 
         public async Task<Guid> Handle(AddWalletCommand request, CancellationToken cancellationToken)

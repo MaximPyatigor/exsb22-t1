@@ -14,8 +14,8 @@ namespace BudgetManager.CQRS.Handlers.UserHandlers
 
         public GetUsersHandler(IBaseRepository<User> userRepository, IMapper mapper)
         {
-            _userRepository = userRepository;
-            _mapper = mapper;
+            _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
         public async Task<List<UserResponse>> Handle(GetUsersQuery request, CancellationToken cancellationToken)

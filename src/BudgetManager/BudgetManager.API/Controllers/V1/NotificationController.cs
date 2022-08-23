@@ -17,7 +17,7 @@ namespace BudgetManager.API.Controllers.V1
     {
         private const string _userIdString = "UserId";
         private readonly IMediator _mediator;
-        public NotificationController(IMediator mediator) => _mediator = mediator;
+        public NotificationController(IMediator mediator) => _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
 
         [HttpGet]
         public async Task<IActionResult> GetNotifications(CancellationToken cancellationToken)

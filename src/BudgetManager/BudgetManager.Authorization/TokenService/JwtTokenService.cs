@@ -13,6 +13,11 @@ namespace BudgetManager.Authorization.TokenService
 
         public JwtTokenService(IOptions<TokenSettings> tokenSettings)
         {
+            if (tokenSettings is null)
+            {
+                throw new ArgumentNullException(nameof(tokenSettings));
+            }
+
             _tokenSettings = tokenSettings.Value;
         }
 

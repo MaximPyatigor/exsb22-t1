@@ -15,8 +15,8 @@ namespace BudgetManager.CQRS.Handlers.DefaultCategoryHandlers
         public GetDefaultCategoriesHandler(IBaseRepository<DefaultCategory> baseRepository,
             IMapper mapper)
         {
-            _defaultCategoryRepository = baseRepository;
-            _mapper = mapper;
+            _defaultCategoryRepository = baseRepository ?? throw new ArgumentNullException(nameof(baseRepository));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
         public async Task<IEnumerable<DefaultCategoryResponse>> Handle(GetDefaultCategoriesQuery request, CancellationToken cancellationToken)

@@ -12,7 +12,7 @@ namespace BudgetManager.CQRS.Handlers.UserHandlers
 
         public AddUserPayerHandler(IBaseRepository<User> dataAccess)
         {
-            _dataAccess = dataAccess;
+            _dataAccess = dataAccess ?? throw new ArgumentNullException(nameof(dataAccess));
         }
 
         public async Task<string?> Handle(AddUserPayerCommand request, CancellationToken cancellationToken)

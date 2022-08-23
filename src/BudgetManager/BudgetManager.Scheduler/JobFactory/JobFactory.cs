@@ -1,8 +1,5 @@
 ﻿using Quartz;
 using Quartz.Spi;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace BudgetManager.Scheduler.JobFactory
 {
@@ -11,7 +8,7 @@ namespace BudgetManager.Scheduler.JobFactory
         private readonly IServiceProvider service;
         public MyJobFactory(IServiceProvider serviceProvider)
         {
-            service = serviceProvider;
+            service = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
         }
         public IJob NewJob(TriggerFiredBundle bundle, IScheduler scheduler)
         {
