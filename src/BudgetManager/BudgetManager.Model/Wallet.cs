@@ -16,7 +16,7 @@ namespace BudgetManager.Model
         public Currency Currency { get; set; }
         [Required]
         public decimal Balance { get; set; }
-        public DateTimeOffset DateOfChange { get; set; }
+        public DateTime DateOfChange { get; set; }
         [Required]
         public bool IsActive { get; set; } = true;
     }

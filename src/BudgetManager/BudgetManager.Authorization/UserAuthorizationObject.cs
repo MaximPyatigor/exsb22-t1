@@ -8,7 +8,7 @@ namespace BudgetManager.Authorization
 
         public string FullName { get; set; }
 
-        public DateTimeOffset DateOfBirth { get; set; }
+        public DateTime DateOfBirth { get; set; }
 
         public string Email { get; set; }
 

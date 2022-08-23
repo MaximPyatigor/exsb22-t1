@@ -8,7 +8,7 @@ namespace BudgetManager.SDK.DTOs
 
         public Guid CategoryId { get; set; }
 
-        public DateTimeOffset DateOfTransaction { get; set; } = DateTimeOffset.Now;
+        public DateTime DateOfTransaction { get; set; } = DateTime.UtcNow;
         public decimal Value { get; set; }
 
         public string Description { get; set; }

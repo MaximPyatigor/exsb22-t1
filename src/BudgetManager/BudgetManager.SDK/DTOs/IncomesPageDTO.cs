@@ -2,8 +2,8 @@
 {
     public class IncomesPageDTO
     {
-        public DateTimeOffset? DateFrom { get; set; }
-        public DateTimeOffset? DateTo { get; set; }
+        public DateTime? DateFrom { get; set; }
+        public DateTime? DateTo { get; set; }
         public IEnumerable<Guid>? CategoriesFilter { get; set; }
         public IEnumerable<Guid>? WalletsFilter { get; set; }
         public bool IsSortByDate { get; set; } = true;

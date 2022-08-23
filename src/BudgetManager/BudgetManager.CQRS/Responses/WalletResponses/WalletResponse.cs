@@ -12,6 +12,6 @@ namespace BudgetManager.CQRS.Responses.WalletResponses
 
         public decimal Balance { get; set; }
 
-        public DateTimeOffset DateOfChange { get; set; }
+        public DateTime DateOfChange { get; set; }
     }
 }

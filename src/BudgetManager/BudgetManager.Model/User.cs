@@ -13,7 +13,7 @@ namespace BudgetManager.Model
         [Required]
         public string FullName { get; set; }
         [Required]
-        public DateTimeOffset DateOfBirth { get; set; }
+        public DateTime DateOfBirth { get; set; }
         [Required]
         public string Email { get; set; }
         public Currency? DefaultCurrency { get; set; }

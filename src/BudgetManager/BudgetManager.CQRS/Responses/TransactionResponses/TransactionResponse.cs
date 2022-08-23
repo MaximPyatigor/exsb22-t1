@@ -16,7 +16,7 @@ namespace BudgetManager.CQRS.Responses.TransactionResponses
 
         public string Payer { get; set; }
 
-        public DateTimeOffset DateOfTransaction { get; set; }
+        public DateTime DateOfTransaction { get; set; }
 
         public decimal Value { get; set; }
 

@@ -28,7 +28,7 @@ namespace BudgetManager.CQRS.Handlers.TransactionHandlers
 
             await _mediator.Send(new ChangeTotalBalanceOfWalletCommand(expenseTransaction), cancellationToken);
 
-            await _mediator.Send(new UpdateWalletDateOfChangeCommand(expenseTransaction.UserId, expenseTransaction.WalletId, DateTimeOffset.Now), cancellationToken);
+            await _mediator.Send(new UpdateWalletDateOfChangeCommand(expenseTransaction.UserId, expenseTransaction.WalletId, DateTime.UtcNow), cancellationToken);
 
             return expenseTransaction.Id;
         }
