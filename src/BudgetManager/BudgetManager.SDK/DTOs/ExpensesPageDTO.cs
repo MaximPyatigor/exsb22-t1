@@ -2,8 +2,8 @@
 {
     public class ExpensesPageDTO
     {
-        public DateTimeOffset? DateFrom { get; set; }
-        public DateTimeOffset? DateTo { get; set; }
+        public DateTime? DateFrom { get; set; }
+        public DateTime? DateTo { get; set; }
         public IEnumerable<Guid>? CategoriesFilter { get; set; }
         public IEnumerable<Guid>? WalletsFilter { get; set; }
         public IEnumerable<string>? PayersFilter { get; set; }

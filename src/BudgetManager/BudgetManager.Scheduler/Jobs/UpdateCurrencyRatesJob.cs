@@ -31,7 +31,7 @@ namespace BudgetManager.Scheduler.Jobs
 
         public async Task UpdateCurrencyRates()
         {
-            _logger.LogInformation($"Update currency rates job: Job start at {DateTimeOffset.Now}");
+            _logger.LogInformation($"Update currency rates job: Job start at {DateTime.Now}");
 
             string jsonCurrencyRates;
             using (var client = new HttpClient())
@@ -44,13 +44,13 @@ namespace BudgetManager.Scheduler.Jobs
             var currencyRates = JsonConvert.DeserializeObject<CurrencyRates>(jsonCurrencyRates);
             if (currencyRates == null)
             {
-                _logger.LogError($"Update currency rates job: FAILED Currency update at {DateTimeOffset.Now}. No currency rates received.");
+                _logger.LogError($"Update currency rates job: FAILED Currency update at {DateTime.Now}. No currency rates received.");
                 return;
             }
 
-            _logger.LogInformation($"Update currency rates job: Seeding Currency Rates at {DateTimeOffset.Now}...");
+            _logger.LogInformation($"Update currency rates job: Seeding Currency Rates at {DateTime.Now}...");
             await _mediator.Send(new UpdateCurrencyRatesCommand(currencyRates), CancellationToken.None);
-            _logger.LogInformation($"Update currency rates job: Seeding Currency Rates successful at {DateTimeOffset.Now}");
+            _logger.LogInformation($"Update currency rates job: Seeding Currency Rates successful at {DateTime.Now}");
         }
     }
 }

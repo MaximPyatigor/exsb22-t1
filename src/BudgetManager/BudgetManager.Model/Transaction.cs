@@ -21,7 +21,7 @@ namespace BudgetManager.Model
         public Guid SubCategoryId { get; set; }
         public string? Payer { get; set; }
         [Required]
-        public DateTimeOffset DateOfTransaction { get; set; }
+        public DateTime DateOfTransaction { get; set; }
         [Required]
         [BsonRepresentation(BsonType.Decimal128)]
         public decimal Value { get; set; }

@@ -33,7 +33,7 @@ namespace BudgetManager.CQRS.Mapping
             CreateMap<Transaction, TransactionResponse>();
             CreateMap<UpdateTransactionDTO, Transaction>();
             CreateMap<AddNotificationDto, Notification>()
-                .ForMember(o => o.Date, p => p.MapFrom(b => DateTimeOffset.Now));
+                .ForMember(o => o.Date, p => p.MapFrom(b => DateTime.UtcNow));
             CreateMap<Notification, NotificationResponse>();
             CreateMap<Country, CountryResponse>();
             CreateMap<DefaultCategory, DefaultCategoryResponse>()
